@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class GroupListComponent {
   groups: string[] = ["Gatinhos", "Cachorros"]
+  // groups: string [] = []
 }

@@ -9,7 +9,7 @@ import { Post } from 'src/models/Post'
 export class FeedComponent {
     post: Post = {
         id: '1',
-        title: 'Post',
+        title: 'Post Title',
         content: 'Content',
         author: 'BrnCalisario',
         group: 'Gatinhos',

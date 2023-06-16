@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --main-green: rgb(82, 151, 55);
+}
+
 
 html,
 body {
@@ -17,5 +21,10 @@ hr {
 
 .title {
     font-size: 2em;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 1.5em;
     font-weight: bold;
 }

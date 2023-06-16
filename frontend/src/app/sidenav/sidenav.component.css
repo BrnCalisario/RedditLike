@@ -25,7 +25,7 @@ a {
 }
 
 a:hover {
-    border: 1px solid rgb(82, 151, 55);
+    border: 1px solid var(--main-green);
 }
 
 i {
