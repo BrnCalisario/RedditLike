@@ -1,0 +1,45 @@
+.group-list {
+    height: inherit;
+}
+
+.group-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 1px solid lightgray;
+    background-color: white;
+    border-radius: 15px 15px 0 0;
+
+}
+
+
+.group-box:last-child
+{
+    border-bottom: 0;
+    border-radius: 0 0 15px 15px;
+}
+
+.group-box:hover {
+    background-color: rgb(82, 151, 55);
+    color: white;
+}
+
+.group-box:hover i {
+    color: white;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    height: 100%;
+}
+
+.box {
+    border: 1px solid black;
+    border-radius: 50%;
+}

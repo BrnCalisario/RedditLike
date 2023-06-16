@@ -9,3 +9,13 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+hr {
+    border: 0;
+    outline: 1px solid rgb(82, 151, 55);
+}
+
+.title {
+    font-size: 2em;
+    font-weight: bold;
+}
