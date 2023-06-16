@@ -1,0 +1,21 @@
+<div *ngIf="post != undefined" class="post">
+    <div class="group-box">
+        <p>r/{{post.group}}</p>
+        <div class="title">
+            {{post.title}}
+        </div>
+    </div>
+
+
+    <div class="content-box">
+
+        <div class="author">
+            {{post.author}}
+            <div class="date">
+                {{post.postDate.toLocaleString()}}
+            </div>
+        </div>
+
+    </div>
+
+</div>

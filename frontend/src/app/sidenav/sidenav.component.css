@@ -1,0 +1,33 @@
+.sidenav {
+    box-shadow: 1px 10px 10px lightgray;
+    width: 15%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: absolute;
+}
+
+a {
+    min-width: 70%;
+    margin: 8% auto;
+    border-radius: 20px;
+    padding: 1em;
+    border: 1px solid lightgray;
+
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+
+    transition: 0.5s;
+}
+
+a:hover {
+    border: 1px solid rgb(82, 151, 55);
+}
+
+i {
+    font-size: 1.5em;
+}

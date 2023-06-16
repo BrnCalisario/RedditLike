@@ -1,0 +1,51 @@
+.post {
+    padding: 10px;
+    padding-left: 1.2em;
+    
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    border: 1px solid lightgray;
+    border-radius: 15px;
+
+    margin-bottom: 25px;
+    cursor: pointer;
+    
+    transition: 0.5s;
+}
+
+.post:hover {
+    border: 1px solid rgb(82, 151, 55);
+}
+
+.post:hover .title{
+    color: black;
+}
+
+.group-box {
+    font-size: 1.2em;
+    color: gray;
+}
+
+p {
+    margin: 0
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: 0.5s;
+}
+
+.author:hover {
+    color: rgb(98, 161, 98)
+}
+
+.date {
+    width: auto;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.541);
+    font-size: 0.8em;
+}

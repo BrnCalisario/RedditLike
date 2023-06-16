@@ -1,0 +1,9 @@
+<div class="feed">
+    <div class="title">Feed</div>
+    <hr>
+    <div class="feed-box">
+        <div *ngFor="let post of feedPosts">
+            <app-post class="post" [post]="post" />
+        </div>
+    </div>
+</div>
