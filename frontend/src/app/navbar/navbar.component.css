@@ -4,19 +4,21 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-inline: 4em;
+    padding: 2.5em 4em;
     height: 10%;
-    box-shadow: 0px 5px 10px lightgray;
+    box-shadow: 0px 5px 10px white;
 }
 
 .brand {
     font-size: 3em;
+    font-family: 'Nunito', sans-serif;
 }
 
 .profile {
     display: flex;
     gap: 1em;
     align-items: center;
+    justify-content: center;
 }
 
 .circle-pic {
@@ -24,4 +26,10 @@ nav {
     width: 60px;
     height: 60px;
     border-radius: 50%;
+}
+
+.content {
+    font-family: 'Nunito', sans-serif;
+    padding: 1em;
+    background-color: var(--light-green);
 }
