@@ -1,0 +1,29 @@
+form {
+    width: 50%;
+    margin: 0 auto;
+}
+
+input[type="email"]
+{
+    border-radius: 5px 5px 0 0;
+    border-bottom: 0;
+}
+
+input[type="password"]
+{
+    border-radius: 0 0 5px 5px;
+}
+
+button {
+    background-color: var(--main-green);
+
+}
+
+span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+span:hover {
+    color: var(--main-green);
+}

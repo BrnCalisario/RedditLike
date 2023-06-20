@@ -10,6 +10,7 @@ CREATE TABLE [User]
     Email VARCHAR(200) NOT NULL,
     Username VARCHAR(50) NOT NULL,
     ProfilePicture IMAGE NULL,
+    BirthDate DATETIME NOT NULL,
     [Password] VARBINARY(100) NOT NULL
     SALT VARCHAR(12) NOT NULL,
 )

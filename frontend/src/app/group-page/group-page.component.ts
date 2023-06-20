@@ -8,15 +8,17 @@ import { Group } from 'src/models/Group';
     styleUrls: ['./group-page.component.css'],
 })
 export class GroupPageComponent {
-
-    constructor(private route : ActivatedRoute, private router: Router ) { }
+    constructor(private route: ActivatedRoute, private router: Router) {}
 
     subscription: any;
-    group: Group = { name: '', description: ''}
+    group: Group = { name: '', description: '' };
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe(params => {
-            this.group = { name: params['name'], description: "Descrição do grupo"}
+        this.subscription = this.route.params.subscribe((params) => {
+            this.group = {
+                name: params['name'],
+                description: 'Descrição do grupo',
+            };
         });
     }
 

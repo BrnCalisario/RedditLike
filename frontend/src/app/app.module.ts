@@ -16,6 +16,7 @@ import { PostPageComponent } from './post-page/post-page.component';
 import { GroupPageComponent } from './group-page/group-page.component';
 import { PostTabComponent } from './post-tab/post-tab.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SignPageComponent } from './sign-page/sign-page.component';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
         GroupPageComponent,
         PostTabComponent,
         NotFoundComponent,
+        SignPageComponent,
     ],
     imports: [
         BrowserModule,
