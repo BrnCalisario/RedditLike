@@ -11,15 +11,15 @@ public partial class User
 
     public string Username { get; set; }
 
-    public byte[] ProfilePicture { get; set; }
+    public int? ProfilePicture { get; set; }
 
-    public byte[] Password { get; set; }
-
-    public string Salt { get; set; }
+    public string Password { get; set; }
 
     public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+
+    public virtual ImageDatum ProfilePictureNavigation { get; set; }
 
     public virtual ICollection<Upvote> Upvotes { get; set; } = new List<Upvote>();
 }
