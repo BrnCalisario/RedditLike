@@ -1,0 +1,6 @@
+CREATE DATABASE Reddit 
+GO
+
+USE Reddit
+GO
+
