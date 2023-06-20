@@ -1,22 +1,27 @@
 <nav>
-  <div class="brand">Petpedia</div>
-  <div class="profile">
+    <a href="{{ hrefLink }}" class="brand">Petpedia</a>
+    <div class="profile">
+        <div *ngIf="!isLogged">
+            <a href="login">Log-in</a>
+            <a href="cadastro" class="ps-1">Sign-in</a>
+        </div>
 
-	<div *ngIf="!isLogged">
-		<a href="login">Log-in</a>
-		<a href="cadastro" class="ps-1">Sign-in</a>
-	</div>
-
-	<button class="btn btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiv"
-      aria-expanded="false" aria-controls="collapseDiv">
-      <i class="fa-solid fa-chevron-down"></i>
-    </button>
-  </div>
+        <button
+            class="btn btn-outline-light"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseDiv"
+            aria-expanded="false"
+            aria-controls="collapseDiv"
+        >
+            <i class="fa-solid fa-chevron-down"></i>
+        </button>
+    </div>
 </nav>
 
 <div class="collapse" id="collapseDiv">
-	<div class="content">
-		<a href="/home">Home</a>
-		<a href="/home"> </a>
-	</div>
+    <div class="content">
+        <a href="/home">Home</a>
+        <a href="/home"> </a>
+    </div>
 </div>

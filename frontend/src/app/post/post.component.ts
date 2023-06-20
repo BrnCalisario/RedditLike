@@ -8,6 +8,4 @@ import { Post } from 'src/models/Post';
 })
 export class PostComponent {
     @Input() post: Post | undefined;
-
-	
 }

@@ -9,4 +9,5 @@ public class TestController : ControllerBase
     [HttpGet]
     public ActionResult<string> Get()
         => Ok("Funcionando");
+
 }

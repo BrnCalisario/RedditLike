@@ -11,7 +11,9 @@ nav {
 
 .brand {
     font-size: 3em;
-    font-family: 'Nunito', sans-serif;
+    font-family: "Nunito", sans-serif;
+    text-decoration: none;
+    color: inherit;
 }
 
 .profile {
@@ -29,7 +31,7 @@ nav {
 }
 
 .content {
-    font-family: 'Nunito', sans-serif;
+    font-family: "Nunito", sans-serif;
     padding: 1em;
     background-color: var(--light-green);
 }

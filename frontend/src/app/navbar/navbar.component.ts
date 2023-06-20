@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
     styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
-    isLogged : boolean = false;
+    isLogged: boolean = true;
+    hrefLink: string = this.isLogged ? '/home' : '/';
 }

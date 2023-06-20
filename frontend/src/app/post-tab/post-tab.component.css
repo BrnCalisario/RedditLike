@@ -1,0 +1,47 @@
+.post-tab {
+    width: inherit;
+}
+
+.options {
+    display: flex;
+    border: 1px solid var(--light-green);
+    border-radius: 10px 10px 0 0;
+    font-family: "Nunito", sans-serif;
+}
+
+.options div {
+    width: 50%;
+    text-align: center;
+}
+
+.options div:hover {
+    outline: 1px solid var(--light-green);
+    background-color: var(--main-green);
+    color: white;
+}
+
+.options div:first-child {
+    border-radius: 10px 0 0 0;
+    border-right: 1px solid var(--main-green);
+}
+
+.options div:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+.active {
+    border: 1px solid var(--light-green);
+    background-color: var(--main-green);
+    color: white;
+}
+
+.post-list {
+    border: 1px solid var(--light-green);
+    height: 200px;
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
+}
+
+.post-item {
+    border-bottom: 1px solid var(--light-green);
+}

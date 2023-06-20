@@ -1,0 +1,19 @@
+<div class="group">
+    <div>
+        <div class="title" style="color: var(--main-green)">
+            {{ group.name }}
+        </div>
+        <div class="subtitle" style="color: var(--light-green)">
+            {{ group.description }}
+        </div>
+    </div>
+    <br />
+    <div class="separator">
+        <div class="content">
+            <router-outlet />
+        </div>
+        <div class="post-tab">
+            <app-post-tab />
+        </div>
+    </div>
+</div>

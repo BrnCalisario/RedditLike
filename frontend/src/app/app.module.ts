@@ -12,6 +12,10 @@ import { HomeComponent } from './home/home.component';
 import { FeedComponent } from './feed/feed.component';
 import { PostComponent } from './post/post.component';
 import { GroupListComponent } from './group-list/group-list.component';
+import { PostPageComponent } from './post-page/post-page.component';
+import { GroupPageComponent } from './group-page/group-page.component';
+import { PostTabComponent } from './post-tab/post-tab.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
     declarations: [
@@ -21,6 +25,10 @@ import { GroupListComponent } from './group-list/group-list.component';
         FeedComponent,
         PostComponent,
         GroupListComponent,
+        PostPageComponent,
+        GroupPageComponent,
+        PostTabComponent,
+        NotFoundComponent,
     ],
     imports: [
         BrowserModule,

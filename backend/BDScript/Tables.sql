@@ -4,3 +4,52 @@ GO
 USE Reddit
 GO
 
+CREATE TABLE [User]
+(
+    ID INT IDENTITY(1, 1) PRIMARY KEY,
+    Email VARCHAR(200) NOT NULL,
+    Username VARCHAR(50) NOT NULL,
+    ProfilePicture IMAGE NULL,
+    [Password] VARBINARY(100) NOT NULL
+    SALT VARCHAR(12) NOT NULL,
+)
+GO
+
+CREATE TABLE [Group]
+(
+    ID INT IDENTITY(1, 1) PRIMARY KEY,
+    OwnerID INT REFERENCES [User](ID),
+    [Name] VARCHAR(50) NOT NULL,
+    [Description] VARCHAR(150) NULL,
+    [Image] IMAGE NULL, 
+)
+GO
+
+CREATE TABLE [UserGroup]
+(
+    ID INT IDENTITY(1, 1) PRIMARY KEY,
+    UserID INT,
+    GroupID INT
+)
+GO
+
+CREATE TABLE [Post]
+(
+    ID INT IDENTITY(1, 1) PRIMARY KEY,
+    AuthorID INT REFERENCES [User](ID),
+    GroupID INT REFERENCES [Group](ID),
+    Title VARCHAR(50) NOT NULL,
+    Content VARCHAR(400) NOT NULL,
+    IndexedImage IMAGE NULL,
+    ParentPost INT NULL
+)
+GO
+
+CREATE TABLE [Upvote]
+(
+    ID INT IDENTITY(1, 1)
+    UserID INT REFERENCES [User](ID)
+    PostID INT REFERENCES [Post](ID)
+    [Value] BIT DEFAULT(1)
+)
+GO

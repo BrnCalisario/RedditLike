@@ -1,0 +1,35 @@
+User
+  - ID int
+  - Email varchar
+  - Password ??? - HASH
+  - Salt
+  - Username varchar
+  - Avatar IMG/bytes
+
+Group 
+ - ID int 
+ - OwnerID int
+ - Name varchar
+ - Desc. varchar
+ - Image - IMG/bytes
+
+UserGroups
+ - ID INT 
+ - UserID INT 
+ - GroupID INT 
+
+Post
+ - ID int
+ - AuthorID int
+ - GroupID int
+ - Title varchar
+ - Content varchar
+ - IndexedImage IMG/bytes
+ - ParentPost int
+
+Upvote  
+ - ID INT 
+ - UserID INT 
+ - PostID INT 
+ - Value INT
+

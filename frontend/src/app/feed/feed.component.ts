@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Post } from 'src/models/Post'
+import { Post } from 'src/models/Post';
 
 @Component({
     selector: 'app-feed',

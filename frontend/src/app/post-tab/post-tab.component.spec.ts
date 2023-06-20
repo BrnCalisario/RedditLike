@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GroupListComponent } from './group-list.component';
+import { PostTabComponent } from './post-tab.component';
 
-describe('GroupListComponent', () => {
-    let component: GroupListComponent;
-    let fixture: ComponentFixture<GroupListComponent>;
+describe('PostTabComponent', () => {
+    let component: PostTabComponent;
+    let fixture: ComponentFixture<PostTabComponent>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [GroupListComponent],
+            declarations: [PostTabComponent],
         });
-        fixture = TestBed.createComponent(GroupListComponent);
+        fixture = TestBed.createComponent(PostTabComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
