@@ -1,0 +1,13 @@
+<div class="group-list">
+    <div class="subtitle">Your Groups</div>
+    <hr>
+    <div class="list">
+        <div *ngFor="let group of groups" class="group-box">
+            r/{{group}}
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+    </div>
+    <div *ngIf="groups.length == 0">
+        Faça partes de novas comunidades!
+    </div>
+</div>

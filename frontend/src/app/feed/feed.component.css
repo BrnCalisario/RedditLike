@@ -1,17 +1,10 @@
-
-hr {
-    border: 0;
-    outline: 1px solid rgb(82, 151, 55);
-}
-
 .title {
     font-size: 2em;
     font-weight: bold;
 }
 
 .feed {
-    margin-left: 25px;
-    width: 70%;
+    width: inherit;
 }
 
 .feed-box {
@@ -31,6 +24,6 @@ hr {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgb(82, 151, 55);
+    background: var(--main-green);
     border-radius: 10px;
   }

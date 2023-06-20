@@ -1,8 +1,4 @@
-.separator {
-    height: 90%;
-    margin-top: 0;
-}
-
-.content {
-    margin-left: 15%;
+.main {
+    width: 90%;
+    margin: 1em auto;
 }
