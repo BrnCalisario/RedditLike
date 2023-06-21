@@ -5,24 +5,32 @@ import { HomeComponent } from './home/home.component';
 import { PostPageComponent } from './post-page/post-page.component';
 import { GroupPageComponent } from './group-page/group-page.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SignPageComponent } from './sign-page/sign-page.component';
+
 
 const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
-        children: [
-            { path: 'feed', component: FeedComponent },
-        ],
+        children: [{ path: 'feed', component: FeedComponent }],
     },
     {
-        path: 'group/:name', component: GroupPageComponent,
+        path: 'group/:name',
+        component: GroupPageComponent,
         children: [
             { path: 'feed', component: FeedComponent },
             { path: 'post', component: PostPageComponent },
-        ]
+        ],
     },
     {
-        path: "**", title: "Not Found", component: NotFoundComponent 
+        path: 'sign',
+        title: "Join us",
+        component: SignPageComponent
+    },
+    {
+        path: '**',
+        title: 'Not Found',
+        component: NotFoundComponent,
     },
 ];
 
@@ -30,4 +38,4 @@ const routes: Routes = [
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
