@@ -24,9 +24,9 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddTransient<IRepository<User>, SQLRepository<User>>();
-builder.Services.AddTransient<IRepository<Group>, SQLRepository<Group>>();
-builder.Services.AddTransient<IRepository<Post>, SQLRepository<Post>>();
+// builder.Services.AddTransient<IRepository<User>, SQLRepository<User>>();
+// builder.Services.AddTransient<IRepository<Group>, SQLRepository<Group>>();
+// builder.Services.AddTransient<IRepository<Post>, SQLRepository<Post>>();
 
 
 
