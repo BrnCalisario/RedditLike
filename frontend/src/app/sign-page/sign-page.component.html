@@ -3,38 +3,42 @@
         <div class="title text-center mb-2" style="color: var(--main-green);">Login</div>
         <div class="form-floating">
             <input type="email" class="form-control" id="emailInput" placeholder="your.email@example.com">
-            <label for="emailInput">Email Address</label>
+            <label for="emailInput">Seu Email</label>
         </div>
         <div class="form-floating">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
+            <label for="floatingPassword">Sua Senha</label>
         </div>
-        <button class="mt-3 w-100 btn btn-lg btn-success">Login</button>
-        <div class="text-center mt-2">Don't have an account ? <span (click)="switchSign()">Join us now!</span></div>
+        <button class="mt-3 w-100 btn btn-lg btn-success">Entrar</button>
+        <div class="text-center mt-2">Não possui uma conta ? <span (click)="switchSign()">Junte-se a nós hoje mesmo!</span></div>
     </form>
 
 </div>
 
 <ng-template #elseBlock>
     <form>
-        <div class="title text-center mb-2" style="color: var(--main-green);">Sign Up</div>
+        <div class="title text-center mb-2" style="color: var(--main-green);">Cadastro</div>
         <div class="form-floating">
             <input class="form-control" type="email" id="emailInput" placeholder="your.email@example.com">
-            <label for="emailInput">Email Address</label>
+            <label for="emailInput">Seu Email</label>
         </div>
         <div class="form-floating">
             <input type="password signup" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
+            <label for="floatingPassword">Senha</label>
         </div>
         <div class="form-floating">
             <input type="date" class="form-control" id="floatingDate" >
             <label for="floatingDate">Data de nascimento</label>     
         </div>
         <div class="form-floating">
+            <input class="form-control" type="email" id="emailInput" placeholder="Sua rua">
+            <label for="emailInput">Endereço</label>
+        </div>
+        <div class="form-floating">
             <input type="file" class="form-control" id="floatingFile">
             <label for="floatingFile">Foto de perfil</label>
         </div>
         <button class="mt-3 w-100 btn btn-lg btn-success">Sign Up</button>
-        <div class="text-center mt-2">Already have an account ? <span (click)="switchSign()">Log-in!</span></div>
+        <div class="text-center mt-2">Já possui uma conta ? <span (click)="switchSign()">Clique aqui!</span></div>
     </form>
 </ng-template>

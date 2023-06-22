@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
     styleUrls: ['./group-list.component.css'],
 })
 export class GroupListComponent {
-    groups: string[] = ['Gatinhos', 'Cachorros', 'Testes'];
+    groups: string[] = ['Gatinhos', 'Cachorros', 'Salamandras'];
     // groups: string [] = []
 }
