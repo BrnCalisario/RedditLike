@@ -1,3 +1,7 @@
+USE master
+DROP DATABASE Reddit
+GO
+
 CREATE DATABASE Reddit 
 GO
 
@@ -11,8 +15,8 @@ CREATE TABLE [User]
     Username VARCHAR(50) NOT NULL,
     ProfilePicture IMAGE NULL,
     BirthDate DATETIME NOT NULL,
-    [Password] VARBINARY(100) NOT NULL
-    SALT VARCHAR(12) NOT NULL,
+    [Password] VARBINARY(150) NOT NULL,
+    Salt VARCHAR(18) NOT NULL,
 )
 GO
 
@@ -48,9 +52,9 @@ GO
 
 CREATE TABLE [Upvote]
 (
-    ID INT IDENTITY(1, 1)
-    UserID INT REFERENCES [User](ID)
-    PostID INT REFERENCES [Post](ID)
+    ID INT IDENTITY(1, 1),
+    UserID INT REFERENCES [User](ID),
+    PostID INT REFERENCES [Post](ID),
     [Value] BIT DEFAULT(1)
 )
 GO

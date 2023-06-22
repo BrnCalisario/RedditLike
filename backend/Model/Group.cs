@@ -13,9 +13,7 @@ public partial class Group
 
     public string Description { get; set; }
 
-    public int? Image { get; set; }
-
-    public virtual ImageDatum ImageNavigation { get; set; }
+    public byte[] Image { get; set; }
 
     public virtual User Owner { get; set; }
 

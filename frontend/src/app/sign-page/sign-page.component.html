@@ -19,27 +19,31 @@
     <form>
         <div class="title text-center mb-2" style="color: var(--main-green);">Cadastro</div>
         <div class="form-floating">
-            <input class="form-control" type="email" id="emailInput" placeholder="your.email@example.com">
+            <input [(ngModel)]="userReg.username" class="form-control" type="nickname" id="nickname" placeholder="Your Nickname">
+            <label for="nickname">Seu Apelido</label>
+        </div>
+        <div class="form-floating">
+            <input [(ngModel)]="userReg.email" class="form-control" type="email" id="emailInput" placeholder="your.email@example.com">
             <label for="emailInput">Seu Email</label>
         </div>
         <div class="form-floating">
-            <input type="password signup" class="form-control" id="floatingPassword" placeholder="Password">
+            <input [(ngModel)]="userReg.password" type="password signup" class="form-control" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Senha</label>
         </div>
         <div class="form-floating">
-            <input type="date" class="form-control" id="floatingDate" placeholder="01-01-2001">
-            <label for="floatingDate">Birthdate</label>     
+            <input [(ngModel)]="userReg.birthdate"  type="date" class="form-control" id="floatingDate" placeholder="01-01-2001">
+            <label for="floatingDate">Data de nascimento</label>     
         </div>
-        <div class="form-floating">
-            <input class="form-control" type="email" id="emailInput" placeholder="Sua rua">
+        <!-- <div class="form-floating">
+            <input [ngModel]="userReg." class="form-control" type="email" id="emailInput" placeholder="Sua rua">
             <label for="emailInput">Endereço</label>
-        </div>
-        <div class="form-floating">
+        </div> -->
+        <!-- <div class="form-floating">
             <input type="file" class="form-control" id="floatingFile">
             <label for="floatingFile">Foto de perfil</label>
-        </div> -->
+        </div>  -->
         <!-- <app-uploader /> -->
-        <button class="mt-3 w-100 btn btn-lg btn-success">Sign Up</button>
+        <button class="mt-3 w-100 btn btn-lg btn-success" (click)="onRegister()" >Cadastrar</button>
         <div class="text-center mt-2">Já possui uma conta ? <span (click)="switchSign()">Clique aqui!</span></div>
     </form>
 </ng-template>

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UserRegister } from 'src/DTO/UserRegister';
+
 
 @Component({
 	selector: 'app-sign-page',
@@ -8,7 +10,19 @@ import { Component } from '@angular/core';
 export class SignPageComponent {
 	isLogin : boolean = true;
 
+	userReg : UserRegister = 
+	{
+		username : "",
+		password : "",
+		email : "",
+		birthdate : new Date()
+	}
+
 	switchSign() {
 		this.isLogin = !this.isLogin;
+	}
+
+	onRegister() {
+		
 	}
 }

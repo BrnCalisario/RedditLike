@@ -18,6 +18,7 @@ import { PostTabComponent } from './post-tab/post-tab.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SignPageComponent } from './sign-page/sign-page.component';
 import { UploaderComponent } from './uploader/uploader.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { UploaderComponent } from './uploader/uploader.component';
         BrowserAnimationsModule,
         MatButtonModule,
         SidenavComponent,
+        FormsModule
     ],
     providers: [],
     bootstrap: [AppComponent],

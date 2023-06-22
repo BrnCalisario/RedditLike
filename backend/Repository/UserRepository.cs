@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Reddit.Repositories;
 using Model;
 
-
 public class UserRepository : IRepository<User>
 {
     private RedditContext ctx;

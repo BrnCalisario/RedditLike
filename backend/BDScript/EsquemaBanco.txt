@@ -33,3 +33,8 @@ Upvote
  - PostID INT 
  - Value INT
 
+
+
+// Cargos
+
+//Tabela Permissão, Tabela Cargo e Tabela PermissaoCargo que liga as duas
