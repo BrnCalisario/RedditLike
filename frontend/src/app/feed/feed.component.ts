@@ -9,11 +9,22 @@ import { Post } from 'src/models/Post';
 export class FeedComponent {
     post: Post = {
         id: '1',
-        title: 'Post Title',
-        content: 'Content',
+        title: 'Melhores marcas para areia de gato',
+        content: 'Estou com dificuldade em achar a melhor areia para gato',
         author: 'BrnCalisario',
         group: 'Gatinhos',
         postDate: new Date(),
     };
-    feedPosts: Post[] = [this.post, this.post, this.post];
+
+    post2: Post = {
+        id: '2',
+        title: 'Estou em busca de rações para cachorros',
+        content: 'Links uteis pls',
+        author: 'BrnCalisario',
+        group: 'Cachorros',
+        postDate: new Date(),
+    };
+
+
+    feedPosts: Post[] = [this.post, this.post2];
 }
