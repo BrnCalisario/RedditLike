@@ -17,6 +17,7 @@ import { GroupPageComponent } from './group-page/group-page.component';
 import { PostTabComponent } from './post-tab/post-tab.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SignPageComponent } from './sign-page/sign-page.component';
+import { UploaderComponent } from './uploader/uploader.component';
 
 @NgModule({
     declarations: [
@@ -31,6 +32,7 @@ import { SignPageComponent } from './sign-page/sign-page.component';
         PostTabComponent,
         NotFoundComponent,
         SignPageComponent,
+        UploaderComponent,
     ],
     imports: [
         BrowserModule,
