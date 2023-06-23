@@ -1,60 +1,93 @@
-USE master
-DROP DATABASE Reddit
+USE MASTER
 GO
 
-CREATE DATABASE Reddit 
+if exists(select * from sys.databases where name = 'Reddit')
+	drop database Reddit
+go
+
+CREATE DATABASE Reddit
 GO
 
 USE Reddit
 GO
 
+CREATE TABLE ImageData
+(
+	ID INT IDENTITY(1, 1) PRIMARY KEY,
+	Photo VARBINARY(MAX) NOT NULL
+)
+
+
 CREATE TABLE [User]
 (
     ID INT IDENTITY(1, 1) PRIMARY KEY,
-    Email VARCHAR(200) NOT NULL,
-    Username VARCHAR(50) NOT NULL,
-    ProfilePicture IMAGE NULL,
+    Email VARCHAR(200) NOT NULL UNIQUE,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    ProfilePicture INT REFERENCES ImageData(ID) NULL,
     BirthDate DATETIME NOT NULL,
     [Password] VARBINARY(150) NOT NULL,
-    Salt VARCHAR(18) NOT NULL,
+    Salt VARCHAR(30) NOT NULL,
 )
 GO
 
 CREATE TABLE [Group]
 (
     ID INT IDENTITY(1, 1) PRIMARY KEY,
-    OwnerID INT REFERENCES [User](ID),
+    OwnerID INT REFERENCES [User](ID) NOT NULL,
     [Name] VARCHAR(50) NOT NULL,
     [Description] VARCHAR(150) NULL,
-    [Image] IMAGE NULL, 
+    [Image] INT REFERENCES ImageData(ID) NULL
 )
 GO
 
 CREATE TABLE [UserGroup]
 (
     ID INT IDENTITY(1, 1) PRIMARY KEY,
-    UserID INT,
-    GroupID INT
+    UserID INT NOT NULL,
+    GroupID INT NOT NULL
 )
 GO
 
 CREATE TABLE [Post]
 (
     ID INT IDENTITY(1, 1) PRIMARY KEY,
-    AuthorID INT REFERENCES [User](ID),
-    GroupID INT REFERENCES [Group](ID),
+    AuthorID INT REFERENCES [User](ID) NOT NULL,
+    GroupID INT REFERENCES [Group](ID) NOT NULL,
     Title VARCHAR(50) NOT NULL,
     Content VARCHAR(400) NOT NULL,
-    IndexedImage IMAGE NULL,
+    IndexedImage VARBINARY(MAX) NULL,
     ParentPost INT NULL
 )
 GO
 
 CREATE TABLE [Upvote]
 (
-    ID INT IDENTITY(1, 1),
-    UserID INT REFERENCES [User](ID),
-    PostID INT REFERENCES [Post](ID),
-    [Value] BIT DEFAULT(1)
+    ID INT IDENTITY(1, 1) PRIMARY KEY,
+    UserID INT REFERENCES [User](ID) NOT NULL,
+    PostID INT REFERENCES [Post](ID) NOT NULL,
+    [Value] BIT DEFAULT(1) NOT NULL
+)
+GO
+
+CREATE TABLE [Role]
+(
+	ID INT IDENTITY(1, 1) PRIMARY KEY,
+	[Name] VARCHAR(30) NOT NULL,
+)
+GO
+
+CREATE TABLE [Permission]
+(
+	ID INT IDENTITY(1, 1) PRIMARY KEY,
+	[Name] VARCHAR(30) NOT NULL,
+	[Description] VARCHAR(150) NULL,
+)
+GO
+
+CREATE TABLE [RolePermission]
+(
+	ID INT IDENTITY(1, 1) PRIMARY KEY,	
+	RoleID INT REFERENCES [Role](ID) NOT NULL,
+	PermissionID INT REFERENCES [Permission](ID) NOT NULL
 )
 GO

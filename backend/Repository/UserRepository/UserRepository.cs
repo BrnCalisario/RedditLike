@@ -11,19 +11,19 @@ public class UserRepository : IUserRepository
     public UserRepository(RedditContext ctx)
         => this.ctx = ctx;
 
-    public async void Add(User obj)
+    public async Task Add(User obj)
     {
         await ctx.Users.AddAsync(obj);
         await ctx.SaveChangesAsync();
     }
 
-    public async void Delete(User obj)
+    public async Task Delete(User obj)
     {
         ctx.Users.Remove(obj);
         await ctx.SaveChangesAsync();
     }
 
-    public async void Update(User obj)
+    public async Task Update(User obj)
     {
         ctx.Users.Update(obj);
         await ctx.SaveChangesAsync();

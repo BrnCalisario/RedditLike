@@ -8,6 +8,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SignPageComponent } from './sign-page/sign-page.component';
 
 
+
 const routes: Routes = [
     {
         path: 'home',
@@ -24,8 +25,8 @@ const routes: Routes = [
     },
     {
         path: 'sign',
-        title: "Join us",
-        component: SignPageComponent
+        title: 'Join us',
+        component: SignPageComponent,
     },
     {
         path: '**',

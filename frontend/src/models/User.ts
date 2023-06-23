@@ -1,10 +1,9 @@
-import { DatePipe } from "@angular/common"
+import { DatePipe } from '@angular/common';
 
-export interface User
-{
-    Id : Number,
-    Email : string,
-    Username : string,
-    ProfilePicture : null
-    BirthDate : Date
+export interface User {
+    Id: Number;
+    Email: string;
+    Username: string;
+    ProfilePicture: null;
+    BirthDate: Date;
 }

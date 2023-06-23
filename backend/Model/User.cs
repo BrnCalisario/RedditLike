@@ -11,7 +11,7 @@ public partial class User
 
     public string Username { get; set; }
 
-    public byte[] ProfilePicture { get; set; }
+    public int? ProfilePicture { get; set; }
 
     public DateTime BirthDate { get; set; }
 
@@ -22,4 +22,8 @@ public partial class User
     public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+
+    public virtual ImageDatum ProfilePictureNavigation { get; set; }
+
+    public virtual ICollection<Upvote> Upvotes { get; set; } = new List<Upvote>();
 }

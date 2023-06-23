@@ -25,6 +25,5 @@ export class FeedComponent {
         postDate: new Date(),
     };
 
-
     feedPosts: Post[] = [this.post, this.post2];
 }

@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Security.PasswordHasher;
 
@@ -8,56 +6,75 @@ namespace Reddit.Controllers;
 using Model;
 using Repositories;
 using DTO;
+using Microsoft.AspNetCore.Cors;
 
 [ApiController]
-[Route("[controller]")]
+
+[Route("users")]
 public class UserController : ControllerBase
 {
-    [HttpPost("/")]
-    public async Task<ActionResult<User>> RegisterUser(
+
+    [HttpGet]
+    [EnableCors("MainPolicy")]
+    public async Task<ActionResult<List<User>>> GetAll(
+        [FromServices] IUserRepository userRepository
+    )
+    {
+        var query = await userRepository.Filter(u => true);
+        return query;
+    }
+
+    [HttpPost("/register")]
+    [EnableCors("MainPolicy")]
+    public async Task<ActionResult> Register(
         [FromServices] IUserRepository userRep,
         [FromServices] IPasswordHasher psh,
-        [FromServices] ISaltProvider slp,
-        [FromBody] UserRegister registerData)
+        [FromBody] UserRegister userData)
     {
-        if(await userRep.userNameExists(registerData.Username) 
-            || await userRep.emailExists(registerData.Email))
-            return BadRequest("Usuário já existe");
-    
-    
-        User user = new User();
+        if (await userRep.userNameExists(userData.Username)
 
-        user.Username = registerData.Username;
-        user.Email = registerData.Email;
+            || await userRep.emailExists(userData.Email))
+            return BadRequest();
 
-        user.Salt = slp.ProvideSalt();
-        user.Password = psh.Hash(registerData.Password, user.Salt);
-        
-        user.BirthDate = registerData.Birthdate;
-        user.ProfilePicture = null;
+        byte[] hashPassword;
+        string salt;
 
-        userRep.Add(user);
+        (hashPassword, salt) = psh.GetHashAndSalt(userData.Password);
 
-        return Ok(user);
+        User u = new User()
+        {
+            Username = userData.Username,
+            Email = userData.Email,
+            Password = hashPassword,
+            Salt = salt,
+            BirthDate = userData.Birthdate,
+            ProfilePicture = null
+        };
+
+        await userRep.Add(u);
+
+        return Ok();
+
     }
 
     [HttpPost("/login")]
-    public async Task<ActionResult<bool>> Login(
+    [EnableCors("MainPolicy")]
+    public async Task<ActionResult> Login(
         [FromBody] UserLogin loginData,
         [FromServices] IPasswordHasher psh,
-        [FromServices] UserRepository userRep
+        [FromServices] IUserRepository userRep
     )
     {
-        var userList = await userRep.Filter(u => u.Username == loginData.Username);
+        var userList = await userRep.Filter(u => u.Email == loginData.Email);
 
-        if(userList.Count() == 0)
-            return BadRequest("Usuário inválido");
+        if (userList.Count() == 0)
+            return BadRequest();
 
         User target = userList.First();
 
-        if(psh.Validate(loginData.Password, target.Salt, target.Password))
-            return Ok("Logado");
+        if (psh.Validate(loginData.Password, target.Salt, target.Password))
+            return Ok();
 
-        return BadRequest("Senha inválida");
+        return BadRequest();
     }
 }

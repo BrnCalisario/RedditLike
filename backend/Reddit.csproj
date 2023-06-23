@@ -12,8 +12,12 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.7" />
-    <PackageReference Include="password-hasher" Version="0.1.0" />
+    <!-- <PackageReference Include="password-hasher" Version="1.0.0" /> -->
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\PasswordHasher\PasswordHasher.csproj" />
   </ItemGroup>
 
 </Project>
