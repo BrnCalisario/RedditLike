@@ -15,46 +15,49 @@ public class UserController : ControllerBase
 {
     [HttpPost("/")]
     public async Task<ActionResult<User>> RegisterUser(
-        [FromServices] IRepository<User> userRep,
+        [FromServices] IUserRepository userRep,
         [FromServices] IPasswordHasher psh,
         [FromServices] ISaltProvider slp,
-        [FromBody] UserRegister user)
+        [FromBody] UserRegister registerData)
     {
-        var duplicate = await userRep.Filter(u => u.Username == user.Username);
+        if(await userRep.userNameExists(registerData.Username) 
+            || await userRep.emailExists(registerData.Email))
+            return BadRequest("Usuário já existe");
+    
+    
+        User user = new User();
+
+        user.Username = registerData.Username;
+        user.Email = registerData.Email;
+
+        user.Salt = slp.ProvideSalt();
+        user.Password = psh.Hash(registerData.Password, user.Salt);
         
-        if(duplicate.Count > 0)
-            return BadRequest();
+        user.BirthDate = registerData.Birthdate;
+        user.ProfilePicture = null;
 
-        User _user = new User();
+        userRep.Add(user);
 
-        _user.Username = user.Username;
-        _user.Email = user.Email;
-        _user.Salt = slp.ProvideSalt();
-        _user.Password = psh.Hash(user.Password, _user.Salt);
-        _user.BirthDate = user.Birthdate;
-        _user.ProfilePicture = null;
-
-        userRep.Add(_user);
-
-        return Ok(_user);
+        return Ok(user);
     }
 
     [HttpPost("/login")]
     public async Task<ActionResult<bool>> Login(
-        [FromBody] UserLogin user,
+        [FromBody] UserLogin loginData,
         [FromServices] IPasswordHasher psh,
-        [FromServices] IRepository<User> userTable
+        [FromServices] UserRepository userRep
     )
     {
-        var userExists = await userTable.Filter(u => u.Username == user.Username);
-        if(userExists.Count == 0)
-            return BadRequest("Usuário não existe");
+        var userList = await userRep.Filter(u => u.Username == loginData.Username);
 
-        var userFromTable = userExists.First();
-        
-        if(psh.Validate(user.Password, userFromTable.Salt, userFromTable.Password))
-            return Ok(true);
-        else
-            return BadRequest("");
+        if(userList.Count() == 0)
+            return BadRequest("Usuário inválido");
+
+        User target = userList.First();
+
+        if(psh.Validate(loginData.Password, target.Salt, target.Password))
+            return Ok("Logado");
+
+        return BadRequest("Senha inválida");
     }
 }

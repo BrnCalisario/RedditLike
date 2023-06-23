@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
 // builder.Services.AddTransient<IRepository<Post>, SQLRepository<Post>>();
 
 builder.Services.AddTransient<RedditContext>();
-builder.Services.AddTransient<IRepository<User>, UserRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IPasswordHasher, SaltyPasswordHasher>();
 builder.Services.AddTransient<ISaltProvider, BasicSaltProvider>();
 
