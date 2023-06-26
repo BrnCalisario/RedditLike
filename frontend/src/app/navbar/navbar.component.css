@@ -34,4 +34,17 @@ nav {
     font-family: "Nunito", sans-serif;
     padding: 1em;
     background-color: var(--light-green);
+    display: flex;
+    justify-content: center;
+    gap: 5em;
+}
+
+.content a {
+    font-size: 1.3em;
+    color: white;
+    transition: 0.6s;
+}
+
+.content a:hover {
+    transform: scale(1.3);
 }

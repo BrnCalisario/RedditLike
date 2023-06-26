@@ -11,10 +11,14 @@ export class UserService {
     constructor(private http: HttpClient) {}
 
     login(loginData: LoginDTO) {
-        return this.http.post('http://localhost:5038/login', loginData, {observe: 'response'});
+        return this.http.post('http://localhost:5038/login', loginData, {
+            observe: 'response',
+        });
     }
 
     register(registerData: RegisterDTO) {
-        return this.http.post('http://localhost:5038/register/', registerData, {observe: 'response'})
+        return this.http.post('http://localhost:5038/register/', registerData, {
+            observe: 'response',
+        });
     }
 }

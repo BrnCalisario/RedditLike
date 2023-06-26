@@ -1,5 +1,5 @@
 <nav>
-    <a href="{{ hrefLink }}" class="brand">Pet Rescue</a>
+    <a href="{{ hrefLink }}" class="brand">Plug-it</a>
     <div class="profile">
         <div *ngIf="!isLogged">
             <a href="login">Log-in</a>
@@ -21,7 +21,39 @@
 
 <div class="collapse" id="collapseDiv">
     <div class="content">
-        <a href="/home">Home</a>
-        <a class="mx-5" href="/sign">Sign</a>
+        <a
+            href="/home"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Home"
+        >
+            <i class="fa-solid fa-house"></i>
+        </a>
+        <a
+            href="/sign"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="sign in"
+        >
+            <i class="fa-solid fa-user-gear"></i>
+        </a>
+
+        <a
+            href="/404"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Gerenciar grupos"
+        >
+            <i class="fa-solid fa-users-viewfinder"></i>
+        </a>
+
+        <a
+            href="/404"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Sair"
+        >
+            <i class="fa-solid fa-door-open"></i>
+        </a>
     </div>
 </div>

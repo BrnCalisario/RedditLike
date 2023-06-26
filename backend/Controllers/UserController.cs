@@ -6,16 +6,17 @@ namespace Reddit.Controllers;
 using Model;
 using Repositories;
 using DTO;
+using Services;
+
 using Microsoft.AspNetCore.Cors;
 
 [ApiController]
-
+[EnableCors("MainPolicy")]
 [Route("users")]
 public class UserController : ControllerBase
 {
 
     [HttpGet]
-    [EnableCors("MainPolicy")]
     public async Task<ActionResult<List<User>>> GetAll(
         [FromServices] IUserRepository userRepository
     )
@@ -25,9 +26,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("/register")]
-    [EnableCors("MainPolicy")]
     public async Task<ActionResult> Register(
         [FromServices] IUserRepository userRep,
+        [FromServices] ImageService imageService,
         [FromServices] IPasswordHasher psh,
         [FromBody] UserRegister userData)
     {
@@ -41,14 +42,21 @@ public class UserController : ControllerBase
 
         (hashPassword, salt) = psh.GetHashAndSalt(userData.Password);
 
+        System.Console.WriteLine("Teste: " + userData.ImageFile);
+
+        // System.Console.WriteLine("Valor: " + userData.ImageFile);
+
+        // int imageId = await imageService.saveImage(userData.ImageFile.FirstOrDefault());
+
+
         User u = new User()
         {
             Username = userData.Username,
             Email = userData.Email,
             Password = hashPassword,
             Salt = salt,
+            ProfilePicture = null,
             BirthDate = userData.Birthdate,
-            ProfilePicture = null
         };
 
         await userRep.Add(u);
@@ -58,7 +66,6 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("/login")]
-    [EnableCors("MainPolicy")]
     public async Task<ActionResult> Login(
         [FromBody] UserLogin loginData,
         [FromServices] IPasswordHasher psh,

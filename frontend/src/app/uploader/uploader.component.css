@@ -1,0 +1,15 @@
+.image-preview {
+    width: 175px;
+    height: 175px;
+    padding: 10px;
+    transition: 0.5s;
+}
+
+.image-preview:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.avatar-input {
+    padding: 10px;
+}

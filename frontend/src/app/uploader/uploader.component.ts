@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 
 @Component({
     selector: 'app-uploader',
@@ -8,10 +8,13 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class UploaderComponent implements OnInit {
     @Output() public onUploadFinished = new EventEmitter<any>();
+    @Input() public value: FormData = new FormData();
 
     constructor(private http: HttpClient) {}
 
     ngOnInit(): void {}
+
+    imgUrl: string = '';
 
     uploadFile = (files: any) => {
         if (files.length == 0) {
@@ -20,21 +23,20 @@ export class UploaderComponent implements OnInit {
 
         let fileToUpload = <File>files[0];
 
-        const formData = new FormData();
+        this.value = new FormData();
+        this.value.append('file', fileToUpload, fileToUpload.name);
+        this.imgUrl = URL.createObjectURL(fileToUpload);
 
-        formData.append('file', fileToUpload, fileToUpload.name);
-
-        // this.http.
-
-        // let fileToUpload = <File>files[0];
-        // const formData = new FormData();
-
-        // formData.append('file', fileToUpload, fileToUpload.name);
-
-        // this.http.post('http/localhost:5038/img', formData)
-        //   .subscribe(result =>
-        //     {
-        //       this.onUploadFinished.emit(result);
+        this.onUploadFinished.emit(this.value);
+        // this.http.post('http://localhost:5038/img', formData)
+        //     .subscribe(result => {
+        //         this.onUploadFinished.emit(result);
         //     })
     };
+
+    getImgSrc() {
+        if (this.imgUrl !== '') return this.imgUrl;
+
+        return '../assets/image/camera-icon.png';
+    }
 }

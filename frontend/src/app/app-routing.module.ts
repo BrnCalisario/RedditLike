@@ -7,8 +7,6 @@ import { GroupPageComponent } from './group-page/group-page.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SignPageComponent } from './sign-page/sign-page.component';
 
-
-
 const routes: Routes = [
     {
         path: 'home',

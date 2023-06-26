@@ -41,4 +41,8 @@ public class UserRepository : IUserRepository
     public async Task<bool> emailExists(string email)
         => await ctx.Users.AnyAsync(u => u.Email == email);
 
+    public async Task Save()
+    {
+        await ctx.SaveChangesAsync();
+    }
 }

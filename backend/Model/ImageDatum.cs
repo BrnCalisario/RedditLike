@@ -11,5 +11,7 @@ public partial class ImageDatum
 
     public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
 
+    public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

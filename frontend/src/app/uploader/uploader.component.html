@@ -1,5 +1,7 @@
-<div class="form-floating" (click)="file.click()">
+<div class="form-floating avatar-input" (click)="file.click()">
+    <img src="{{ getImgSrc() }}" class="image-preview" />
     <input
+        style="display: none"
         class="form-control"
         id="floatingFile"
         type="file"

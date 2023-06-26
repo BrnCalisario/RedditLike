@@ -35,4 +35,9 @@ public class ImageRepository : IRepository<ImageDatum>
         var query = ctx.ImageData.Where(exp);
         return await query.ToListAsync();
     }
+
+    public async Task Save()
+    {
+        await ctx.SaveChangesAsync();
+    }
 }

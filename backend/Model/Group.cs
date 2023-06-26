@@ -20,4 +20,6 @@ public partial class Group
     public virtual User Owner { get; set; }
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+
+    public virtual ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
 }

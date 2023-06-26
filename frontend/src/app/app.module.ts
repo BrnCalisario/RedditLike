@@ -2,15 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavComponent } from './sidenav/sidenav.component';
-
-
-
 
 import { MatButtonModule } from '@angular/material/button';
 import { HomeComponent } from './home/home.component';
@@ -24,6 +20,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SignPageComponent } from './sign-page/sign-page.component';
 import { UploaderComponent } from './uploader/uploader.component';
 import { FormsModule } from '@angular/forms';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { SignFormComponent } from './sign-form/sign-form.component';
+import { VoteButtonComponent } from './vote-button/vote-button.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +38,9 @@ import { FormsModule } from '@angular/forms';
         NotFoundComponent,
         SignPageComponent,
         UploaderComponent,
+        LoginFormComponent,
+        SignFormComponent,
+        VoteButtonComponent,
     ],
     imports: [
         BrowserModule,
@@ -47,7 +49,7 @@ import { FormsModule } from '@angular/forms';
         MatButtonModule,
         SidenavComponent,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

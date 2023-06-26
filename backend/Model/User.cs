@@ -26,4 +26,6 @@ public partial class User
     public virtual ImageDatum ProfilePictureNavigation { get; set; }
 
     public virtual ICollection<Upvote> Upvotes { get; set; } = new List<Upvote>();
+
+    public virtual ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
 }

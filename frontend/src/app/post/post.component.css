@@ -3,8 +3,7 @@
     padding-left: 1.2em;
 
     display: flex;
-
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 
     border: 1px solid lightgray;
@@ -16,12 +15,40 @@
     transition: 0.5s;
 }
 
+.post-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+}
+
 .post:hover {
     border: 1px solid var(--main-green);
 }
 
 .post:hover .title {
     color: black;
+}
+
+.likes {
+    width: 3%;
+    margin: 0 2em 0 1em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: gray;
+    font-size: 1.2em;
+    font-family: "Nunito", sans-serif;
+}
+
+i {
+    font-size: 1.5em;
+}
+
+i:hover {
+    color: var(--main-green);
 }
 
 .group-box {
@@ -48,4 +75,8 @@ p {
     font-weight: 400;
     color: rgba(0, 0, 0, 0.541);
     font-size: 0.8em;
+}
+
+.content-box {
+    margin-right: 1.5em;
 }

@@ -5,7 +5,6 @@ namespace Reddit.Controllers;
 using Model;
 using Repositories;
 
-
 using Microsoft.AspNetCore.Cors;
 
 
@@ -25,7 +24,7 @@ public class ImageController : Controller
             var query = await repo.Filter(im => im.Id == id);
             var img = query.FirstOrDefault();
 
-            if(img != null)
+            if(img is null)
                 return NotFound();
 
             return File(img.Photo, "image/jpeg");
@@ -45,6 +44,7 @@ public class ImageController : Controller
         
         if(files is null || files.Count == 0)
             return BadRequest();
+
         
         var file = Request.Form.Files[0];
 

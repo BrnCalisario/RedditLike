@@ -3,14 +3,33 @@ form {
     margin: 0 auto;
 }
 
-input[type="email"] {
+#nickname {
+    border-radius: 5px 5px 0 0;
+    border-bottom: 0;
+}
+
+#emailInput,
+#password {
+    border-radius: 0;
+}
+
+#password {
+    border-top: 0;
+    border-bottom: 0;
+}
+
+#date {
+    border-radius: 0px 0px 5px 5px;
+}
+
+/* input[type="email"] {
     border-radius: 5px 5px 0 0;
     border-bottom: 0;
 }
 
 input[type="password"] {
     border-radius: 0 0 5px 5px;
-}
+} */
 
 button {
     background-color: var(--main-green);
