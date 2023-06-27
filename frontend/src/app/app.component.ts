@@ -1,4 +1,4 @@
-import { Component, DoCheck } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 
 @Component({
@@ -6,22 +6,32 @@ import { UserService } from './user.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements DoCheck{
+export class AppComponent implements OnInit {
     
+    authenticated : boolean = false;
 
     constructor(private userService: UserService) { }
 
-    ngDoCheck(): void {
+    ngOnInit(): void {
 
-        let jwtSession : string | null = sessionStorage.getItem("jwtSession")
+        let jwtSession : string = sessionStorage.getItem("jwtSession") ?? ""
         
-        if(!jwtSession)
-        {
-            return
-        }
+        this.userService.validateJwt({ jwt: jwtSession })        
+            .subscribe(res => {
+                console.log(res)
+            })
+    
 
-        this.userService.validateJwt(jwtSession)
-            .subscribe()
+        // try {
+        //     this.userService.validateJwt({ jwt: jwtSession })
+        //     .subscribe(res => {
+
+        //         console.log(res)
+        //     })
+        // } catch (err) {
+        //     console.log("oi")
+        // }
+
     }
 
 

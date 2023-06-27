@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { SignFormComponent } from './sign-form/sign-form.component';
 import { VoteButtonComponent } from './vote-button/vote-button.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import { VoteButtonComponent } from './vote-button/vote-button.component';
         LoginFormComponent,
         SignFormComponent,
         VoteButtonComponent,
+        LandingPageComponent,
     ],
     imports: [
         BrowserModule,

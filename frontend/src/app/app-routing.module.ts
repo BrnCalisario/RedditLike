@@ -9,11 +9,12 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SignPageComponent } from './sign-page/sign-page.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { SignFormComponent } from './sign-form/sign-form.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent
+        component: LandingPageComponent
     },
     {
         path: 'home',
