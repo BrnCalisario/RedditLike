@@ -20,16 +20,16 @@ export class LoginFormComponent {
     };
 
     onLogin() {
-        this.userService.login(this.userLogin).subscribe({
-            next: (res : any) => {
-                sessionStorage.setItem("jwtSession", res.body.jwt)
+        this.userService.login(this.userLogin)
+            .subscribe(res => {
+                var body : any = res.body
+            
+                if(body.success) {
+                    sessionStorage.setItem("jwtSession", body.jwt)
+                    this.router.navigate(["/home"])
+                }
+            })
 
-                // if (res.status == 200) this.router.navigate(['/home']);
-            },
-            error: (error) => {
-                console.log(error)
-            },
-        });
     }
 
     onSwitch() {

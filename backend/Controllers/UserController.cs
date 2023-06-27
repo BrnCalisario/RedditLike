@@ -58,8 +58,23 @@ public class UserController : ControllerBase
 
     }
 
+    [HttpPost("/validate")]
+    public async Task<ActionResult<bool>> ValidateJwt(
+        [FromServices] IJwtService jwtService,
+        [FromBody] string jwt
+    )
+    {
+        try {
+            var result = jwtService.Validate<UserJwt>(jwt);
+            return Ok(true);
+        } catch(Exception e){
+            return BadRequest(e.Message);
+        }
+    }
+
+
     [HttpPost("/login")]
-    public async Task<ActionResult<LoginResult>> Login(
+    public async Task<ActionResult<bool>> Login(
         [FromBody] UserLogin loginData,
         [FromServices] IPasswordHasher psh,
         [FromServices] IUserRepository userRep,
@@ -70,22 +85,24 @@ public class UserController : ControllerBase
 
         var userList = await userRep.Filter(u => u.Email == loginData.Email);
 
-        if (userList.Count() == 0)
-            return BadRequest(result);
+        result.UserExists = userList.Count() > 0;
+        if (!result.UserExists)
+        {
+            return Ok(result);
+        }
         
-
         User target = userList.First();
 
         if (psh.Validate(loginData.Password, target.Password, target.Salt))
         {
-            string token = jwtService.GetToken<JwtToken>(new JwtToken { UserID = target.Id, Logged = true });
+            string token = jwtService.GetToken<UserJwt>(new UserJwt { UserID = target.Id });
 
-            return Ok();
+            result.Jwt = token;
+            result.Success = true;
+            return Ok(result);
         }
 
         result.Success = false;
-
-        return BadRequest(result);
-        
+        return Ok(result);
     }
 }
