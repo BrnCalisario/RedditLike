@@ -1,9 +1,8 @@
 
-using Security.PasswordHasher;
+using Security.Jwt;
 using Reddit.Repositories;
 using Reddit.Model;
 using Reddit.Services;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,11 +25,20 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddTransient<IPasswordHasher, BasicPasswordHasher>();
+builder.Services.AddTransient<IJwtService, JwtService>();
+
+
 builder.Services.AddTransient<RedditContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<ImageService>();
 builder.Services.AddTransient<IRepository<ImageDatum>, ImageRepository>(); 
-builder.Services.AddTransient<IPasswordHasher, BasicPasswordHasher>();
+
+
+builder.Services.AddTransient<IPasswordProvider>(p =>{
+    return new PasswordProvider("senhadificil");
+});
+
+
 
 var app = builder.Build();
 app.UseCors();

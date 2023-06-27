@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using Security.PasswordHasher;
+using Security.Jwt;
 
 namespace Reddit.Controllers;
 
 using Model;
 using Repositories;
 using DTO;
-using Services;
 
 using Microsoft.AspNetCore.Cors;
+using Reddit.Services;
 
 [ApiController]
 [EnableCors("MainPolicy")]
@@ -28,26 +28,19 @@ public class UserController : ControllerBase
     [HttpPost("/register")]
     public async Task<ActionResult> Register(
         [FromServices] IUserRepository userRep,
-        [FromServices] ImageService imageService,
         [FromServices] IPasswordHasher psh,
         [FromBody] UserRegister userData)
     {
-        if (await userRep.userNameExists(userData.Username)
 
-            || await userRep.emailExists(userData.Email))
+        var query = await userRep.Filter(u => u.Username == userData.Username || u.Email == userData.Email);
+
+        if(query.Count() > 0)
             return BadRequest();
-
+        
         byte[] hashPassword;
         string salt;
 
         (hashPassword, salt) = psh.GetHashAndSalt(userData.Password);
-
-        System.Console.WriteLine("Teste: " + userData.ImageFile);
-
-        // System.Console.WriteLine("Valor: " + userData.ImageFile);
-
-        // int imageId = await imageService.saveImage(userData.ImageFile.FirstOrDefault());
-
 
         User u = new User()
         {
@@ -66,22 +59,33 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("/login")]
-    public async Task<ActionResult> Login(
+    public async Task<ActionResult<LoginResult>> Login(
         [FromBody] UserLogin loginData,
         [FromServices] IPasswordHasher psh,
-        [FromServices] IUserRepository userRep
+        [FromServices] IUserRepository userRep,
+        [FromServices] IJwtService jwtService
     )
-    {
+    {   
+        var result = new LoginResult();
+
         var userList = await userRep.Filter(u => u.Email == loginData.Email);
 
         if (userList.Count() == 0)
-            return BadRequest();
+            return BadRequest(result);
+        
 
         User target = userList.First();
 
-        if (psh.Validate(loginData.Password, target.Salt, target.Password))
-            return Ok();
+        if (psh.Validate(loginData.Password, target.Password, target.Salt))
+        {
+            string token = jwtService.GetToken<JwtToken>(new JwtToken { UserID = target.Id, Logged = true });
 
-        return BadRequest();
+            return Ok();
+        }
+
+        result.Success = false;
+
+        return BadRequest(result);
+        
     }
 }

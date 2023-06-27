@@ -1,4 +1,4 @@
 cd "./backend"
-start powershell "dotnet watch"
+code .
 cd "../frontend"
-start powershell "ng serve"
+code .

@@ -56,7 +56,6 @@ CREATE TABLE [Post]
     Title VARCHAR(50) NOT NULL,
     Content VARCHAR(400) NOT NULL,
     IndexedImage VARBINARY(MAX) NULL,
-    ParentPost INT NULL
 )
 GO
 
@@ -91,3 +90,4 @@ CREATE TABLE [RolePermission]
 	PermissionID INT REFERENCES [Permission](ID) NOT NULL
 )
 GO
+

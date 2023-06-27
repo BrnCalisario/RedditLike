@@ -3,5 +3,4 @@ export interface RegisterDTO {
     password: string;
     email: string;
     birthdate: Date;
-    imageData: FormData;
 }

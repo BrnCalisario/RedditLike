@@ -15,7 +15,7 @@ export class UserService {
             observe: 'response',
         });
     }
-
+    
     register(registerData: RegisterDTO) {
         return this.http.post('http://localhost:5038/register/', registerData, {
             observe: 'response',

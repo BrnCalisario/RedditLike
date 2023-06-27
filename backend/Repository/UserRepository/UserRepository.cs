@@ -24,7 +24,7 @@ public class UserRepository : IUserRepository
     }
 
     public async Task Update(User obj)
-    {
+    {   
         ctx.Users.Update(obj);
         await ctx.SaveChangesAsync();
     }

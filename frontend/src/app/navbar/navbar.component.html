@@ -1,58 +1,49 @@
 <nav>
     <a href="{{ hrefLink }}" class="brand">Plug-it</a>
     <div class="profile">
-        <div *ngIf="!isLogged">
-            <a href="login">Log-in</a>
-            <a href="cadastro" class="ps-1">Sign-in</a>
-        </div>
+        <div class="d-flex align-items-center gap-3">
 
-        <button
-            class="btn btn-outline-light"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseDiv"
-            aria-expanded="false"
-            aria-controls="collapseDiv"
-        >
-            <i class="fa-solid fa-chevron-down"></i>
-        </button>
+            <a *ngIf="isLogged; else elseBlock">
+                Seu Nome
+            </a>
+            <ng-template #elseBlock>
+                <a href="/sign/up"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Entrar">
+                    <i class="fa-solid fa-user-check user-icon"></i>
+                </a>
+                <a href="/sign/in"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar">
+                    <i class="fa-solid fa-user-plus user-icon"></i>
+                </a>
+            </ng-template>
+
+            <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiv"
+                aria-expanded="false" aria-controls="collapseDiv">
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+        </div>
     </div>
 </nav>
 
 <div class="collapse" id="collapseDiv">
     <div class="content">
-        <a
-            href="/home"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Home"
-        >
+        <a href="/home" data-bs-toggle="tooltip" data-bs-placement="top" title="Home">
             <i class="fa-solid fa-house"></i>
         </a>
-        <a
+        <!-- <a
             href="/sign"
             data-bs-toggle="tooltip"
             data-bs-placement="top"
-            title="sign in"
+            title="Entrar"
         >
             <i class="fa-solid fa-user-gear"></i>
-        </a>
+        </a> -->
 
-        <a
-            href="/404"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Gerenciar grupos"
-        >
+        <a href="/404" data-bs-toggle="tooltip" data-bs-placement="top" title="Gerenciar grupos">
             <i class="fa-solid fa-users-viewfinder"></i>
         </a>
 
-        <a
-            href="/404"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Sair"
-        >
+        <a href="/404" data-bs-toggle="tooltip" data-bs-placement="top" title="Sair">
             <i class="fa-solid fa-door-open"></i>
         </a>
     </div>

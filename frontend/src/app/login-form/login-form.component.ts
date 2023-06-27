@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { UserService } from '../user.service';
 import { LoginDTO } from 'src/DTO/LoginDTO';
+import { Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-login-form',
@@ -10,7 +12,7 @@ import { LoginDTO } from 'src/DTO/LoginDTO';
 export class LoginFormComponent {
     @Output() public onChangeFormClick = new EventEmitter<any>();
 
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService, private router: Router) {}
 
     userLogin: LoginDTO = {
         email: '',
@@ -18,21 +20,16 @@ export class LoginFormComponent {
     };
 
     onLogin() {
-        // this.userService.login(this.userLogin).subscribe({
-        //     next: (res) => {
-        //         if (res.status == 200) this.router.navigate(['/home']);
-        //     },
-        //     error: (error) => {
-        //         if (error.status == 400) {
-        //             this.displayError = true;
-        //             this.errorMessage = 'Login ou senha inválidos';
-        //         }
-        //         if (error.status == 500) {
-        //             this.displayError = true;
-        //             this.errorMessage = 'Erro interno no servidor';
-        //         }
-        //     },
-        // });
+        this.userService.login(this.userLogin).subscribe({
+            next: (res : any) => {
+                sessionStorage.setItem("jwtSession", res.body.jwt)
+
+                // if (res.status == 200) this.router.navigate(['/home']);
+            },
+            error: (error) => {
+                console.log(error)
+            },
+        });
     }
 
     onSwitch() {

@@ -1,9 +1,11 @@
-<div *ngIf="isLogin; else elseBlock">
+<!-- <div *ngIf="isLogin; else elseBlock">
     <app-login-form (onChangeFormClick)="switchSign()" />
-
     <div class="error-message" *ngIf="displayError">{{ errorMessage }}</div>
 </div>
 
 <ng-template #elseBlock>
     <app-sign-form (onChangeFormClick)="switchSign()" />
-</ng-template>
+</ng-template> -->
+
+
+<router-outlet></router-outlet>
