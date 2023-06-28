@@ -1,37 +1,3 @@
-form {
-    width: 40%;
-    margin: 0 auto;
-}
-
-input[type="email"] {
-    border-radius: 5px 5px 0 0;
-    border-bottom: 0;
-}
-
-input[type="password"] {
-    border-radius: 0 0 5px 5px;
-}
-
-button {
-    background-color: var(--main-green);
-}
-
-span {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-span:hover {
-    color: var(--main-green);
-}
-
-.error-message {
-    color: crimson;
-    font-weight: 800;
-    font-size: 3em;
-    text-align: center;
-}
-
-.uploader {
-    margin: 0 auto;
+.form {
+    margin-top: 8%;
 }

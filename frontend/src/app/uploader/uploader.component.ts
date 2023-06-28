@@ -8,7 +8,9 @@ import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 })
 export class UploaderComponent implements OnInit {
     @Output() public onUploadFinished = new EventEmitter<any>();
-    @Input() public value: FormData = new FormData();
+
+    @Input() public value: FormData | undefined = new FormData();
+    @Input() public title: string = '';
 
     constructor(private http: HttpClient) {}
 

@@ -32,7 +32,7 @@ builder.Services.AddTransient<IJwtService, JwtService>();
 builder.Services.AddTransient<RedditContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IRepository<ImageDatum>, ImageRepository>(); 
-
+builder.Services.AddTransient<IRepository<Group>, GroupRepository>();
 
 builder.Services.AddTransient<IPasswordProvider>(p =>{
     return new PasswordProvider("senhadificil");

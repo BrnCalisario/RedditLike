@@ -25,7 +25,6 @@ public abstract class PasswordHasher : IPasswordHasher
 
     public bool Validate(string password, byte[] realPasswordHashed, string salt)
     {
-    
         var hashed = this.hash(password, salt);
 
         for(int i = 0; i < realPasswordHashed.Length; i++)

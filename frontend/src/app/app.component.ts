@@ -6,34 +6,10 @@ import { UserService } from './user.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
-    
-    authenticated : boolean = false;
+export class AppComponent {
+    authenticated: boolean = false;
 
-    constructor(private userService: UserService) { }
-
-    ngOnInit(): void {
-
-        let jwtSession : string = sessionStorage.getItem("jwtSession") ?? ""
-        
-        this.userService.validateJwt({ jwt: jwtSession })        
-            .subscribe(res => {
-                console.log(res)
-            })
-    
-
-        // try {
-        //     this.userService.validateJwt({ jwt: jwtSession })
-        //     .subscribe(res => {
-
-        //         console.log(res)
-        //     })
-        // } catch (err) {
-        //     console.log("oi")
-        // }
-
-    }
-
+    constructor(private userService: UserService) {}
 
     title = 'Reddit';
 }

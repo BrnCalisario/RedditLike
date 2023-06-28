@@ -48,3 +48,9 @@ a {
     border: 1px solid black;
     border-radius: 50%;
 }
+
+span:hover {
+    text-decoration: underline;
+    color: var(--light-green);
+    cursor: pointer;
+}

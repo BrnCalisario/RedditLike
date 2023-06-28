@@ -1,0 +1,28 @@
+<form class="w-50 gy-5 mx-auto">
+    <h2
+        class="title"
+        style="color: var(--main-green); font-family: 'League Spartan'"
+    >
+        Criador de Grupo
+    </h2>
+    <div class="fields">
+        <app-uploader title="Foto do grupo" (onUploadFinished)="onUpload($event)" />
+        <label class="form-label" for="group-title">Nome do grupo</label>
+        <input [(ngModel)]="groupForm.name"  id="group-title" type="text" class="form-control" />
+        <label class="form-label" for="group-desc">Descrição do grupo</label>
+        <textarea
+            [(ngModel)]="groupForm.description"
+            maxlength="150"
+            class="form-control"
+            id="group-desc"
+        ></textarea>
+    </div>
+    <div class="row-md-6 d-flex justify-content-end mt-3">
+        <button
+            (click)="$event.preventDefault()"
+            class="btn btn-large btn-danger"
+        >
+            Criar
+        </button>
+    </div>
+</form>

@@ -19,3 +19,9 @@
 .group-list {
     width: 30%;
 }
+
+.header-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

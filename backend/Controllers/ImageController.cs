@@ -6,7 +6,7 @@ using Model;
 using Repositories;
 
 using Microsoft.AspNetCore.Cors;
-
+using Security.Jwt;
 
 [ApiController]
 [Route("img")]
@@ -19,12 +19,12 @@ public class ImageController : Controller
         [FromServices] IRepository<ImageDatum> repo
     )
     {
-        if(int.TryParse(code, out var id))
+        if (int.TryParse(code, out var id))
         {
             var query = await repo.Filter(im => im.Id == id);
             var img = query.FirstOrDefault();
 
-            if(img is null)
+            if (img is null)
                 return NotFound();
 
             return File(img.Photo, "image/jpeg");
@@ -41,14 +41,14 @@ public class ImageController : Controller
     )
     {
         var files = Request.Form.Files;
-        
-        if(files is null || files.Count == 0)
+
+        if (files is null || files.Count == 0)
             return BadRequest();
 
-        
+
         var file = Request.Form.Files[0];
 
-        if(file.Length < 1)
+        if (file.Length < 1)
             return BadRequest();
 
         using MemoryStream ms = new MemoryStream();
@@ -62,5 +62,45 @@ public class ImageController : Controller
 
         var code = img.Id.ToString();
         return Ok(code);
+    }
+
+    [HttpPost("add-avatar/{id}")]
+    public async Task<ActionResult> AddAvatar(
+        [FromServices] IRepository<ImageDatum> imageRepo,
+        [FromServices] IUserRepository userRepo,
+        [FromServices] IJwtService jwtService,
+        int id
+    )
+    {
+        var query = await userRepo.Filter(u => u.Id == id);
+        
+        if(query.Count() == 0)
+            return BadRequest();
+        
+        User user = query.First();
+
+        var files = Request.Form.Files;
+
+        if (files is null || files.Count == 0)
+            return BadRequest();
+
+        var file = Request.Form.Files[0];
+
+        if (file.Length < 1)
+            return BadRequest();
+
+        using MemoryStream ms = new MemoryStream();
+
+        await file.CopyToAsync(ms);
+        var data = ms.GetBuffer();
+
+        var img = new ImageDatum();
+        img.Photo = data;
+        await imageRepo.Add(img);
+
+        user.ProfilePicture = img.Id;
+        await userRepo.Save();
+
+        return Ok();
     }
 }

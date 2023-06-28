@@ -15,7 +15,9 @@ public partial class Post
 
     public string Content { get; set; }
 
-    public int IndexedImage { get; set; }
+    public int? IndexedImage { get; set; }
+
+    public int LikeCount { get; set; }
 
     public virtual User Author { get; set; }
 

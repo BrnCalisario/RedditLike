@@ -37,14 +37,7 @@ CREATE TABLE [Group]
     [Name] VARCHAR(50) NOT NULL,
     [Description] VARCHAR(150) NULL,
     [Image] INT REFERENCES ImageData(ID) NULL,
-)
-GO
-
-CREATE TABLE [UserGroup]
-(
-    ID INT IDENTITY PRIMARY KEY,
-    UserID INT NOT NULL REFERENCES [User](ID),
-    GroupID INT NOT NULL REFERENCES [Group](ID)
+	[CreationDate] DATETIME NOT NULL DEFAULT(GETDATE())
 )
 GO
 
@@ -73,6 +66,7 @@ CREATE TABLE [Role]
 (
 	ID INT IDENTITY PRIMARY KEY,
 	[Name] VARCHAR(30) NOT NULL,
+	[GroupID] INT REFERENCES [Group](ID)
 )
 GO
 
@@ -92,13 +86,15 @@ CREATE TABLE [RolePermission]
 )
 GO
 
-CREATE TABLE [UserPermission]
+CREATE TABLE [UserGroup]
 (
-	ID INT IDENTITY PRIMARY KEY,
-	RolePermissionID INT REFERENCES [RolePermission](ID),
-	UserGroupID INT REFERENCES [UserGroup](ID)
+    ID INT IDENTITY PRIMARY KEY,
+    UserID INT NOT NULL REFERENCES [User](ID),
+    GroupID INT NOT NULL REFERENCES [Group](ID),
+	RoleID INT NOT NULL REFERENCES [Role](ID)
 )
 GO
+
 
 /* Like Trigger */
 
@@ -123,3 +119,33 @@ BEGIN
 		WHERE [Post].[ID] = @POST_ID
 END
 GO
+
+
+CREATE TRIGGER [LikeCancel]
+	ON [Upvote]
+	AFTER DELETE
+AS
+BEGIN
+	DECLARE 
+	@POST_ID INT,
+	@LIKE_VALUE BIT,
+	@LIKE_COUNT INT
+
+	SELECT @LIKE_VALUE = [Value], @POST_ID = [PostID] FROM deleted
+	SELECT @LIKE_COUNT = [LikeCount] FROM [Post] WHERE [Post].ID = @POST_ID
+
+	IF @LIKE_VALUE = 1 AND @LIKE_COUNT > 0 
+			UPDATE Post
+			SET Post.LikeCount = Post.LikeCount - 1
+			WHERE ID = @POST_ID
+	ELSE IF @LIKE_VALUE = 0
+		UPDATE Post
+		SET POST.LikeCount = Post.LikeCount + 1
+		WHERE ID = @POST_ID
+END
+
+
+SELECT * FROM [User]
+SELECT * FROM [ImageData]
+
+SELECT * FROM [Group]

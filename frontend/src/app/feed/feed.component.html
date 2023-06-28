@@ -2,8 +2,11 @@
     <div class="subtitle">Feed</div>
     <hr />
     <div class="feed-box">
-        <a *ngFor="let post of feedPosts">
+        <a *ngFor="let post of postList">
             <app-post class="post" [post]="post" />
         </a>
+        <div *ngIf="postList?.length == 0">
+            <p>Sem posts para mostrar!</p>
+        </div>
     </div>
 </div>

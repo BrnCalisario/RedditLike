@@ -1,0 +1,14 @@
+.btn {
+    width: 150px;
+}
+
+.fields {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+app-uploader {
+    justify-self: center;
+    margin: 0 auto;
+}

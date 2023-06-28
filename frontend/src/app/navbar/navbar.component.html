@@ -1,24 +1,45 @@
 <nav>
-    <a href="{{ hrefLink }}" class="brand">Plug-it</a>
+    <a href="{{ hrefLink }}" class="brand">
+        <img src="../../assets/image/logo-clean-white.png" />
+        Plug-it
+    </a>
     <div class="profile">
         <div class="d-flex align-items-center gap-3">
-
             <a *ngIf="isLogged; else elseBlock">
-                Seu Nome
+                <i
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Configurações"
+                    class="user-icon fa-solid fa-user-gear"
+                ></i>
             </a>
             <ng-template #elseBlock>
-                <a href="/sign/up"
-                data-bs-toggle="tooltip" data-bs-placement="top" title="Entrar">
+                <a
+                    href="/sign/up"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Entrar"
+                >
                     <i class="fa-solid fa-user-check user-icon"></i>
                 </a>
-                <a href="/sign/in"
-                data-bs-toggle="tooltip" data-bs-placement="top" title="Cadastrar">
+                <a
+                    href="/sign/in"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Cadastrar"
+                >
                     <i class="fa-solid fa-user-plus user-icon"></i>
                 </a>
             </ng-template>
 
-            <button class="btn btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiv"
-                aria-expanded="false" aria-controls="collapseDiv">
+            <button
+                class="btn btn-outline-light"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseDiv"
+                aria-expanded="false"
+                aria-controls="collapseDiv"
+            >
                 <i class="fa-solid fa-chevron-down"></i>
             </button>
         </div>
@@ -27,7 +48,12 @@
 
 <div class="collapse" id="collapseDiv">
     <div class="content">
-        <a href="/home" data-bs-toggle="tooltip" data-bs-placement="top" title="Home">
+        <a
+            href="/home"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Home"
+        >
             <i class="fa-solid fa-house"></i>
         </a>
         <!-- <a
@@ -39,11 +65,22 @@
             <i class="fa-solid fa-user-gear"></i>
         </a> -->
 
-        <a href="/404" data-bs-toggle="tooltip" data-bs-placement="top" title="Gerenciar grupos">
+        <a
+            href="/404"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Gerenciar grupos"
+        >
             <i class="fa-solid fa-users-viewfinder"></i>
         </a>
 
-        <a href="/404" data-bs-toggle="tooltip" data-bs-placement="top" title="Sair">
+        <a
+            href="/"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Sair"
+            (click)="logoff()"
+        >
             <i class="fa-solid fa-door-open"></i>
         </a>
     </div>

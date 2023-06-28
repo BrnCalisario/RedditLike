@@ -14,4 +14,12 @@ export class ImageService {
     uploadImage(form: FormData) {
         return this.http.post('http://localhost:5038/img', form);
     }
+
+    updateUserAvatar(form: FormData, userId: number) {
+        return this.http.post(
+            'http://localhost:5038/img/add-avatar/' + userId,
+            form,
+            { observe: 'response' }
+        );
+    }
 }

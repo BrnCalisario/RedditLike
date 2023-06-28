@@ -1,9 +1,11 @@
-import { DatePipe } from '@angular/common';
+import { Group } from './Group';
+import { Post } from './Post';
 
 export interface User {
-    Id: Number;
-    Email: string;
-    Username: string;
-    ProfilePicture: null;
-    BirthDate: Date;
+    id: Number;
+    username: string;
+    email: string;
+    profilePicture: number;
+    groups: Group[];
+    posts: Post[];
 }

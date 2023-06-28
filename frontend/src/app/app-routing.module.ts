@@ -10,16 +10,20 @@ import { SignPageComponent } from './sign-page/sign-page.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { SignFormComponent } from './sign-form/sign-form.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { GroupCreatorComponent } from './group-creator/group-creator.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: LandingPageComponent
+        component: LandingPageComponent,
     },
     {
         path: 'home',
         component: HomeComponent,
-        children: [{ path: 'feed', component: FeedComponent }],
+    },
+    {
+        path: 'group-creator',
+        component: GroupCreatorComponent,
     },
     {
         path: 'group/:name',
@@ -35,8 +39,8 @@ const routes: Routes = [
         component: SignPageComponent,
         children: [
             { path: 'in', component: SignFormComponent },
-            { path: 'up', component: LoginFormComponent }
-        ]
+            { path: 'up', component: LoginFormComponent },
+        ],
     },
     {
         path: '**',

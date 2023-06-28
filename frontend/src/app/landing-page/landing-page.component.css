@@ -1,26 +1,28 @@
 .landing-page {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     background-color: white;
     height: max-content;
     margin: 0;
+    margin-top: 8%;
 }
-
 
 img {
     width: 550px;
+    margin-right: 10%;
+    margin-left: 5%;
 }
 
 .text-div {
     width: 50%;
-    font-family: 'Nunito', sans-serif;
+    font-family: "League Spartan", sans-serif;
     text-align: center;
     color: #ff3131;
 }
 
 .text-div h1 {
-    font-size: 1.8em;
+    font-size: 2.2em;
     font-weight: 700;
 }
 
@@ -37,7 +39,7 @@ p {
 }
 
 button {
-    font-family: 'Nunito', sans-serif;
+    font-family: "Nunito", sans-serif;
     border: 0;
     font-size: 1.8em;
     padding: 0.5em;
@@ -53,4 +55,16 @@ button {
 button:hover {
     background-color: white;
     color: #ff3131;
+}
+
+@media (max-width: 1350px) {
+    .landing-page {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    img {
+        margin: 0;
+    }
 }

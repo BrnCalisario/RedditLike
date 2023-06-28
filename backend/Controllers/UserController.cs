@@ -1,20 +1,43 @@
 using Microsoft.AspNetCore.Mvc;
 using Security.Jwt;
+using Microsoft.AspNetCore.Cors;
 
 namespace Reddit.Controllers;
 
 using Model;
 using Repositories;
 using DTO;
-
-using Microsoft.AspNetCore.Cors;
-using Reddit.Services;
+using Services;
 
 [ApiController]
 [EnableCors("MainPolicy")]
-[Route("users")]
+[Route("user")]
 public class UserController : ControllerBase
 {
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<UserData>> Get(
+        [FromServices] IUserRepository userRepository,
+        int id
+    ) {
+        var userList = await userRepository.Filter(u => u.Id == id);
+
+        if(userList.Count == 0) 
+            return BadRequest("Invalid ID");
+
+        var user = userList.First();
+
+        UserData u = new UserData()
+        {
+            Username = user.Username,
+            Email = user.Email,
+            ProfilePicture = user.ProfilePicture,
+            Groups = user.Groups,
+            Posts = user.Posts,
+        };
+
+        return Ok(u);
+    }
 
     [HttpGet]
     public async Task<ActionResult<List<User>>> GetAll(
@@ -25,8 +48,8 @@ public class UserController : ControllerBase
         return query;
     }
 
-    [HttpPost("/register")]
-    public async Task<ActionResult> Register(
+    [HttpPost("register")]
+    public async Task<ActionResult<int>> Register(
         [FromServices] IUserRepository userRep,
         [FromServices] IPasswordHasher psh,
         [FromBody] UserRegister userData)
@@ -54,27 +77,31 @@ public class UserController : ControllerBase
 
         await userRep.Add(u);
 
-        return Ok();
+        return Ok(u.Id);
 
     }
 
-    [HttpPost("/validate")]
-    public async Task<ActionResult<bool>> ValidateJwt(
+    [HttpPost("validate")]
+    public async Task<ActionResult<UserJwt>> ValidateJwt(
         [FromServices] IJwtService jwtService,
-        [FromBody] string jwt
+        [FromBody] Jwt jwt
     )
     {
+        if(jwt.Value == "" || jwt.Value is null)
+        {
+            return Ok(new UserJwt { Authenticated = false });
+        }
+
         try {
-            var result = jwtService.Validate<UserJwt>(jwt);
-            return Ok(true);
+            var result = jwtService.Validate<UserJwt>(jwt.Value);
+            return Ok(result);
         } catch(Exception e){
-            return BadRequest(e.Message);
+            return Ok(new UserJwt { Authenticated = false });
         }
     }
 
-
-    [HttpPost("/login")]
-    public async Task<ActionResult<bool>> Login(
+    [HttpPost("login")]
+    public async Task<ActionResult<LoginResult>> Login(
         [FromBody] UserLogin loginData,
         [FromServices] IPasswordHasher psh,
         [FromServices] IUserRepository userRep,
@@ -95,7 +122,7 @@ public class UserController : ControllerBase
 
         if (psh.Validate(loginData.Password, target.Password, target.Salt))
         {
-            string token = jwtService.GetToken<UserJwt>(new UserJwt { UserID = target.Id });
+            string token = jwtService.GetToken<UserJwt>(new UserJwt { UserID = target.Id, Authenticated = true });
 
             result.Jwt = token;
             result.Success = true;

@@ -24,6 +24,8 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { SignFormComponent } from './sign-form/sign-form.component';
 import { VoteButtonComponent } from './vote-button/vote-button.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { GroupCreatorComponent } from './group-creator/group-creator.component';
+import { UserConfigComponent } from './user-config/user-config.component';
 
 @NgModule({
     declarations: [
@@ -43,6 +45,8 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
         SignFormComponent,
         VoteButtonComponent,
         LandingPageComponent,
+        GroupCreatorComponent,
+        UserConfigComponent,
     ],
     imports: [
         BrowserModule,

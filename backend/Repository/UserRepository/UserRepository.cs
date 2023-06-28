@@ -45,4 +45,10 @@ public class UserRepository : IUserRepository
     {
         await ctx.SaveChangesAsync();
     }
+
+    public async Task<User> Find(int id)
+    {
+        var user = await ctx.Users.FindAsync(id);
+        return user;
+    }
 }

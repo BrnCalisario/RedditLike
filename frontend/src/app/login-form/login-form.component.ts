@@ -20,16 +20,11 @@ export class LoginFormComponent {
     };
 
     onLogin() {
-        this.userService.login(this.userLogin)
-            .subscribe(res => {
-                var body : any = res.body
-            
-                if(body.success) {
-                    sessionStorage.setItem("jwtSession", body.jwt)
-                    this.router.navigate(["/home"])
-                }
-            })
-
+        this.userService.login(this.userLogin).subscribe((res) => {
+            console.log(res);
+            sessionStorage.setItem('jwtSession', res.jwt);
+            this.router.navigate(['/home']);
+        });
     }
 
     onSwitch() {

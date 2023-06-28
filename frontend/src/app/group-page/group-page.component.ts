@@ -10,21 +10,20 @@ import { Group } from 'src/models/Group';
 export class GroupPageComponent {
     constructor(private route: ActivatedRoute, private router: Router) {}
 
-    subscription: any;
-    group: Group = { name: '', description: '' };
+    // subscription: any;
 
-    ngOnInit() {
-        this.subscription = this.route.params.subscribe((params) => {
-            this.group = {
-                name: params['name'],
-                description: 'Descrição do grupo',
-            };
-        });
-    }
+    // ngOnInit() {
+    //     this.subscription = this.route.params.subscribe((params) => {
+    //         this.group = {
+    //             name: params['name'],
+    //             description: 'Descrição do grupo',
+    //         };
+    //     });
+    // }
 
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
+    // ngOnDestroy() {
+    //     this.subscription.unsubscribe();
+    // }
 
     // @Input() group: Group = {
     //     name: 'Gatinhos',

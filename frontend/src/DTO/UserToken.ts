@@ -1,4 +1,4 @@
 export interface UserToken {
-    UserID : number,
-    Authenticated: boolean
+    userID: number;
+    authenticated: boolean;
 }

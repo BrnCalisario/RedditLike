@@ -21,5 +21,7 @@ public partial class Group
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
+    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
+
     public virtual ICollection<UserGroup> UserGroups { get; set; } = new List<UserGroup>();
 }

@@ -1,9 +1,15 @@
 <div class="home">
-    <div class="title" style="color: var(--main-green)">Home</div>
+    <div class="header-data">
+        <div class="title" style="color: var(--main-green)">Home</div>
+        <div>
+            Bem-vindo de volta, {{ user?.username }}!
+            <img src="" />
+        </div>
+    </div>
     <br />
     <div class="separator">
         <div class="feed">
-            <app-feed />
+            <app-feed [postList]="user?.posts" />
         </div>
         <div class="group-list">
             <app-group-list />

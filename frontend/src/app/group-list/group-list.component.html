@@ -4,12 +4,15 @@
     <div class="list">
         <a
             href="group/{{ group }}/feed"
-            *ngFor="let group of groups"
+            *ngFor="let group of groupList"
             class="group-box"
         >
             r/{{ group }}
             <i class="fa-solid fa-chevron-right"></i>
         </a>
     </div>
-    <div *ngIf="groups.length == 0">Faça partes de novas comunidades!</div>
+    <div *ngIf="groupList.length == 0">
+        Faça partes de novas comunidades!
+        <span routerLink="/group-creator">Ou crie o seu próprio grupo :D</span>
+    </div>
 </div>
