@@ -54,3 +54,10 @@ span:hover {
     color: var(--light-green);
     cursor: pointer;
 }
+
+
+.btn {
+    margin-left: auto;
+    margin-right: auto;
+    justify-self: end;
+}

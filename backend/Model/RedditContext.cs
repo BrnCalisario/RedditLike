@@ -41,14 +41,14 @@ public partial class RedditContext : DbContext
     {
         modelBuilder.Entity<Group>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Group__3214EC27A9A1E187");
+            entity.HasKey(e => e.Id).HasName("PK__Group__3214EC274E96C508");
 
             entity.ToTable("Group", tb => tb.HasTrigger("OwnerRelation"));
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CreationDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+                .HasColumnType("date");
             entity.Property(e => e.Description)
                 .HasMaxLength(150)
                 .IsUnicode(false);
@@ -70,7 +70,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<ImageDatum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ImageDat__3214EC272A5D206D");
+            entity.HasKey(e => e.Id).HasName("PK__ImageDat__3214EC277E2157D4");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Photo).IsRequired();
@@ -78,7 +78,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<Permission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC272CAF31D2");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC27AEC6AA18");
 
             entity.ToTable("Permission");
 
@@ -94,7 +94,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<Post>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Post__3214EC2761410B12");
+            entity.HasKey(e => e.Id).HasName("PK__Post__3214EC27F825774D");
 
             entity.ToTable("Post");
 
@@ -127,7 +127,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC273BC684D8");
+            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC270A24F6B0");
 
             entity.ToTable("Role");
 
@@ -145,7 +145,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<RolePermission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__RolePerm__3214EC278B589106");
+            entity.HasKey(e => e.Id).HasName("PK__RolePerm__3214EC2783BFCD49");
 
             entity.ToTable("RolePermission");
 
@@ -166,7 +166,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<Upvote>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Upvote__3214EC27DCD0C688");
+            entity.HasKey(e => e.Id).HasName("PK__Upvote__3214EC2706B50695");
 
             entity.ToTable("Upvote", tb =>
                 {
@@ -194,13 +194,13 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC27FED9574C");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC27C51CABE3");
 
             entity.ToTable("User");
 
-            entity.HasIndex(e => e.Username, "UQ__User__536C85E4041C51C2").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__User__536C85E4E2C91F8F").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__User__A9D10534E61B3DFF").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__User__A9D1053478BD701D").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.BirthDate).HasColumnType("datetime");
@@ -227,7 +227,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<UserGroup>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserGrou__3214EC27A3331045");
+            entity.HasKey(e => e.Id).HasName("PK__UserGrou__3214EC2741403F1A");
 
             entity.ToTable("UserGroup");
 
