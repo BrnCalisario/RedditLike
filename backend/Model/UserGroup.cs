@@ -11,7 +11,7 @@ public partial class UserGroup
 
     public int GroupId { get; set; }
 
-    public int RoleId { get; set; }
+    public int? RoleId { get; set; }
 
     public virtual Group Group { get; set; }
 

@@ -3,6 +3,7 @@ import { UserService } from '../user.service';
 import { User } from 'src/models/User';
 import { Router } from '@angular/router';
 import { Group } from 'src/models/Group';
+import { GroupService } from '../group.service';
 
 @Component({
     selector: 'app-group-creator',
@@ -11,9 +12,11 @@ import { Group } from 'src/models/Group';
 })
 export class GroupCreatorComponent implements OnInit {
 
-    constructor(private userService: UserService, private router: Router) { }
+    constructor(
+        private userService: UserService, 
+        private router: Router,
+        private groupService: GroupService) { }
 
-    userId?: number;
     imgData?: FormData;
 
     groupForm: Group = {
@@ -28,9 +31,7 @@ export class GroupCreatorComponent implements OnInit {
                 if (!res.authenticated) {
                     this.router.navigate(['/'])
                 }
-
-                this.userId = res.userID;
-                console.log(this.userId)
+                this.groupForm.ownerId = res.userID;
             })
     }
 
@@ -39,6 +40,10 @@ export class GroupCreatorComponent implements OnInit {
     }
 
     createGroup(): void {
-
+        this.groupService.postGroup(this.groupForm)
+            .subscribe(res => {
+                console.log(res);
+            this.router.navigate(["/home"])
+            })
     }
 }

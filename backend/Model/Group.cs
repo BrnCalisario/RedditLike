@@ -15,6 +15,8 @@ public partial class Group
 
     public int? Image { get; set; }
 
+    public DateTime CreationDate { get; set; }
+
     public virtual ImageDatum ImageNavigation { get; set; }
 
     public virtual User Owner { get; set; }

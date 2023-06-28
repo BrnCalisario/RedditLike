@@ -13,6 +13,6 @@ export class GroupService {
 
 
   postGroup(group: Group) {
-    return this.http.post('http://localhost:5038/')
+    return this.http.post('http://localhost:5038/group/', group);
   }
 }

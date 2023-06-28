@@ -41,11 +41,14 @@ public partial class RedditContext : DbContext
     {
         modelBuilder.Entity<Group>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Group__3214EC27C1071941");
+            entity.HasKey(e => e.Id).HasName("PK__Group__3214EC27A9A1E187");
 
-            entity.ToTable("Group");
+            entity.ToTable("Group", tb => tb.HasTrigger("OwnerRelation"));
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CreationDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.Description)
                 .HasMaxLength(150)
                 .IsUnicode(false);
@@ -67,7 +70,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<ImageDatum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ImageDat__3214EC2773A55A5E");
+            entity.HasKey(e => e.Id).HasName("PK__ImageDat__3214EC272A5D206D");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Photo).IsRequired();
@@ -75,7 +78,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<Permission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC2788884106");
+            entity.HasKey(e => e.Id).HasName("PK__Permissi__3214EC272CAF31D2");
 
             entity.ToTable("Permission");
 
@@ -91,7 +94,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<Post>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Post__3214EC27638BA91C");
+            entity.HasKey(e => e.Id).HasName("PK__Post__3214EC2761410B12");
 
             entity.ToTable("Post");
 
@@ -110,21 +113,21 @@ public partial class RedditContext : DbContext
             entity.HasOne(d => d.Author).WithMany(p => p.Posts)
                 .HasForeignKey(d => d.AuthorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Post__AuthorID__4222D4EF");
+                .HasConstraintName("FK__Post__AuthorID__4316F928");
 
             entity.HasOne(d => d.Group).WithMany(p => p.Posts)
                 .HasForeignKey(d => d.GroupId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Post__GroupID__4316F928");
+                .HasConstraintName("FK__Post__GroupID__440B1D61");
 
             entity.HasOne(d => d.IndexedImageNavigation).WithMany(p => p.Posts)
                 .HasForeignKey(d => d.IndexedImage)
-                .HasConstraintName("FK__Post__IndexedIma__440B1D61");
+                .HasConstraintName("FK__Post__IndexedIma__44FF419A");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC279B6C1417");
+            entity.HasKey(e => e.Id).HasName("PK__Role__3214EC273BC684D8");
 
             entity.ToTable("Role");
 
@@ -137,12 +140,12 @@ public partial class RedditContext : DbContext
 
             entity.HasOne(d => d.Group).WithMany(p => p.Roles)
                 .HasForeignKey(d => d.GroupId)
-                .HasConstraintName("FK__Role__GroupID__4CA06362");
+                .HasConstraintName("FK__Role__GroupID__4D94879B");
         });
 
         modelBuilder.Entity<RolePermission>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__RolePerm__3214EC27F40C5E41");
+            entity.HasKey(e => e.Id).HasName("PK__RolePerm__3214EC278B589106");
 
             entity.ToTable("RolePermission");
 
@@ -153,17 +156,17 @@ public partial class RedditContext : DbContext
             entity.HasOne(d => d.Permission).WithMany(p => p.RolePermissions)
                 .HasForeignKey(d => d.PermissionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RolePermi__Permi__52593CB8");
+                .HasConstraintName("FK__RolePermi__Permi__534D60F1");
 
             entity.HasOne(d => d.Role).WithMany(p => p.RolePermissions)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RolePermi__RoleI__5165187F");
+                .HasConstraintName("FK__RolePermi__RoleI__52593CB8");
         });
 
         modelBuilder.Entity<Upvote>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Upvote__3214EC277CA6D61D");
+            entity.HasKey(e => e.Id).HasName("PK__Upvote__3214EC27DCD0C688");
 
             entity.ToTable("Upvote", tb =>
                 {
@@ -181,23 +184,23 @@ public partial class RedditContext : DbContext
             entity.HasOne(d => d.Post).WithMany(p => p.Upvotes)
                 .HasForeignKey(d => d.PostId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Upvote__PostID__48CFD27E");
+                .HasConstraintName("FK__Upvote__PostID__49C3F6B7");
 
             entity.HasOne(d => d.User).WithMany(p => p.Upvotes)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Upvote__UserID__47DBAE45");
+                .HasConstraintName("FK__Upvote__UserID__48CFD27E");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__User__3214EC2765D78274");
+            entity.HasKey(e => e.Id).HasName("PK__User__3214EC27FED9574C");
 
             entity.ToTable("User");
 
-            entity.HasIndex(e => e.Username, "UQ__User__536C85E4B308FE19").IsUnique();
+            entity.HasIndex(e => e.Username, "UQ__User__536C85E4041C51C2").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__User__A9D10534A0964438").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__User__A9D10534E61B3DFF").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.BirthDate).HasColumnType("datetime");
@@ -224,7 +227,7 @@ public partial class RedditContext : DbContext
 
         modelBuilder.Entity<UserGroup>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserGrou__3214EC27C953CE7F");
+            entity.HasKey(e => e.Id).HasName("PK__UserGrou__3214EC27A3331045");
 
             entity.ToTable("UserGroup");
 
@@ -236,17 +239,16 @@ public partial class RedditContext : DbContext
             entity.HasOne(d => d.Group).WithMany(p => p.UserGroups)
                 .HasForeignKey(d => d.GroupId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserGroup__Group__5629CD9C");
+                .HasConstraintName("FK__UserGroup__Group__571DF1D5");
 
             entity.HasOne(d => d.Role).WithMany(p => p.UserGroups)
                 .HasForeignKey(d => d.RoleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserGroup__RoleI__571DF1D5");
+                .HasConstraintName("FK__UserGroup__RoleI__5812160E");
 
             entity.HasOne(d => d.User).WithMany(p => p.UserGroups)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__UserGroup__UserI__5535A963");
+                .HasConstraintName("FK__UserGroup__UserI__5629CD9C");
         });
 
         OnModelCreatingPartial(modelBuilder);

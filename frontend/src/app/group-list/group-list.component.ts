@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Group } from 'src/models/Group';
 
 @Component({
     selector: 'app-group-list',
@@ -6,7 +7,7 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./group-list.component.css'],
 })
 export class GroupListComponent {
-    @Input() groupList: string[] = [];
+    @Input() groupList? : Group[] ;
 
     // groups: string [] = []
 }

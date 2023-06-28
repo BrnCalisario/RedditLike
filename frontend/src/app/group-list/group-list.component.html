@@ -3,15 +3,15 @@
     <hr />
     <div class="list">
         <a
-            href="group/{{ group }}/feed"
+            href="group/{{ group.name }}/feed"
             *ngFor="let group of groupList"
             class="group-box"
         >
-            r/{{ group }}
+            r/{{ group.name }}
             <i class="fa-solid fa-chevron-right"></i>
         </a>
     </div>
-    <div *ngIf="groupList.length == 0">
+    <div *ngIf="groupList?.length == 0">
         Faça partes de novas comunidades!
         <span routerLink="/group-creator">Ou crie o seu próprio grupo :D</span>
     </div>

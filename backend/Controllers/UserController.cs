@@ -18,6 +18,7 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<UserData>> Get(
         [FromServices] IUserRepository userRepository,
+        [FromServices] IGroupRepository groupRepository,
         int id
     ) {
         var userList = await userRepository.Filter(u => u.Id == id);
@@ -32,9 +33,11 @@ public class UserController : ControllerBase
             Username = user.Username,
             Email = user.Email,
             ProfilePicture = user.ProfilePicture,
-            Groups = user.Groups,
             Posts = user.Posts,
         };
+
+        u.Groups = await groupRepository.GetUserGroups(user);
+
 
         return Ok(u);
     }
