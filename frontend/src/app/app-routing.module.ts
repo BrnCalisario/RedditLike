@@ -11,6 +11,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { SignFormComponent } from './sign-form/sign-form.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { GroupCreatorComponent } from './group-creator/group-creator.component';
+import { UserConfigComponent } from './user-config/user-config.component';
 
 const routes: Routes = [
     {
@@ -41,6 +42,11 @@ const routes: Routes = [
             { path: 'in', component: SignFormComponent },
             { path: 'up', component: LoginFormComponent },
         ],
+    },
+    {
+        path: 'configuration',
+        title: 'Account Config',
+        component: UserConfigComponent,
     },
     {
         path: '**',

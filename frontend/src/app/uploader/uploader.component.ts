@@ -11,12 +11,12 @@ export class UploaderComponent implements OnInit {
 
     @Input() public value: FormData | undefined = new FormData();
     @Input() public title: string = '';
+    @Input() public imgUrl: string = '';
 
     constructor(private http: HttpClient) {}
 
     ngOnInit(): void {}
-
-    imgUrl: string = '';
+    
 
     uploadFile = (files: any) => {
         if (files.length == 0) {
@@ -39,6 +39,6 @@ export class UploaderComponent implements OnInit {
     getImgSrc() {
         if (this.imgUrl !== '') return this.imgUrl;
 
-        return '../assets/image/camera-icon.png';
+        return '../assets/image/avatar-placeholder.png';
     }
 }

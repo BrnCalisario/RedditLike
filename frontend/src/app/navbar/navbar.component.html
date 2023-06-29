@@ -5,7 +5,7 @@
     </a>
     <div class="profile">
         <div class="d-flex align-items-center gap-3">
-            <a *ngIf="isLogged; else elseBlock">
+            <a *ngIf="isLogged; else elseBlock" routerLink="/configuration">
                 <i
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -56,15 +56,6 @@
         >
             <i class="fa-solid fa-house"></i>
         </a>
-        <!-- <a
-            href="/sign"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Entrar"
-        >
-            <i class="fa-solid fa-user-gear"></i>
-        </a> -->
-
         <a
             href="/404"
             data-bs-toggle="tooltip"

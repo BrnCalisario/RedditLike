@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { RegisterDTO } from 'src/DTO/RegisterDTO';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
-import { ImageService } from '../image.service';
+import { ImageService } from '../services/image.service';
 
 @Component({
     selector: 'app-sign-form',

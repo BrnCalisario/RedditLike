@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { User } from 'src/models/User';
 import { Router } from '@angular/router';
 import { Group } from 'src/models/Group';
-import { GroupService } from '../group.service';
+import { GroupService } from '../services/group.service';
 
 @Component({
     selector: 'app-group-creator',

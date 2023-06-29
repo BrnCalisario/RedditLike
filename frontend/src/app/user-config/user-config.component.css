@@ -1,0 +1,15 @@
+.user-config {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+app-uploader {
+    margin: 0 auto;
+    align-self: center;
+}

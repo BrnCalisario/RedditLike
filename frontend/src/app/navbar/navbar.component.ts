@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { Jwt } from 'src/DTO/Jwt';
 import { NavigationStart, Router } from '@angular/router';
 

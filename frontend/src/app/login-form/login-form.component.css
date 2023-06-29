@@ -35,3 +35,11 @@ span:hover {
 .uploader {
     margin: 0 auto;
 }
+
+.error {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 1.5em;
+    color: var(--main-green);
+    font-weight: 600;
+}

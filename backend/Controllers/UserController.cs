@@ -15,31 +15,46 @@ using Services;
 public class UserController : ControllerBase
 {
 
-    [HttpGet("{id}")]
+    [HttpPost("single")]
     public async Task<ActionResult<UserData>> Get(
         [FromServices] IUserRepository userRepository,
         [FromServices] IGroupRepository groupRepository,
-        int id
+        [FromServices] IJwtService jwtService,
+        [FromBody] Jwt jwt
     ) {
-        var userList = await userRepository.Filter(u => u.Id == id);
+        if(jwt.Value == "" || jwt.Value is null) {
+            return BadRequest("Invalid JWT");
+        }
 
-        if(userList.Count == 0) 
-            return BadRequest("Invalid ID");
+        User user;
 
-        var user = userList.First();
+        try 
+        {
+            var token = jwtService.Validate<UserToken>(jwt.Value);
 
-        UserData u = new UserData()
+            if(!token.Authenticated) 
+                return BadRequest("User not authenticated");
+
+            user = await userRepository.Find(token.UserID);
+        } 
+        catch 
+        {
+            return BadRequest("Invalid JWT Signature");
+        }
+
+        if(user is null) 
+            return BadRequest("Invalid User ID");
+
+        
+        UserData result = new UserData() 
         {
             Username = user.Username,
-            Email = user.Email,
+            Email = user.Email, 
             ProfilePicture = user.ProfilePicture,
-            Posts = user.Posts,
+            Groups = await groupRepository.GetUserGroups(user)
         };
 
-        u.Groups = await groupRepository.GetUserGroups(user);
-
-
-        return Ok(u);
+        return Ok(result);
     }
 
     [HttpGet]
@@ -85,21 +100,21 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("validate")]
-    public async Task<ActionResult<UserJwt>> ValidateJwt(
+    public async Task<ActionResult<UserToken>> ValidateJwt(
         [FromServices] IJwtService jwtService,
         [FromBody] Jwt jwt
     )
     {
         if(jwt.Value == "" || jwt.Value is null)
         {
-            return Ok(new UserJwt { Authenticated = false });
+            return Ok(new UserToken { Authenticated = false });
         }
 
         try {
-            var result = jwtService.Validate<UserJwt>(jwt.Value);
+            var result = jwtService.Validate<UserToken>(jwt.Value);
             return Ok(result);
         } catch(Exception e){
-            return Ok(new UserJwt { Authenticated = false });
+            return Ok(new UserToken { Authenticated = false });
         }
     }
 
@@ -125,7 +140,7 @@ public class UserController : ControllerBase
 
         if (psh.Validate(loginData.Password, target.Password, target.Salt))
         {
-            string token = jwtService.GetToken<UserJwt>(new UserJwt { UserID = target.Id, Authenticated = true });
+            string token = jwtService.GetToken<UserToken>(new UserToken { UserID = target.Id, Authenticated = true });
 
             result.Jwt = token;
             result.Success = true;

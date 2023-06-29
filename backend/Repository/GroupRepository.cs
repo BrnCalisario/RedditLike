@@ -44,6 +44,7 @@ public class GroupRepository : IGroupRepository
     public Task<List<Group>> Filter(Expression<Func<Group, bool>> exp)
     {
         var query = ctx.Groups
+            .Include(g => g.Owner)
             .Where(exp);
         return query.ToListAsync();
     }

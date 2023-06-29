@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { LoginDTO } from 'src/DTO/LoginDTO';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
@@ -19,9 +19,16 @@ export class LoginFormComponent {
         password: '',
     };
 
+    loginFailure : boolean = false;
+
     onLogin() {
         this.userService.login(this.userLogin).subscribe((res) => {
-            console.log(res);
+            
+            if(!res.success) {
+                this.loginFailure = true;
+                return;
+            }
+
             sessionStorage.setItem('jwtSession', res.jwt);
             this.router.navigate(['/home']);
         });

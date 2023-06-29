@@ -1,7 +1,8 @@
 import { AfterContentInit, Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { User } from 'src/models/User';
+import { Jwt } from 'src/DTO/Jwt';
 
 @Component({
     selector: 'app-home',
@@ -9,22 +10,41 @@ import { User } from 'src/models/User';
     styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-    constructor(private userService: UserService, private router: Router) {}
+    constructor(private userService: UserService, private router: Router) { }
 
     authenticated: boolean = true;
 
-    user: User | undefined;
+    user: User = {
+        id: 0,
+        username: '',
+        email: '',
+        profilePicture: 0,
+        groups: [],
+        posts: []
+    };
+
+
+    profilePic = () => {
+        if(this.user.profilePicture == 0) 
+            return '../assets/image/avatar-placeholder.png';
+        else
+            return 'http://localhost:5038/img/' + this.user.profilePicture
+    } 
 
     ngOnInit(): void {
-        this.userService.validateUser().subscribe((token) => {
-            if (!token.authenticated) this.router.navigate(['/']);
 
-            if (token.userID == 0) this.router.navigate(['/']);
+        let jwt = sessionStorage.getItem("jwtSession") ?? ""
 
-            this.userService.getUser(token.userID).subscribe((user) => {
-                this.user = user ?? undefined;
-                console.log(user);
-            });
-        });
+        this.userService.getUser({ Value: jwt })
+            .subscribe({
+                next: (res: User) => {
+                    this.user = res
+
+                    console.log(this.user)
+                },
+                error: (error: any) => {
+                    this.router.navigate(['/'])
+                }
+            })
     }
 }

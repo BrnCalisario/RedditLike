@@ -12,8 +12,9 @@ import { LoginResponse } from 'src/DTO/LoginResponse';
 })
 export class UserService {
     constructor(private http: HttpClient) {}
-    getUser(id: number) {
-        return this.http.get<User>('http://localhost:5038/user/' + id);
+    
+    getUser(jwtSession : Jwt) {
+        return this.http.post<User>('http://localhost:5038/user/single', jwtSession);
     }
 
     login(loginData: LoginDTO) {

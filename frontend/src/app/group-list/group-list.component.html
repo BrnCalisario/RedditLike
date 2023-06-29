@@ -2,29 +2,57 @@
     <div class="subtitle">Seus grupos</div>
     <hr />
     <div class="list">
-        <a
-            href="group/{{ group.name }}/feed"
-            *ngFor="let group of groupList"
-            class="group-box"
-        >
+        <a href="group/{{ group.name }}/feed" *ngFor="let group of groupList" class="group-box">
             r/{{ group.name }}
             <i class="fa-solid fa-chevron-right"></i>
         </a>
     </div>
     <div *ngIf="groupList?.length == 0">
-        Faça partes de novas comunidades!
-        <span routerLink="/group-creator">Ou crie o seu próprio grupo :D</span>
+        Sem grupos para mostrar!
     </div>
-    <div class="btn-wrap">
-        <button class="btn btn-outline btn-secondary">
-            Gerenciar meus grupos
+    <hr>
+    <!-- <div class="btn-wrap">
+        <button >
+            Gerenciar grupos
             <i class="fa-solid fa-people-roof"></i>
         </button>
-        <button routerLink="/group-creator" class="btn btn-dark">
-            Criar um novo grupo
+        <button routerLink="/group-creator">
+            Criar novo grupo
             <i class="fa-solid fa-circle-plus"></i>
+        </button>
+        <button>
+            Explorar
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div> -->
+
+
+    <div class="collapse-retangular">
+        <button  type="button" data-bs-toggle="collapse" data-bs-target="#collapseGroupOptions"
+            aria-expanded="false" aria-controls="collapseGroupOptions">
+            <i class="fa-solid fa-gear"></i>
         </button>
     </div>
 
+    <div class="collapse btn-wrap" id="collapseGroupOptions">
+        <div class="content">
+            <button class="button">
+                Gerenciar grupos
+                <i class="fa-solid fa-people-roof"></i>
+            </button>
+            <button class="button" routerLink="/group-creator">
+                Criar novo grupo
+                <i class="fa-solid fa-circle-plus"></i>
+            </button>
+            <button class="button">
+                Explorar
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+    </div>
+    <div class="botton-retangular">
+        <i data-bs-toggle="collapse" data-bs-target="#collapseGroupOptions"
+        aria-expanded="false" aria-controls="collapseGroupOptions" class="fa-solid fa-chevron-down"></i>
+    </div>
+
 </div>
-    

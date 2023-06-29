@@ -33,7 +33,6 @@ public class ImageController : Controller
         return BadRequest("Code needs to be an intenger");
     }
 
-
     [HttpPost]
     [DisableRequestSizeLimit]
     public async Task<ActionResult<string>> Post(
@@ -68,7 +67,6 @@ public class ImageController : Controller
     public async Task<ActionResult> AddAvatar(
         [FromServices] IRepository<ImageDatum> imageRepo,
         [FromServices] IUserRepository userRepo,
-        [FromServices] IJwtService jwtService,
         int id
     )
     {
@@ -103,4 +101,7 @@ public class ImageController : Controller
 
         return Ok();
     }
+
+    
+
 }

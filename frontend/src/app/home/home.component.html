@@ -1,18 +1,18 @@
 <div class="home">
     <div class="header-data">
         <div class="title" style="color: var(--main-green)">Home</div>
-        <div>
-            Bem-vindo de volta, {{ user?.username }}!
-            <img src="" />
+        <div class="user-profile">
+            <p class="username">{{ user.username }}</p>
+            <img class="avatar" src="{{profilePic()}}" />
         </div>
     </div>
     <br />
     <div class="separator">
         <div class="feed">
-            <app-feed [postList]="user?.posts" />
+            <app-feed [postList]="user.posts" />
         </div>
         <div class="group-list">
-            <app-group-list [groupList]="user?.groups"/>
+            <app-group-list [groupList]="user.groups" />
         </div>
     </div>
 </div>

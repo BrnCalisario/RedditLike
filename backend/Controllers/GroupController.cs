@@ -27,9 +27,11 @@ public class GroupController : Controller
 
         var group = groupList.First();
 
-        var owner = await userRepo.Find(group.OwnerId);
+        group.Owner.Groups = null;
 
-        group.Owner = owner;
+        // var owner = await userRepo.Find(group.OwnerId);
+
+        // group.Owner = owner;
 
         return group;
     }
@@ -41,6 +43,9 @@ public class GroupController : Controller
     )
     {
         var groups = await groupRepo.Filter(u => true);
+
+        groups.ForEach(g => g.Owner.Groups = null);
+
         return Ok(groups);
     }
 
@@ -57,9 +62,14 @@ public class GroupController : Controller
         if(user is null)
             return BadRequest("Usuário inválido");
 
+        var duplicates = await groupRepo.Filter(g => g.Name == groupDTO.Name.ToLower());
+
+        if(duplicates.Count() > 0)
+            return BadRequest("Group already exists"); 
+
         Group group = new Group() {
             OwnerId = user.Id,
-            Name = groupDTO.Name,
+            Name = groupDTO.Name.ToLower(),
             Description = groupDTO.Description,
             CreationDate = DateTime.Now,
         };
