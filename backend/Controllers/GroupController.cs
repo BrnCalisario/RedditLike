@@ -51,7 +51,7 @@ public class GroupController : Controller
         {
             var token = jwtService.Validate<UserToken>(jwt.Value);
 
-            if(!token.Authenticated)
+            if (!token.Authenticated)
                 return Unauthorized();
 
             user = await userRepository.Find(token.UserID);
@@ -61,7 +61,7 @@ public class GroupController : Controller
             return BadRequest();
         }
 
-        if(user is null)
+        if (user is null)
             return NotFound();
 
         var allGroups = await groupRepository.Filter(g => true);
@@ -70,13 +70,14 @@ public class GroupController : Controller
 
         // Precisando deixar o Get User Quantity Assincrono
         var result = allGroups
-            .Select(g => new GroupDTO {            
-                    Name = g.Name,
-                    Description = g.Description,
-                    ImageId = g.Image,
-                    UserParticipates = userGroups.Any(ug => g.Id == ug.Id),
-                    UserQuantity = groupRepository.GetUserQuantity(g),
-                });  
+            .Select(g => new GroupDTO
+            {
+                Name = g.Name,
+                Description = g.Description,
+                ImageId = g.Image,
+                UserParticipates = userGroups.Any(ug => g.Id == ug.Id),
+                UserQuantity = groupRepository.GetUserQuantity(g),
+            });
 
 
         return Ok(result.ToList());
@@ -97,7 +98,7 @@ public class GroupController : Controller
 
 
     [HttpPost]
-    public async Task<ActionResult> Post(
+    public async Task<ActionResult<int>> Post(
         [FromServices] IGroupRepository groupRepo,
         [FromServices] IUserRepository userRepo,
         [FromBody] GroupDTO groupDTO
@@ -123,7 +124,45 @@ public class GroupController : Controller
 
         await groupRepo.Add(group);
 
-        group.Owner = user;
+        System.Console.WriteLine(group.Id);
+        return Ok(group.Id);
+    }
+
+    [HttpPost("addImage/{groupId}")]
+    public async Task<ActionResult> AddImage(
+        [FromServices] IGroupRepository groupRepo,
+        [FromServices] IRepository<ImageDatum> imageRepo,
+        int groupId
+    )
+    {
+        var query = await groupRepo.Filter(g => g.Id == groupId);
+
+        var group = query.FirstOrDefault();
+
+        if(group is null)
+            return NotFound("Group not found");
+
+        var files = Request.Form.Files;
+
+        if (files is null || files.Count == 0)
+            return BadRequest();
+
+        var file = Request.Form.Files[0];
+
+        if (file.Length < 1)
+            return BadRequest();
+
+        using MemoryStream ms = new MemoryStream();
+
+        await file.CopyToAsync(ms);
+        var data = ms.GetBuffer();
+
+        var img = new ImageDatum();
+        img.Photo = data;
+        await imageRepo.Add(img);
+
+        group.Image = img.Id;
+        await groupRepo.Save();
 
         return Ok();
     }

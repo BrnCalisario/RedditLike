@@ -24,7 +24,7 @@ CREATE TABLE [User]
     Username VARCHAR(50) NOT NULL UNIQUE,
     Email VARCHAR(200) NOT NULL UNIQUE,
     ProfilePicture INT REFERENCES ImageData(ID) NULL,
-    BirthDate DATETIME NOT NULL,
+    BirthDate DATE NOT NULL,
     [Password] VARBINARY(150) NOT NULL,
     Salt VARCHAR(30) NOT NULL
 )
@@ -128,13 +128,11 @@ AS
 BEGIN
 	DECLARE 
 	@POST_ID INT,
-	@LIKE_VALUE BIT,
-	@LIKE_COUNT INT
+	@LIKE_VALUE BIT
 
 	SELECT @LIKE_VALUE = [Value], @POST_ID = [PostID] FROM deleted
-	SELECT @LIKE_COUNT = [LikeCount] FROM [Post] WHERE [Post].ID = @POST_ID
 
-	IF @LIKE_VALUE = 1 AND @LIKE_COUNT > 0 
+	IF @LIKE_VALUE = 1
 			UPDATE Post
 			SET Post.LikeCount = Post.LikeCount - 1
 			WHERE ID = @POST_ID
@@ -163,4 +161,3 @@ SELECT * FROM [User]
 SELECT * FROM [ImageData]
 SELECT * FROM [Group]
 
-DELETE FROM [Group]
