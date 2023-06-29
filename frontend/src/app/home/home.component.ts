@@ -23,14 +23,6 @@ export class HomeComponent implements OnInit {
         posts: []
     };
 
-
-    profilePic = () => {
-        if(this.user.profilePicture == 0) 
-            return '../assets/image/avatar-placeholder.png';
-        else
-            return 'http://localhost:5038/img/' + this.user.profilePicture
-    } 
-
     ngOnInit(): void {
 
         let jwt = sessionStorage.getItem("jwtSession") ?? ""
@@ -47,4 +39,6 @@ export class HomeComponent implements OnInit {
                 }
             })
     }
+
+
 }

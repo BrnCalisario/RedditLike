@@ -1,0 +1,29 @@
+<div class="group-search">
+    <div class="title">Pesquise por grupos</div>
+    <div class="search-wrap">
+        <input id="search" class="form-control" type="search" placeholder="Nome do grupo">
+        <button class="btn btn-outline-dark">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+
+    <div *ngFor="let group of groupList" class="group-list">
+        <div class="group-box">
+            <div class="group-main-content">
+                <div class="text-wrap">
+                    <div style="font-weight: bold;">{{ group.name }}</div>
+                    <div class="description" style="color: gray;">{{ group.description }}</div>
+                    <div>
+                        <p><i class="fa-solid fa-user"></i> {{ group.userQuantity }}</p>
+                    </div>
+                </div>
+                <div class="avatar-wrap">
+                    <img class="group-img" src="../../assets/image/avatar-placeholder.png">
+                </div>
+            </div>
+            <button [disabled]="group.userParticipates" class="btn btn-outline-danger mt-3">
+                {{ group.userParticipates ? "Já participa" : "Participar" }}
+            </button>
+        </div>
+    </div>
+</div>

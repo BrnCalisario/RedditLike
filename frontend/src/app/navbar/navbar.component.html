@@ -5,14 +5,14 @@
     </a>
     <div class="profile">
         <div class="d-flex align-items-center gap-3">
-            <a *ngIf="isLogged; else elseBlock" routerLink="/configuration">
+            <!-- <a *ngIf="isLogged; else elseBlock" routerLink="/configuration">
                 <i
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     title="Configurações"
                     class="user-icon fa-solid fa-user-gear"
                 ></i>
-            </a>
+            </a> -->
             <ng-template #elseBlock>
                 <a
                     href="/sign/up"
@@ -32,7 +32,7 @@
                 </a>
             </ng-template>
 
-            <button
+            <!-- <button
                 class="btn btn-outline-light"
                 type="button"
                 data-bs-toggle="collapse"
@@ -41,11 +41,11 @@
                 aria-controls="collapseDiv"
             >
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </button> -->
         </div>
     </div>
 </nav>
-
+<!-- 
 <div class="collapse" id="collapseDiv">
     <div class="content">
         <a
@@ -75,4 +75,4 @@
             <i class="fa-solid fa-door-open"></i>
         </a>
     </div>
-</div>
+</div> -->

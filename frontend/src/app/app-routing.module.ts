@@ -12,6 +12,7 @@ import { SignFormComponent } from './sign-form/sign-form.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { GroupCreatorComponent } from './group-creator/group-creator.component';
 import { UserConfigComponent } from './user-config/user-config.component';
+import { GroupSearchComponent } from './group-search/group-search.component';
 
 const routes: Routes = [
     {
@@ -25,6 +26,10 @@ const routes: Routes = [
     {
         path: 'group-creator',
         component: GroupCreatorComponent,
+    },
+    {
+        path: 'group-search',
+        component: GroupSearchComponent
     },
     {
         path: 'group/:name',

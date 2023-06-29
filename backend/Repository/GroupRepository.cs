@@ -13,6 +13,7 @@ public interface IGroupRepository : IRepository<Group>
     Task AddMember(Group group, User user);
     Task RemoveMember(Group group, User user);
     Task<List<Group>> GetUserGroups(User user);
+    int GetUserQuantity(Group group);
 }
 
 
@@ -80,5 +81,11 @@ public class GroupRepository : IGroupRepository
             .Select(ug => ug.Group);
 
         return await query.ToListAsync();
+    }
+
+    public int GetUserQuantity(Group group)
+    {
+        int count = ctx.UserGroups.Count(ug => ug.GroupId == group.Id);
+        return count;
     }
 }

@@ -18,18 +18,16 @@
 
 .group-list {
     width: 30%;
+    display: flex;
+
+    flex-direction: column;
+    gap: 50px;
 }
 
 .header-data {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    gap: 15px;
 }
 
 .header-data p {
@@ -39,9 +37,6 @@
     font-weight: 800;
 }
 
-.avatar {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-
+.title {
+    margin-bottom: 23px;
 }

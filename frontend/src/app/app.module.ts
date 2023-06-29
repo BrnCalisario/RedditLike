@@ -26,6 +26,8 @@ import { VoteButtonComponent } from './vote-button/vote-button.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { GroupCreatorComponent } from './group-creator/group-creator.component';
 import { UserConfigComponent } from './user-config/user-config.component';
+import { GroupSearchComponent } from './group-search/group-search.component';
+import { UserCardComponent } from './user-card/user-card.component';
 
 @NgModule({
     declarations: [
@@ -47,6 +49,8 @@ import { UserConfigComponent } from './user-config/user-config.component';
         LandingPageComponent,
         GroupCreatorComponent,
         UserConfigComponent,
+        GroupSearchComponent,
+        UserCardComponent,
     ],
     imports: [
         BrowserModule,

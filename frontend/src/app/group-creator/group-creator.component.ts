@@ -22,7 +22,10 @@ export class GroupCreatorComponent implements OnInit {
     groupForm: Group = {
         name: "",
         description: "",
-        ownerId: 0
+        ownerId: 0,
+        userParticipates: false,
+        imageId: 0,
+        userQuantity: 0
     }
 
     ngOnInit(): void {
