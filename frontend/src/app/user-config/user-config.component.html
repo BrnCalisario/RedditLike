@@ -1,17 +1,29 @@
 <div class="user-config">
-    <h2 class="title" style="color: var(--main-green); font-family: 'League Spartan'">
+    <h2
+        class="title"
+        style="color: var(--main-green); font-family: 'League Spartan'"
+    >
         Configurações de usuário
     </h2>
     <div class="form">
-        <app-uploader title="Foto de usuário" imgUrl={{imgUrl}}/>
-        <label for="email">Seu
-            e-mail</label>
-        <input [(ngModel)]="user.email" disabled="true" [ngModelOptions]="{ standalone: true }" class="form-control"
-            value="Email do usuário" />
+        <app-uploader title="Foto de usuário" imgUrl="{{ imgUrl }}" />
+        <label for="email">Seu e-mail</label>
+        <input
+            [(ngModel)]="user.email"
+            disabled="true"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+            value="Email do usuário"
+        />
 
         <label for="username">Seu nome de usuário</label>
-        <input [(ngModel)]="user.username" disabled="true" [ngModelOptions]="{ standalone: true }" class="form-control"
-            value="Nome do usuário" />
+        <input
+            [(ngModel)]="user.username"
+            disabled="true"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+            value="Nome do usuário"
+        />
 
         <button class="btn btn-danger mt-3">Editar</button>
     </div>

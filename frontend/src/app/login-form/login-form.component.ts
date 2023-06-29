@@ -19,12 +19,11 @@ export class LoginFormComponent {
         password: '',
     };
 
-    loginFailure : boolean = false;
+    loginFailure: boolean = false;
 
     onLogin() {
         this.userService.login(this.userLogin).subscribe((res) => {
-            
-            if(!res.success) {
+            if (!res.success) {
                 this.loginFailure = true;
                 return;
             }

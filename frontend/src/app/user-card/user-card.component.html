@@ -3,14 +3,23 @@
         <p class="username">{{ userName }}</p>
         <div class="button-wrap">
             <a>
-                <i data-bs-toggle="tooltip" data-bs-placement="top" title="Configurações"
-                    class="fa-solid fa-gear"></i>
+                <i
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Configurações"
+                    class="fa-solid fa-gear"
+                ></i>
             </a>
-            <a href="/" data-bs-toggle="tooltip" data-bs-placement="top" title="Sair" (click)="logoff()">
+            <a
+                href="/"
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Sair"
+                (click)="logoff()"
+            >
                 <i class="fa-solid fa-door-open"></i>
             </a>
-
         </div>
     </div>
-    <img class="avatar" src="{{profilePic()}}" />
+    <img class="avatar" src="{{ profilePic() }}" />
 </div>

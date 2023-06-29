@@ -7,7 +7,7 @@ import { Group } from 'src/models/Group';
     styleUrls: ['./group-list.component.css'],
 })
 export class GroupListComponent {
-    @Input() groupList? : Group[] ;
+    @Input() groupList?: Group[];
 
     // groups: string [] = []
 }

@@ -1,7 +1,7 @@
 export interface Group {
     name: string;
     description: string;
-    ownerId : number;
+    ownerId: number;
     userParticipates: boolean;
     imageId: number | null;
     userQuantity: number;

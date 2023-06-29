@@ -2,15 +2,17 @@
     <div class="subtitle">Seus grupos</div>
     <hr />
     <div class="list">
-        <a href="group/{{ group.name }}/feed" *ngFor="let group of groupList" class="group-box">
+        <a
+            href="group/{{ group.name }}/feed"
+            *ngFor="let group of groupList"
+            class="group-box"
+        >
             r/{{ group.name }}
             <i class="fa-solid fa-chevron-right"></i>
         </a>
     </div>
-    <div *ngIf="groupList?.length == 0">
-        Sem grupos para mostrar!
-    </div>
-    <hr>
+    <div *ngIf="groupList?.length == 0">Sem grupos para mostrar!</div>
+    <hr />
     <!-- <div class="btn-wrap">
         <button >
             Gerenciar grupos
@@ -26,10 +28,14 @@
         </button>
     </div> -->
 
-
     <div class="collapse-retangular">
-        <button  type="button" data-bs-toggle="collapse" data-bs-target="#collapseGroupOptions"
-            aria-expanded="false" aria-controls="collapseGroupOptions">
+        <button
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseGroupOptions"
+            aria-expanded="false"
+            aria-controls="collapseGroupOptions"
+        >
             <i class="fa-solid fa-gear"></i>
         </button>
     </div>
@@ -51,8 +57,12 @@
         </div>
     </div>
     <div class="botton-retangular">
-        <i data-bs-toggle="collapse" data-bs-target="#collapseGroupOptions"
-        aria-expanded="false" aria-controls="collapseGroupOptions" class="fa-solid fa-chevron-down"></i>
+        <i
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseGroupOptions"
+            aria-expanded="false"
+            aria-controls="collapseGroupOptions"
+            class="fa-solid fa-chevron-down"
+        ></i>
     </div>
-
 </div>

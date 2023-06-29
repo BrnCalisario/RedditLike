@@ -1,6 +1,5 @@
 <div class="home">
-    <div class="header-data">
-    </div>
+    <div class="header-data"></div>
     <br />
     <div class="separator">
         <div class="feed">
@@ -8,7 +7,11 @@
             <app-feed [postList]="user.posts" />
         </div>
         <div class="group-list">
-            <app-user-card class="user-card" [userName]="user.username" [profilePictureID]="user.profilePicture"/>
+            <app-user-card
+                class="user-card"
+                [userName]="user.username"
+                [profilePictureID]="user.profilePicture"
+            />
             <app-group-list [groupList]="user.groups" />
         </div>
     </div>

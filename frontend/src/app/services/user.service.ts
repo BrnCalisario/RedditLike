@@ -12,9 +12,12 @@ import { LoginResponse } from 'src/DTO/LoginResponse';
 })
 export class UserService {
     constructor(private http: HttpClient) {}
-    
-    getUser(jwtSession : Jwt) {
-        return this.http.post<User>('http://localhost:5038/user/single', jwtSession);
+
+    getUser(jwtSession: Jwt) {
+        return this.http.post<User>(
+            'http://localhost:5038/user/single',
+            jwtSession
+        );
     }
 
     login(loginData: LoginDTO) {

@@ -59,25 +59,24 @@ span:hover {
     cursor: pointer;
 }
 
-
 .button {
     justify-self: end;
     border: 1px solid lightgray;
     padding: 5px;
     border-radius: 5px;
     min-width: 200px;
-    
+
     background-color: var(--main-green);
-    
+
     color: white;
-    font-family: 'League Spartan', sans-serif;
+    font-family: "League Spartan", sans-serif;
     font-size: 1.2em;
 }
 
 .button:hover {
     background-color: white;
     color: var(--main-green);
-} 
+}
 
 .content {
     display: flex;
@@ -88,14 +87,13 @@ span:hover {
 
     border: 1px solid lightgray;
 
-
     padding: 5px;
 
     border-top: 0;
 }
 
-.collapse-retangular, .botton-retangular
-{
+.collapse-retangular,
+.botton-retangular {
     border: 1px solid lightgray;
     display: flex;
     justify-content: center;

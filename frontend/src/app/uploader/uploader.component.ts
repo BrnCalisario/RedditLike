@@ -16,7 +16,6 @@ export class UploaderComponent implements OnInit {
     constructor(private http: HttpClient) {}
 
     ngOnInit(): void {}
-    
 
     uploadFile = (files: any) => {
         if (files.length == 0) {

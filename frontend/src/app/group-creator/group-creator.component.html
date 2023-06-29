@@ -6,16 +6,25 @@
         Criador de Grupo
     </h2>
     <div class="fields">
-        <app-uploader title="Foto do grupo" (onUploadFinished)="onUpload($event)" />
+        <app-uploader
+            title="Foto do grupo"
+            (onUploadFinished)="onUpload($event)"
+        />
         <label class="form-label" for="group-title">Nome do grupo</label>
-        <input [(ngModel)]="groupForm.name"  id="group-title" type="text" class="form-control" [ngModelOptions]="{standalone: true}"/>
+        <input
+            [(ngModel)]="groupForm.name"
+            id="group-title"
+            type="text"
+            class="form-control"
+            [ngModelOptions]="{ standalone: true }"
+        />
         <label class="form-label" for="group-desc">Descrição do grupo</label>
         <textarea
             [(ngModel)]="groupForm.description"
             maxlength="150"
             class="form-control"
             id="group-desc"
-            [ngModelOptions]="{standalone: true}"
+            [ngModelOptions]="{ standalone: true }"
         ></textarea>
     </div>
     <div class="row-md-6 d-flex justify-content-end mt-3">

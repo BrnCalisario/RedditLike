@@ -10,7 +10,7 @@ import { Jwt } from 'src/DTO/Jwt';
     styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-    constructor(private userService: UserService, private router: Router) { }
+    constructor(private userService: UserService, private router: Router) {}
 
     authenticated: boolean = true;
 
@@ -20,25 +20,21 @@ export class HomeComponent implements OnInit {
         email: '',
         profilePicture: 0,
         groups: [],
-        posts: []
+        posts: [],
     };
 
     ngOnInit(): void {
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
 
-        let jwt = sessionStorage.getItem("jwtSession") ?? ""
+        this.userService.getUser({ Value: jwt }).subscribe({
+            next: (res: User) => {
+                this.user = res;
 
-        this.userService.getUser({ Value: jwt })
-            .subscribe({
-                next: (res: User) => {
-                    this.user = res
-
-                    console.log(this.user)
-                },
-                error: (error: any) => {
-                    this.router.navigate(['/'])
-                }
-            })
+                console.log(this.user);
+            },
+            error: (error: any) => {
+                this.router.navigate(['/']);
+            },
+        });
     }
-
-
 }

@@ -29,7 +29,7 @@ const routes: Routes = [
     },
     {
         path: 'group-search',
-        component: GroupSearchComponent
+        component: GroupSearchComponent,
     },
     {
         path: 'group/:name',

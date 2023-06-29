@@ -54,5 +54,5 @@ hr {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--main-green)
+    background: var(--main-green);
 }
