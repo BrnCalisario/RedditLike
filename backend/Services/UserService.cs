@@ -1,6 +1,9 @@
-using Reddit.Model;
-using Reddit.Repositories;
 using Security.Jwt;
+
+namespace Reddit.Services;
+using Model;
+using Repositories;
+using DTO;
 
 public interface IUserService
 {

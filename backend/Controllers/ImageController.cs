@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
+using Security.Jwt;
 
 namespace Reddit.Controllers;
 
 using Model;
 using Repositories;
+using DTO;
+using Services;
 
-using Microsoft.AspNetCore.Cors;
-using Security.Jwt;
 
 [ApiController]
 [Route("img")]
@@ -63,41 +65,44 @@ public class ImageController : Controller
         return Ok(code);
     }
 
-    [HttpPost("add-avatar/{id}")]
+    [HttpPost("add-avatar")]
     public async Task<ActionResult> AddAvatar(
-        [FromServices] IRepository<ImageDatum> imageRepo,
-        [FromServices] IUserRepository userRepo,
-        int id
+        [FromServices] IImageService imageService,
+        [FromServices] IUserService userService,
+        [FromServices] IUserRepository userRepository
     )
     {
-        var query = await userRepo.Filter(u => u.Id == id);
+        var jwt = Request.Form["jwt"].ToString();
         
-        if(query.Count() == 0)
-            return BadRequest();
-        
-        User user = query.First();
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt {Value = jwt});
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if(user is null)
+            return NotFound();
 
         var files = Request.Form.Files;
 
-        if (files is null || files.Count == 0)
+        if(files is null || files.Count == 0)
             return BadRequest();
 
         var file = Request.Form.Files[0];
 
-        if (file.Length < 1)
+        if(file.Length < 1)
             return BadRequest();
 
-        using MemoryStream ms = new MemoryStream();
+        var imageId = await imageService.SaveImg(file);
+        
+        user.ProfilePicture = imageId;
+        await userRepository.Update(user);
 
-        await file.CopyToAsync(ms);
-        var data = ms.GetBuffer();
-
-        var img = new ImageDatum();
-        img.Photo = data;
-        await imageRepo.Add(img);
-
-        user.ProfilePicture = img.Id;
-        await userRepo.Save();
+        Console.WriteLine(user.ProfilePicture);
 
         return Ok();
     }

@@ -26,20 +26,23 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddTransient<IPasswordHasher, BasicPasswordHasher>();
-builder.Services.AddTransient<IJwtService, JwtService>();
-
 
 builder.Services.AddTransient<RedditContext>();
+
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IRepository<ImageDatum>, ImageRepository>(); 
 builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IGroupRepository, GroupRepository>();
+
+
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IImageService, ImageService>();
 
 
 builder.Services.AddTransient<IPasswordProvider>(p =>{
     return new PasswordProvider("senhadificil");
 });
+builder.Services.AddTransient<IJwtService, JwtService>();
 
 
 
