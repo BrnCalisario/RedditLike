@@ -20,7 +20,7 @@ public class UserService : IUserService
 
     public async Task<User> ValidateUserToken(Jwt jwt)
     {
-        User user = null;
+        User user;
 
         var token = jwtService.Validate<UserToken>(jwt.Value);
 

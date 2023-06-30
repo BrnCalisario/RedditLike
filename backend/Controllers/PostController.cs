@@ -21,7 +21,7 @@ public class PostController : Controller
         [FromBody] CreatePostDTO postData,
         [FromServices] IPostRepository postRepository,
         [FromServices] IGroupRepository groupRepository,
-        [FromServices] UserService userService
+        [FromServices] IUserService userService
     )
     {
         User user;
@@ -58,11 +58,11 @@ public class PostController : Controller
     }
 
 
-    [HttpPost]
+    [HttpPost("vote")]
     public async Task<ActionResult> LikePost(
         [FromBody] VoteDTO voteData,
         [FromServices] IPostRepository postRepository,
-        [FromServices] UserService userService
+        [FromServices] IUserService userService
     )
     {
         User user;
@@ -87,11 +87,11 @@ public class PostController : Controller
         return Ok();
     }
 
-    [HttpPost]
+    [HttpPost("undo")]
     public async Task<ActionResult> UnlikePost(
         [FromBody] VoteDTO voteData,
         [FromServices] IPostRepository postRepository,
-        [FromServices] UserService userService
+        [FromServices] IUserService userService
     )
     {
         User user;
