@@ -32,6 +32,7 @@ builder.Services.AddTransient<IJwtService, JwtService>();
 builder.Services.AddTransient<RedditContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IRepository<ImageDatum>, ImageRepository>(); 
+builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IGroupRepository, GroupRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 

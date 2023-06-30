@@ -32,29 +32,60 @@ public class GroupController : Controller
         group.Owner.Groups = null;
 
         // var owner = await userRepo.Find(group.OwnerId);
-
         // group.Owner = owner;
 
         return group;
     }
 
+    [HttpPost("{groupName}")]
+    public async Task<ActionResult<GroupDTO>> GetGroup(
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserService userService,        
+        [FromBody] Jwt jwt,
+        string groupName
+    )
+    {
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(jwt);
+        }
+        catch (Exception ex) 
+        {
+            return BadRequest(ex.Message);   
+        }
 
+        if(user is null)
+            return NotFound("Usuário não encontrado");
 
-    // [HttpPost("{groupName}")]
-    // public async Task<ActionResult<GroupDTO>> GetGroup(
-    //     [FromServices] GroupRepository groupRepo,
-    //     [FromServices] IJwtService jwtService,
-    //     [FromBody] Jwt jwt
-    // )
-    // {
+        var query = await groupRepository.Filter(g => g.Name == groupName);
+        var group = query.FirstOrDefault();
 
-    // }
+        if(group is null)
+            return NotFound("Grupo não encontrado");
+
+        var queryUserGroups =  await groupRepository.GetUserGroups(user);
+
+        bool isMember = queryUserGroups.Any(g => g.Id == group.Id);
+        
+        GroupDTO result = new GroupDTO()
+        {
+            Name = group.Name,
+            OwnerID = group.OwnerId,
+            Description = group.Description,
+            isMember = isMember,
+            UserQuantity = groupRepository.GetUserQuantity(group),
+            ImageId = group.Image,
+            Posts = new List<PostDTO>()
+        };
+
+        return Ok(result);
+    }
 
     [HttpPost("list")]
     public async Task<ActionResult<List<Group>>> ListGroups(
     [FromServices] IGroupRepository groupRepository,
     [FromServices] IUserService userService,
-    [FromServices] IJwtService jwtService,
     [FromBody] Jwt jwt
 )
     {
@@ -82,12 +113,11 @@ public class GroupController : Controller
                 Name = g.Name,
                 Description = g.Description,
                 ImageId = g.Image,
-                UserParticipates = userGroups.Any(ug => g.Id == ug.Id),
+                isMember = userGroups.Any(ug => g.Id == ug.Id),
                 UserQuantity = groupRepository.GetUserQuantity(g),
             });
 
-
-        return Ok(result.ToList());
+        return Ok(result);
     }
 
 

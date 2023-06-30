@@ -83,7 +83,7 @@ public class GroupRepository : IGroupRepository
         return await query.ToListAsync();
     }
 
-    public int GetUserQuantity(Group group)
+    public  int GetUserQuantity(Group group)
     {
         int count = ctx.UserGroups.Count(ug => ug.GroupId == group.Id);
         return count;

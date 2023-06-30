@@ -19,7 +19,6 @@ public class UserController : ControllerBase
     public async Task<ActionResult<UserData>> Get(
         [FromServices] IUserService userService,
         [FromServices] IGroupRepository groupRepository,
-        [FromServices] IJwtService jwtService,
         [FromBody] Jwt jwt
     )
     {
@@ -44,7 +43,7 @@ public class UserController : ControllerBase
             Description = g.Description,
             ImageId = g.Image,
             Posts = new List<PostDTO>(),
-            UserParticipates = true,
+            isMember = true,
             UserQuantity = null,
         }).ToList();
 
