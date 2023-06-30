@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Jwt } from 'src/DTO/Jwt';
 
 @Injectable({
     providedIn: 'root',
@@ -15,9 +16,12 @@ export class ImageService {
         return this.http.post('http://localhost:5038/img', form);
     }
 
-    updateUserAvatar(form: FormData, userId: number) {
+    updateUserAvatar(form: FormData) {
+        let jwt = sessionStorage.getItem('jwtSession') ?? '' 
+        
+        form.append('jwt', jwt)
         return this.http.post(
-            'http://localhost:5038/img/add-avatar/' + userId,
+            'http://localhost:5038/img/add-avatar/',
             form,
             { observe: 'response' }
         );

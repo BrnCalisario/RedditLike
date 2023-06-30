@@ -14,7 +14,7 @@ export class SignFormComponent implements OnInit {
         private userService: UserService,
         private imageService: ImageService,
         private router: Router
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         sessionStorage.setItem('jwtSession', '');
@@ -40,13 +40,18 @@ export class SignFormComponent implements OnInit {
         this.userService.register(this.userReg).subscribe((res) => {
             userId = res;
 
-            if (this.imgForm) {
-                this.imageService
-                    .updateUserAvatar(this.imgForm, userId)
-                    .subscribe((res) => {});
-            }
+            this.userService.login({ email: this.userReg.email, password: this.userReg.password })
+                .subscribe((res) => {
+                    sessionStorage.setItem("jwtSession", res.jwt)
 
-            this.router.navigate(['/sign/up']);
+                    if (this.imgForm) {
+                        this.imageService
+                            .updateUserAvatar(this.imgForm)
+                            .subscribe((res) => { });
+                    }
+                    this.router.navigate(['/']);
+                })
+
         });
     }
 

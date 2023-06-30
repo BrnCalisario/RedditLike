@@ -7,11 +7,12 @@ import { Component, Input } from '@angular/core';
 })
 export class UserCardComponent {
     @Input() userName: string = '';
-    @Input() profilePictureID: number = 0;
+    @Input() profilePictureID?: number | null  = 0
 
     profilePic = () => {
-        if (this.profilePictureID == 0)
+        if (this.profilePictureID == 0 || this.profilePictureID === null)
             return '../assets/image/avatar-placeholder.png';
+
         else return 'http://localhost:5038/img/' + this.profilePictureID;
     };
 
