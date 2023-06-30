@@ -54,11 +54,12 @@ export class GroupCreatorComponent implements OnInit {
             .subscribe({
                 next: (res: number) => {
                     
-                    console.log(res)
+                    let groupId = res
+                    console.log(groupId)
 
                     if(this.imgData) 
                     {
-                        this.groupService.updateGroupImage(this.imgData, res)
+                        this.groupService.updateGroupImage(this.imgData, groupId)
                             .subscribe({
                                 error: (error : HttpErrorResponse) => {
                                     console.log(error)
