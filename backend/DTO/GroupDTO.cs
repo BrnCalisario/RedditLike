@@ -7,5 +7,8 @@ public class GroupDTO
     public int OwnerID { get; set; }
     public int? ImageId { get; set; } 
     public bool UserParticipates { get; set; }
-    public int UserQuantity { get; set; }
+    public int? UserQuantity { get; set; }
+
+    public List<PostDTO> Posts { get; set; }
+    
 }

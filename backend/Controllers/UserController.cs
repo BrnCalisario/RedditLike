@@ -17,41 +17,43 @@ public class UserController : ControllerBase
 
     [HttpPost("single")]
     public async Task<ActionResult<UserData>> Get(
-        [FromServices] IUserRepository userRepository,
+        [FromServices] IUserService userService,
         [FromServices] IGroupRepository groupRepository,
         [FromServices] IJwtService jwtService,
         [FromBody] Jwt jwt
-    ) {
-        if(jwt.Value == "" || jwt.Value is null) {
-            return BadRequest("Invalid JWT");
-        }
-
+    )
+    {
         User user;
-
-        try 
+        try
         {
-            var token = jwtService.Validate<UserToken>(jwt.Value);
-
-            if(!token.Authenticated) 
-                return BadRequest("User not authenticated");
-
-            user = await userRepository.Find(token.UserID);
-        } 
-        catch 
-        {
-            return BadRequest("Invalid JWT Signature");
+            user = await userService.ValidateUserToken(jwt);
         }
-
-        if(user is null) 
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+        
+        if (user is null)
             return BadRequest("Invalid User ID");
 
-        
-        UserData result = new UserData() 
+
+        var query = await groupRepository.GetUserGroups(user);
+
+        var groupsDTO = query.Select(g => new GroupDTO {
+            Name = g.Name,
+            Description = g.Description,
+            ImageId = g.Image,
+            Posts = new List<PostDTO>(),
+            UserParticipates = true,
+            UserQuantity = null,
+        }).ToList();
+
+        UserData result = new UserData()
         {
             Username = user.Username,
-            Email = user.Email, 
+            Email = user.Email,
             ProfilePicture = user.ProfilePicture,
-            Groups = await groupRepository.GetUserGroups(user)
+            Groups = groupsDTO,
         };
 
         return Ok(result);
@@ -72,12 +74,11 @@ public class UserController : ControllerBase
         [FromServices] IPasswordHasher psh,
         [FromBody] UserRegister userData)
     {
-
         var query = await userRep.Filter(u => u.Username == userData.Username || u.Email == userData.Email);
 
-        if(query.Count() > 0)
+        if (query.Count() > 0)
             return BadRequest();
-        
+
         byte[] hashPassword;
         string salt;
 
@@ -99,21 +100,25 @@ public class UserController : ControllerBase
 
     }
 
+
     [HttpPost("validate")]
     public async Task<ActionResult<UserToken>> ValidateJwt(
         [FromServices] IJwtService jwtService,
         [FromBody] Jwt jwt
     )
     {
-        if(jwt.Value == "" || jwt.Value is null)
+        if (jwt.Value == "" || jwt.Value is null)
         {
             return Ok(new UserToken { Authenticated = false });
         }
 
-        try {
+        try
+        {
             var result = jwtService.Validate<UserToken>(jwt.Value);
             return Ok(result);
-        } catch(Exception e){
+        }
+        catch (Exception e)
+        {
             return Ok(new UserToken { Authenticated = false });
         }
     }
@@ -125,7 +130,7 @@ public class UserController : ControllerBase
         [FromServices] IUserRepository userRep,
         [FromServices] IJwtService jwtService
     )
-    {   
+    {
         var result = new LoginResult();
 
         var userList = await userRep.Filter(u => u.Email == loginData.Email);
@@ -135,7 +140,7 @@ public class UserController : ControllerBase
         {
             return Ok(result);
         }
-        
+
         User target = userList.First();
 
         if (psh.Validate(loginData.Password, target.Password, target.Salt))

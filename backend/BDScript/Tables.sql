@@ -160,4 +160,5 @@ END
 SELECT * FROM [User]
 SELECT * FROM [ImageData]
 SELECT * FROM [Group]
+SELECT * FROM [UserGroup]
 

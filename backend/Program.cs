@@ -33,6 +33,8 @@ builder.Services.AddTransient<RedditContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IRepository<ImageDatum>, ImageRepository>(); 
 builder.Services.AddTransient<IGroupRepository, GroupRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
+
 
 builder.Services.AddTransient<IPasswordProvider>(p =>{
     return new PasswordProvider("senhadificil");

@@ -38,10 +38,22 @@ public class GroupController : Controller
         return group;
     }
 
+
+
+    // [HttpPost("{groupName}")]
+    // public async Task<ActionResult<GroupDTO>> GetGroup(
+    //     [FromServices] GroupRepository groupRepo,
+    //     [FromServices] IJwtService jwtService,
+    //     [FromBody] Jwt jwt
+    // )
+    // {
+
+    // }
+
     [HttpPost("list")]
     public async Task<ActionResult<List<Group>>> ListGroups(
     [FromServices] IGroupRepository groupRepository,
-    [FromServices] IUserRepository userRepository,
+    [FromServices] IUserService userService,
     [FromServices] IJwtService jwtService,
     [FromBody] Jwt jwt
 )
@@ -49,16 +61,11 @@ public class GroupController : Controller
         User user;
         try
         {
-            var token = jwtService.Validate<UserToken>(jwt.Value);
-
-            if (!token.Authenticated)
-                return Unauthorized();
-
-            user = await userRepository.Find(token.UserID);
+            user = await userService.ValidateUserToken(jwt);
         }
-        catch
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e.Message);
         }
 
         if (user is null)
@@ -139,7 +146,7 @@ public class GroupController : Controller
 
         var group = query.FirstOrDefault();
 
-        if(group is null)
+        if (group is null)
             return NotFound("Group not found");
 
         var files = Request.Form.Files;
