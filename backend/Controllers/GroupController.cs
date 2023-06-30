@@ -40,7 +40,7 @@ public class GroupController : Controller
     [HttpPost("{groupName}")]
     public async Task<ActionResult<GroupDTO>> GetGroup(
         [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService,        
+        [FromServices] IUserService userService,
         [FromBody] Jwt jwt,
         string groupName
     )
@@ -50,24 +50,24 @@ public class GroupController : Controller
         {
             user = await userService.ValidateUserToken(jwt);
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
-            return BadRequest(ex.Message);   
+            return BadRequest(ex.Message);
         }
 
-        if(user is null)
+        if (user is null)
             return NotFound("Usuário não encontrado");
 
         var query = await groupRepository.Filter(g => g.Name == groupName);
         var group = query.FirstOrDefault();
 
-        if(group is null)
+        if (group is null)
             return NotFound("Grupo não encontrado");
 
-        var queryUserGroups =  await groupRepository.GetUserGroups(user);
+        var queryUserGroups = await groupRepository.GetUserGroups(user);
 
         bool isMember = queryUserGroups.Any(g => g.Id == group.Id);
-        
+
         GroupDTO result = new GroupDTO()
         {
             Name = group.Name,
@@ -161,23 +161,49 @@ public class GroupController : Controller
 
         await groupRepo.Add(group);
 
-        System.Console.WriteLine(group.Id);
-        return Ok(group.Id);
+        var query = await groupRepo.Filter(g => g.Name == group.Name);
+
+        int groupId = query.First().Id;
+
+        return Ok(groupId);
     }
 
-    [HttpPost("addImage/{groupId}")]
+    [HttpPost("addImage")]
     public async Task<ActionResult> AddImage(
-        [FromServices] IGroupRepository groupRepo,
-        [FromServices] IRepository<ImageDatum> imageRepo,
-        int groupId
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IImageService imageService,
+        [FromServices] IUserService userService
     )
     {
-        var query = await groupRepo.Filter(g => g.Id == groupId);
+        var jwt = Request.Form["jwt"].ToString();
 
-        var group = query.FirstOrDefault();
+        User user;
+        Group group;
+        try
+        {
+            int groupId;
+            if(!int.TryParse(Request.Form["groupId"].ToString(), out groupId))
+                return BadRequest();
 
-        if (group is null)
-            return NotFound("Group not found");
+            System.Console.WriteLine(groupId);
+
+            var query = await groupRepository.Filter(g => g.Id == groupId);
+
+            group = query.FirstOrDefault();
+
+            if (group is null)
+                return NotFound();
+
+
+            user = await userService.ValidateUserToken(new Jwt { Value = jwt });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if (user is null)
+            return NotFound();
 
         var files = Request.Form.Files;
 
@@ -189,17 +215,10 @@ public class GroupController : Controller
         if (file.Length < 1)
             return BadRequest();
 
-        using MemoryStream ms = new MemoryStream();
+        int imageId = await imageService.SaveImg(file);
 
-        await file.CopyToAsync(ms);
-        var data = ms.GetBuffer();
-
-        var img = new ImageDatum();
-        img.Photo = data;
-        await imageRepo.Add(img);
-
-        group.Image = img.Id;
-        await groupRepo.Save();
+        group.Image = imageId;
+        await groupRepository.Update(group);
 
         return Ok();
     }
