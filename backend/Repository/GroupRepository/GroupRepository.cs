@@ -14,7 +14,7 @@ public interface IGroupRepository : IRepository<Group>
     Task AddMember(Group group, User user);
     Task RemoveMember(Group group, User user);
     Task<List<Group>> GetUserGroups(User user);
-    int GetUserQuantity(Group group);
+    Task<int> GetUserQuantity(Group group);
     // Task<List<PermissionEnum>> GetPermissionEnum(User user, Group group);
     Task<bool> HasPermission(User user, Group group, PermissionEnum permission);
 }
@@ -87,9 +87,9 @@ public class GroupRepository : IGroupRepository
         return await query.ToListAsync();
     }
 
-    public int GetUserQuantity(Group group)
+    public async Task<int> GetUserQuantity(Group group)
     {
-        int count = ctx.UserGroups.Count(ug => ug.GroupId == group.Id);
+        int count = await ctx.UserGroups.CountAsync(ug => ug.GroupId == group.Id);
         return count;
     }
 

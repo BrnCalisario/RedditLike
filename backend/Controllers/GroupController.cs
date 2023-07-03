@@ -24,7 +24,7 @@ public class GroupController : Controller
     {
         var group = await groupRepo.Find(id);
 
-        if(group is null)
+        if (group is null)
             return NotFound();
 
         group.Owner.Groups = null;
@@ -72,7 +72,7 @@ public class GroupController : Controller
             OwnerID = group.OwnerId,
             Description = group.Description,
             isMember = isMember,
-            UserQuantity = groupRepository.GetUserQuantity(group),
+            UserQuantity = await groupRepository.GetUserQuantity(group),
             ImageId = group.Image,
             Posts = new List<PostDTO>()
         };
@@ -105,15 +105,18 @@ public class GroupController : Controller
 
 
         // Precisando deixar o Get User Quantity Assincrono
-        var result = allGroups
-            .Select(g => new GroupDTO
+        var result = new List<GroupDTO>();
+        foreach (var g in allGroups)
+        {
+            result.Add(new GroupDTO
             {
                 Name = g.Name,
                 Description = g.Description,
                 ImageId = g.Image,
                 isMember = userGroups.Any(ug => g.Id == ug.Id),
-                UserQuantity = groupRepository.GetUserQuantity(g),
+                UserQuantity = await groupRepository.GetUserQuantity(g),
             });
+        }
 
         return Ok(result);
     }
@@ -180,7 +183,7 @@ public class GroupController : Controller
         try
         {
             int groupId;
-            if(!int.TryParse(Request.Form["groupId"].ToString(), out groupId))
+            if (!int.TryParse(Request.Form["groupId"].ToString(), out groupId))
                 return BadRequest();
 
             System.Console.WriteLine(groupId);
@@ -220,4 +223,7 @@ public class GroupController : Controller
 
         return Ok();
     }
+
+
+
 }

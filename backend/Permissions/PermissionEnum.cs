@@ -5,7 +5,7 @@ public enum PermissionEnum
     Post,
     Delete,
     Edit,
-    Promote,
+    ManageRole,
     Ban,
     DropGroup,
 }

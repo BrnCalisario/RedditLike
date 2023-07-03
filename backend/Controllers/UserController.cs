@@ -31,14 +31,15 @@ public class UserController : ControllerBase
         {
             return BadRequest(e.Message);
         }
-        
+
         if (user is null)
             return BadRequest("Invalid User ID");
 
 
         var query = await groupRepository.GetUserGroups(user);
 
-        var groupsDTO = query.Select(g => new GroupDTO {
+        var groupsDTO = query.Select(g => new GroupDTO
+        {
             Name = g.Name,
             Description = g.Description,
             ImageId = g.Image,
@@ -153,4 +154,36 @@ public class UserController : ControllerBase
         result.Success = false;
         return Ok(result);
     }
+
+
+    // TODO
+
+    // [HttpPut("update")]
+    // public async Task<ActionResult> Update(
+    //     [FromBody] UserRegister userData,
+    //     [FromServices] IUserRepository userRepository,
+    //     [FromServices] IUserService userService
+    // )
+    // {
+    //     User user;
+    //     try
+    //     {
+    //         user = await userService.ValidateUserToken(new Jwt { Value = userData.Jwt });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return BadRequest(ex.Message);
+    //     }
+
+    //     if(userData.Username.Length > 0)
+    //         user.Username = userData.Username;
+        
+    //     if(user is null)
+    //         return NotFound();
+
+    //     await userRepository.Update(user);
+
+    //     return Ok();
+    // }
+
 }

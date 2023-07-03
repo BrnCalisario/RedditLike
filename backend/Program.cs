@@ -35,6 +35,7 @@ builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IGroupRepository, GroupRepository>();
 builder.Services.AddTransient<IRepository<Upvote>, UpvoteRepository>();
 builder.Services.AddTransient<IRepository<Comment>, CommentRepository>();
+builder.Services.AddTransient<IRoleRepository, RoleRepository>();
 
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IImageService, ImageService>();

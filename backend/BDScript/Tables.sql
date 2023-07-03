@@ -99,7 +99,7 @@ VALUES
 	('Delete'), 
 	('EditPost'), 
 	('Promote'), 
-	('CreateRole'), 
+	('ManageRole'), 
 	('Ban'), 
 	('DropGroup')
 GO
