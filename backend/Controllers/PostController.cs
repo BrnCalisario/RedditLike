@@ -142,7 +142,7 @@ public class PostController : Controller
     }
 
 
-    [HttpDelete("removeComment")]
+    [HttpDelete("delete-comment")]
     public async Task<ActionResult> DeleteComment(
         [FromBody] CommentDTO commentData,
         [FromServices] IGroupRepository groupRepository,
@@ -216,7 +216,7 @@ public class PostController : Controller
         return Ok();
     }
 
-    [HttpDelete]
+    [HttpPost("remove")]
     public async Task<ActionResult> Delete(
         [FromBody] CreatePostDTO postData,
         [FromServices] IPostRepository postRepository,

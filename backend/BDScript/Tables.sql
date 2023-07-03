@@ -209,3 +209,5 @@ SELECT * FROM [Comment]
 SELECT r.ID, r.Name, p.Name FROM [RolePermission] rp
 JOIN [Permission] p ON rp.PermissionID = p.ID
 JOIN [Role] r ON rp.RoleID = r.ID
+
+SELECT * FROM Permission

@@ -130,7 +130,7 @@ public class GroupController : Controller
         return Ok();
     }
 
-    [HttpDelete]
+    [HttpDelete("remove")]
     public async Task<ActionResult> Delete(
         [FromBody] GroupDTO groupData,
         [FromServices] IGroupRepository groupRepository,
@@ -195,7 +195,7 @@ public class GroupController : Controller
         return Ok();
     }
 
-    [HttpDelete("exit-group")]
+    [HttpPost("exit")]
     public async Task<ActionResult> ExitGroup(
         [FromBody] MemberDTO memberData,
         [FromServices] IGroupRepository groupRepository,
@@ -228,7 +228,7 @@ public class GroupController : Controller
         return Ok();
     }
 
-    [HttpDelete("remove-member")]
+    [HttpPost("remove-member")]
     public async Task<ActionResult> RemoveMember(
         [FromBody] MemberDTO memberData,
         [FromServices] IGroupRepository groupRepository,
