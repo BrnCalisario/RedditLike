@@ -32,7 +32,12 @@ public class RoleController : ControllerBase
         }
 
         if (user is null)
-            return NotFound();
+            return NotFound("Usuário não encontrado");
+
+        Group group = await groupRepository.Find(roleData.GroupId);
+        
+        if(group is null)
+            return NotFound("Grupo não encontrado");
 
         Role role = new Role
         {
