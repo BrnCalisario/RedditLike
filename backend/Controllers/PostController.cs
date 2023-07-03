@@ -8,7 +8,6 @@ using Model;
 using Repositories;
 using DTO;
 using Services;
-using Security.Jwt;
 
 [ApiController]
 [EnableCors("MainPolicy")]

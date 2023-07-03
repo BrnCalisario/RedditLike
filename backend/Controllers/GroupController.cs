@@ -269,7 +269,7 @@ public class GroupController : Controller
         return Ok();
     }
 
-    [HttpPost]
+    [HttpPost("promote-member")]
     public async Task<ActionResult> PromoteRole(
         [FromBody] MemberRoleDTO memberData,
         [FromServices] IGroupRepository groupRepository,
@@ -301,61 +301,6 @@ public class GroupController : Controller
             return NotFound("Role not found");
 
         await groupRepository.PromoteMember(group, user, role);
-
-        return Ok();
-    }
-
-    [HttpPost("addImage")]
-    public async Task<ActionResult> AddImage(
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IImageService imageService,
-        [FromServices] IUserService userService
-    )
-    {
-        var jwt = Request.Form["jwt"].ToString();
-
-        User user;
-        Group group;
-        try
-        {
-            int groupId;
-            if (!int.TryParse(Request.Form["groupId"].ToString(), out groupId))
-                return BadRequest();
-
-            System.Console.WriteLine(groupId);
-
-            var query = await groupRepository.Filter(g => g.Id == groupId);
-
-            group = query.FirstOrDefault();
-
-            if (group is null)
-                return NotFound();
-
-
-            user = await userService.ValidateUserToken(new Jwt { Value = jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-
-        if (user is null)
-            return NotFound();
-
-        var files = Request.Form.Files;
-
-        if (files is null || files.Count == 0)
-            return BadRequest();
-
-        var file = Request.Form.Files[0];
-
-        if (file.Length < 1)
-            return BadRequest();
-
-        int imageId = await imageService.SaveImg(file);
-
-        group.Image = imageId;
-        await groupRepository.Update(group);
 
         return Ok();
     }

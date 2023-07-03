@@ -35,8 +35,8 @@ public class RoleController : ControllerBase
             return NotFound("Usuário não encontrado");
 
         Group group = await groupRepository.Find(roleData.GroupId);
-        
-        if(group is null)
+
+        if (group is null)
             return NotFound("Grupo não encontrado");
 
         Role role = new Role
@@ -107,17 +107,53 @@ public class RoleController : ControllerBase
 
         Role role = await roleRepository.Find(roleData.Id);
 
-        if(role is null)
+        if (role is null)
             return NotFound("Not found role");
 
         Group group = role.Group;
 
         bool canManage = await groupRepository.HasPermission(user, group, PermissionEnum.ManageRole);
 
-        if(!canManage)
+        if (!canManage)
             return BadRequest();
 
         await roleRepository.DeleteRole(role);
+
+        return Ok();
+    }
+
+    [HttpPost("promote-member")]
+    public async Task<ActionResult> PromoteRole(
+    [FromBody] MemberRoleDTO memberData,
+    [FromServices] IGroupRepository groupRepository,
+    [FromServices] IUserRepository userRepository,
+    [FromServices] IUserService userService,
+    [FromServices] IRepository<Role> roleRepository
+)
+    {
+        Group group = await groupRepository.Find(memberData.GroupId);
+
+        if (group is null)
+            return BadRequest();
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+        if (user is null)
+            return NotFound();
+
+        var role = await roleRepository.Find(memberData.RoleId);
+
+        if (role is null)
+            return NotFound("Role not found");
+
+        await groupRepository.PromoteMember(group, user, role);
 
         return Ok();
     }
