@@ -16,13 +16,4 @@ export class GroupService {
     listGroups(jwt: Jwt) {
         return this.http.post<Group[]>('http://localhost:5038/group/list', jwt);
     }
-
-    updateGroupImage(form: FormData, groupId: number) {
-        let jwt = sessionStorage.getItem('jwtSession') ?? ''
-
-        form.append('groupId', groupId.toString())
-        form.append('jwt', jwt)
-        
-        return this.http.post('http://localhost:5038/group/addImage/', form);
-    }
 }

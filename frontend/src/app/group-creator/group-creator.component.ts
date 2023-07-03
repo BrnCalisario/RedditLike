@@ -3,8 +3,9 @@ import { UserService } from '../services/user.service';
 import { User } from 'src/models/User';
 import { Router } from '@angular/router';
 import { Group } from 'src/models/Group';
-import { GroupService } from '../services/group.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { GroupService } from '../services/group/group.service';
+import { ImageService } from '../services/image/image.service';
 
 @Component({
     selector: 'app-group-creator',
@@ -15,7 +16,8 @@ export class GroupCreatorComponent implements OnInit {
     constructor(
         private userService: UserService,
         private router: Router,
-        private groupService: GroupService
+        private groupService: GroupService,
+        private imageService: ImageService
     ) {}
 
     imgData?: FormData;
@@ -24,7 +26,7 @@ export class GroupCreatorComponent implements OnInit {
         name: '',
         description: '',
         ownerId: 0,
-        userParticipates: false,
+        isMember: false,
         imageId: 0,
         userQuantity: 0,
     };
@@ -59,7 +61,7 @@ export class GroupCreatorComponent implements OnInit {
 
                     if(this.imgData) 
                     {
-                        this.groupService.updateGroupImage(this.imgData, groupId)
+                        this.imageService.updateGroupImage(this.imgData, groupId)
                             .subscribe({
                                 error: (error : HttpErrorResponse) => {
                                     console.log(error)

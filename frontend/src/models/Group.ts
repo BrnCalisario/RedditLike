@@ -2,7 +2,7 @@ export interface Group {
     name: string;
     description: string;
     ownerId: number;
-    userParticipates: boolean;
+    isMember: boolean;
     imageId: number | null;
     userQuantity: number;
 }

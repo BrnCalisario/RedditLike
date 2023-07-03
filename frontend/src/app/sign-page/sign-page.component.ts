@@ -4,7 +4,7 @@ import { UserService } from '../services/user.service';
 import { LoginDTO } from 'src/DTO/LoginDTO';
 import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ImageService } from '../services/image.service';
+import { ImageService } from '../services/image/image.service';
 
 @Component({
     selector: 'app-sign-page',

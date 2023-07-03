@@ -26,4 +26,23 @@ export class ImageService {
             { observe: 'response' }
         );
     }
+
+    updateGroupImage(form: FormData, groupId: number) {
+        let jwt = sessionStorage.getItem('jwtSession') ?? ''
+
+        form.append('groupId', groupId.toString())
+        form.append('jwt', jwt)
+        
+        return this.http.post('http://localhost:5038/image/add-image/', form);
+    }
+
+    updatePostIndex(form: FormData, postId : number)
+    {
+        let jwt = sessionStorage.getItem('jwtSession') ?? ''
+
+        form.append('postId', postId.toString())
+        form.append('jwt', jwt)
+
+        return this.http.post('http://localhost:5038/image/post-index', form);
+    }
 }

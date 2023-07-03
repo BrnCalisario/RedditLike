@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { GroupService } from '../services/group.service';
 import { Group } from 'src/models/Group';
 import { HttpErrorResponse } from '@angular/common/http';
+import { GroupService } from '../services/group/group.service';
 
 @Component({
     selector: 'app-group-search',
@@ -16,7 +16,7 @@ export class GroupSearchComponent implements OnInit {
 
     getImgUrl = (id : number | null ) : string => {
 
-        if(id == 0 || id === undefined) 
+        if(id == 0 || id === undefined || id == null) 
             return "../../assets/image/avatar-placeholder.png"
 
         return "http://localhost:5038/img/" + id

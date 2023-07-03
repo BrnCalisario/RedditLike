@@ -35,10 +35,10 @@
                 </div>
             </div>
             <button
-                [disabled]="group.userParticipates"
+                [disabled]="group.isMember"
                 class="btn btn-outline-danger mt-3"
             >
-                {{ group.userParticipates ? "Já participa" : "Participar" }}
+                {{ group.isMember ? "Já participa" : "Participar" }}
             </button>
         </div>
     </div>
