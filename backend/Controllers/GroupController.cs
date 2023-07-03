@@ -157,7 +157,7 @@ public class GroupController : Controller
 
         bool canDrop = await groupRepository.HasPermission(user, group, PermissionEnum.DropGroup);
 
-        if(!canDrop || group.OwnerId != user.Id)
+        if (!canDrop || group.OwnerId != user.Id)
             return BadRequest();
 
         await groupRepository.Delete(group);
@@ -165,6 +165,66 @@ public class GroupController : Controller
         return Ok();
     }
 
+
+    [HttpPost("add-member")]
+    public async Task<ActionResult> AddMember(
+        [FromBody] GroupDTO groupData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserService userService
+    )
+    {
+        Group group = await groupRepository.Find(groupData.Id);
+
+        if (group is null)
+            return BadRequest();
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
+        if (user is null)
+            return NotFound();
+
+        await groupRepository.AddMember(group, user);
+
+        return Ok();
+    }
+
+    [HttpDelete("remove-member")]
+    public async Task<ActionResult> RemoveMember(
+        [FromBody] GroupDTO groupData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserService userService
+    )
+    {
+        Group group = await groupRepository.Find(groupData.Id);
+
+        if (group is null)
+            return BadRequest();
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
+        if (user is null)
+            return NotFound();
+
+        await groupRepository.RemoveMember(group, user);
+
+        return Ok();
+    }
 
 
     [HttpPost("addImage")]
