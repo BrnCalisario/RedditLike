@@ -40,4 +40,10 @@ public class ImageRepository : IRepository<ImageDatum>
     {
         await ctx.SaveChangesAsync();
     }
+
+    public async Task<ImageDatum> Find(int id)
+    {
+        var img = await ctx.ImageData.FindAsync(id);
+        return img;
+    }
 }

@@ -5,6 +5,7 @@ namespace Reddit.Repositories;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Model;
 
 
@@ -14,6 +15,8 @@ public interface IGroupRepository : IRepository<Group>
     Task RemoveMember(Group group, User user);
     Task<List<Group>> GetUserGroups(User user);
     int GetUserQuantity(Group group);
+    // Task<List<PermissionEnum>> GetPermissionEnum(User user, Group group);
+    Task<bool> HasPermission(User user, Group group, PermissionEnum permission);
 }
 
 
@@ -59,9 +62,10 @@ public class GroupRepository : IGroupRepository
     public async Task AddMember(Group group, User user)
     {
         UserGroup ug = new UserGroup();
-        
+
         ug.UserId = user.Id;
         ug.GroupId = group.Id;
+        ug.RoleId = 1;
 
         await ctx.UserGroups.AddAsync(ug);
         await ctx.SaveChangesAsync();
@@ -83,9 +87,41 @@ public class GroupRepository : IGroupRepository
         return await query.ToListAsync();
     }
 
-    public  int GetUserQuantity(Group group)
+    public int GetUserQuantity(Group group)
     {
         int count = ctx.UserGroups.Count(ug => ug.GroupId == group.Id);
         return count;
+    }
+
+    public async Task<List<PermissionEnum>> GetPermissionEnum(User user, Group group)
+    {
+        var role = this.ctx.UserGroups.First(ug => ug.GroupId == group.Id && ug.UserId == user.Id).RoleId;
+
+        var perms = this.ctx.RolePermissions
+            .Where(rp => rp.RoleId == role)
+            .Select(r => (PermissionEnum)r.Permission.Id)
+            .ToListAsync();
+
+        return await perms;
+    }
+
+    public async Task<Group> Find(int id)
+    {
+        var group = await ctx.Groups.FindAsync(id);
+        return group;
+    }
+
+    public async Task<bool> HasPermission(User user, Group group,PermissionEnum permission)
+    {
+        var role = this.ctx.UserGroups.First(ug => ug.GroupId == group.Id && ug.UserId == user.Id).RoleId;
+
+        var perms = await this.ctx.RolePermissions
+            .Where(rp => rp.RoleId == role)
+            .Select(r => (PermissionEnum)r.Permission.Id)
+            .ToListAsync();
+
+        var hasPerm = perms.Contains(permission);
+
+        return hasPerm;
     }
 }

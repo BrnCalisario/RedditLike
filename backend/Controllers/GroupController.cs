@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Security.Jwt;
 
 namespace Reddit.Controllers;
 
@@ -8,7 +9,6 @@ using Model;
 using Repositories;
 using DTO;
 using Services;
-using Security.Jwt;
 
 [ApiController]
 [EnableCors("MainPolicy")]
@@ -22,12 +22,10 @@ public class GroupController : Controller
         int id
     )
     {
-        var groupList = await groupRepo.Filter(g => g.Id == id);
+        var group = await groupRepo.Find(id);
 
-        if (groupList.Count == 0)
-            return BadRequest("");
-
-        var group = groupList.First();
+        if(group is null)
+            return NotFound();
 
         group.Owner.Groups = null;
 

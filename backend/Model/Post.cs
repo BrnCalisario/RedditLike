@@ -19,7 +19,11 @@ public partial class Post
 
     public int LikeCount { get; set; }
 
+    public DateTime PostDate { get; set; }
+
     public virtual User Author { get; set; }
+
+    public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     public virtual Group Group { get; set; }
 

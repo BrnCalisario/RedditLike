@@ -99,7 +99,6 @@ public class UserController : ControllerBase
 
     }
 
-
     [HttpPost("validate")]
     public async Task<ActionResult<UserToken>> ValidateJwt(
         [FromServices] IJwtService jwtService,

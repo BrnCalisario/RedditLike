@@ -9,4 +9,5 @@ public interface IRepository<T>
     Task Delete(T obj);
     Task Update(T obj);
     Task Save();
+    Task<T> Find(int id);
 }

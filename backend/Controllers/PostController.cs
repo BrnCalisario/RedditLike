@@ -109,4 +109,78 @@ public class PostController : Controller
         return Ok();
     }
 
+
+    [HttpPost("comment")]
+    public async Task<ActionResult> Comment(
+        [FromBody] CommentDTO commentData,
+        [FromServices] IPostRepository postRepository,
+        [FromServices] IUserService userService
+    )
+    {
+        if(commentData.Content.Length < 1)
+            return BadRequest("Conteúdo necessário");
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = commentData.Jwt});
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        Comment c = new Comment()
+        {
+            AuthorId = user.Id,
+            PostId = commentData.PostID,
+            Content = commentData.Content,
+        };
+
+        await postRepository.AddComment(c);
+
+        return Ok();
+    }
+
+
+    [HttpDelete("removeComment")] 
+    public async Task<ActionResult> DeleteComment(
+        [FromBody] CommentDTO commentData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IPostRepository postRepository,
+        [FromServices] IRepository<Comment> commentRepository,
+        [FromServices] IUserService userService
+    )
+    {
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = commentData.Jwt });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if(user is null)
+            return BadRequest("Invalid user");
+
+
+        var comment = await commentRepository.Find(commentData.Id);
+
+        Group group = comment.Post.Group;
+        Console.WriteLine(group);
+        
+        bool canRemove = await groupRepository.HasPermission(user, group, PermissionEnum.Delete);
+
+        if(!canRemove)
+            return StatusCode(405);
+
+        await commentRepository.Delete(comment);
+
+
+        return Ok();
+    }
+
+
 }

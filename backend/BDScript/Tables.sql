@@ -49,9 +49,19 @@ CREATE TABLE [Post]
     Title VARCHAR(50) NOT NULL,
     Content VARCHAR(400) NOT NULL,
     IndexedImage INT REFERENCES ImageData(ID) NULL,
-	LikeCount INT NOT NULL DEFAULT(0)
+	LikeCount INT NOT NULL DEFAULT(0),
+	PostDate DATETIME NOT NULL DEFAULT(GETDATE())
 )
 GO
+
+CREATE TABLE [Comment]
+(
+	ID INT IDENTITY PRIMARY KEY,
+	AuthorID INT REFERENCES [User](ID) NOT NULL,
+	PostID INT REFERENCES [Post](ID) NOT NULL,
+	Content VARCHAR(150) NOT NULL,
+	PostDate DATETIME NOT NULL DEFAULT(GETDATE())
+)
 
 CREATE TABLE [Upvote]
 (
@@ -70,12 +80,28 @@ CREATE TABLE [Role]
 )
 GO
 
+INSERT INTO [Role] ([Name], [GroupID])
+VALUES
+	('Membro', NULL),
+	('Admin', NULL)
+GO
+
 CREATE TABLE [Permission]
 (
 	ID INT IDENTITY PRIMARY KEY,
 	[Name] VARCHAR(30) NOT NULL,
-	[Description] VARCHAR(150) NULL,
 )
+GO
+
+INSERT INTO [Permission] ([Name])
+VALUES 
+	('Post'), 
+	('Delete'), 
+	('EditPost'), 
+	('Promote'), 
+	('CreateRole'), 
+	('Ban'), 
+	('DropGroup')
 GO
 
 CREATE TABLE [RolePermission]
@@ -85,6 +111,19 @@ CREATE TABLE [RolePermission]
 	PermissionID INT REFERENCES [Permission](ID) NOT NULL
 )
 GO
+
+INSERT INTO [RolePermission] (RoleID, PermissionID)
+VALUES
+	(1, 1),
+	(2, 1),
+	(2, 2),
+	(2, 3),
+	(2, 4),
+	(2, 5),
+	(2, 6),
+	(2, 7)
+GO	
+
 
 CREATE TABLE [UserGroup]
 (
@@ -154,11 +193,19 @@ BEGIN
 
 	SELECT @GROUP_ID = ID, @OWNER_ID = OwnerID FROM inserted
 
-	INSERT INTO UserGroup (UserID, GroupID) VALUES (@OWNER_ID, @GROUP_ID)
+	INSERT INTO UserGroup (UserID, GroupID, RoleID) VALUES (@OWNER_ID, @GROUP_ID, 2)
 END
+GO
 
 SELECT * FROM [User]
 SELECT * FROM [ImageData]
 SELECT * FROM [Group]
 SELECT * FROM [UserGroup]
 
+SELECT * FROM [Post]
+SELECT * FROM [Upvote]
+SELECT * FROM [Comment]
+
+SELECT r.ID, r.Name, p.Name FROM [RolePermission] rp
+JOIN [Permission] p ON rp.PermissionID = p.ID
+JOIN [Role] r ON rp.RoleID = r.ID
