@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user/user.service';
 import { LoginDTO } from 'src/DTO/LoginDTO';
 import { Router } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';

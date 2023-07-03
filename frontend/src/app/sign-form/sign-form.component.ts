@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { RegisterDTO } from 'src/DTO/RegisterDTO';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user/user.service';
 import { Router } from '@angular/router';
 import { ImageService } from '../services/image/image.service';
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RegisterDTO } from 'src/DTO/RegisterDTO';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user/user.service';
 import { LoginDTO } from 'src/DTO/LoginDTO';
 import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
