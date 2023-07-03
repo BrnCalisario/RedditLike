@@ -17,6 +17,8 @@ public interface IGroupRepository : IRepository<Group>
     Task<int> GetUserQuantity(Group group);
     // Task<List<PermissionEnum>> GetPermissionEnum(User user, Group group);
     Task<bool> HasPermission(User user, Group group, PermissionEnum permission);
+    Task PromoteMember(Group group, User user, Role role);
+    Task DemoteMember(Group group, User user);
 }
 
 
@@ -111,7 +113,7 @@ public class GroupRepository : IGroupRepository
         return group;
     }
 
-    public async Task<bool> HasPermission(User user, Group group,PermissionEnum permission)
+    public async Task<bool> HasPermission(User user, Group group, PermissionEnum permission)
     {
         var role = this.ctx.UserGroups.First(ug => ug.GroupId == group.Id && ug.UserId == user.Id).RoleId;
 
@@ -123,5 +125,25 @@ public class GroupRepository : IGroupRepository
         var hasPerm = perms.Contains(permission);
 
         return hasPerm;
+    }
+
+    public async Task PromoteMember(Group group, User user, Role role)
+    {
+        var userGroup = await this.ctx.UserGroups.FirstAsync(ug => ug.UserId == user.Id && ug.GroupId == group.Id);
+
+        userGroup.RoleId = role.Id;
+
+        this.ctx.UserGroups.Update(userGroup);
+        await this.ctx.SaveChangesAsync();
+    }
+
+    public async Task DemoteMember(Group group, User user)
+    {
+        var userGroup = await this.ctx.UserGroups.FirstAsync(ug => ug.UserId == user.Id && ug.GroupId == group.Id);
+
+        userGroup.RoleId = 1;
+
+        this.ctx.UserGroups.Update(userGroup);
+        await this.ctx.SaveChangesAsync();
     }
 }

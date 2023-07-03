@@ -165,7 +165,6 @@ public class GroupController : Controller
         return Ok();
     }
 
-
     [HttpPost("enter")]
     public async Task<ActionResult> AddMember(
         [FromBody] MemberDTO memberData,
@@ -257,19 +256,54 @@ public class GroupController : Controller
 
         bool canBan = await groupRepository.HasPermission(user, group, PermissionEnum.Ban);
 
-        if(!canBan)
+        if (!canBan)
             return BadRequest("Don't have permission");
 
         var target = await userRepository.Find(memberData.UserId);
 
-        if(target is null)
+        if (target is null)
             return NotFound("User not found");
-        
+
         await groupRepository.RemoveMember(group, target);
 
-        return Ok();    
+        return Ok();
     }
 
+    [HttpPost]
+    public async Task<ActionResult> PromoteRole(
+        [FromBody] MemberRoleDTO memberData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserRepository userRepository,
+        [FromServices] IUserService userService,
+        [FromServices] IRepository<Role> roleRepository
+    )
+    {
+        Group group = await groupRepository.Find(memberData.GroupId);
+
+        if (group is null)
+            return BadRequest();
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+        if (user is null)
+            return NotFound();
+
+        var role = await roleRepository.Find(memberData.RoleId);
+
+        if(role is null)
+            return NotFound("Role not found");
+
+        await groupRepository.PromoteMember(group, user, role);
+
+        return Ok();
+    }
 
     [HttpPost("addImage")]
     public async Task<ActionResult> AddImage(
@@ -326,83 +360,4 @@ public class GroupController : Controller
         return Ok();
     }
 
-
-
 }
-
-// [HttpGet("{id}")]
-// public async Task<ActionResult<Group>> GetSingle(
-//     [FromServices] IGroupRepository groupRepo,
-//     [FromServices] IUserRepository userRepo,
-//     int id
-// )
-// {
-//     var group = await groupRepo.Find(id);
-
-//     if (group is null)
-//         return NotFound();
-
-//     group.Owner.Groups = null;
-
-//     // var owner = await userRepo.Find(group.OwnerId);
-//     // group.Owner = owner;
-
-//     return group;
-// }
-
-// [HttpPost("{groupName}")]
-// public async Task<ActionResult<GroupDTO>> GetGroup(
-//     [FromServices] IGroupRepository groupRepository,
-//     [FromServices] IUserService userService,
-//     [FromBody] Jwt jwt,
-//     string groupName
-// )
-// {
-//     User user;
-//     try
-//     {
-//         user = await userService.ValidateUserToken(jwt);
-//     }
-//     catch (Exception ex)
-//     {
-//         return BadRequest(ex.Message);
-//     }
-
-//     if (user is null)
-//         return NotFound("Usuário não encontrado");
-
-//     var query = await groupRepository.Filter(g => g.Name == groupName);
-//     var group = query.FirstOrDefault();
-
-//     if (group is null)
-//         return NotFound("Grupo não encontrado");
-
-//     var queryUserGroups = await groupRepository.GetUserGroups(user);
-
-//     bool isMember = queryUserGroups.Any(g => g.Id == group.Id);
-
-//     GroupDTO result = new GroupDTO()
-//     {
-//         Name = group.Name,
-//         OwnerID = group.OwnerId,
-//         Description = group.Description,
-//         isMember = isMember,
-//         UserQuantity = await groupRepository.GetUserQuantity(group),
-//         ImageId = group.Image,
-//         Posts = new List<PostDTO>()
-//     };
-
-//     return Ok(result);
-// }
-
-// [HttpGet]
-// public async Task<ActionResult<Group>> GetAll(
-//     [FromServices] IGroupRepository groupRepo
-// )
-// {
-//     var groups = await groupRepo.Filter(u => true);
-
-//     groups.ForEach(g => g.Owner.Groups = null);
-
-//     return Ok(groups);
-// }
