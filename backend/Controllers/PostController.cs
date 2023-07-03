@@ -117,13 +117,13 @@ public class PostController : Controller
         [FromServices] IUserService userService
     )
     {
-        if(commentData.Content.Length < 1)
+        if (commentData.Content.Length < 1)
             return BadRequest("Conteúdo necessário");
 
         User user;
         try
         {
-            user = await userService.ValidateUserToken(new Jwt { Value = commentData.Jwt});
+            user = await userService.ValidateUserToken(new Jwt { Value = commentData.Jwt });
         }
         catch (Exception ex)
         {
@@ -143,7 +143,7 @@ public class PostController : Controller
     }
 
 
-    [HttpDelete("removeComment")] 
+    [HttpDelete("removeComment")]
     public async Task<ActionResult> DeleteComment(
         [FromBody] CommentDTO commentData,
         [FromServices] IGroupRepository groupRepository,
@@ -162,7 +162,7 @@ public class PostController : Controller
             return BadRequest(ex.Message);
         }
 
-        if(user is null)
+        if (user is null)
             return BadRequest("Invalid user");
 
 
@@ -170,17 +170,87 @@ public class PostController : Controller
 
         Group group = comment.Post.Group;
         Console.WriteLine(group);
-        
+
         bool canRemove = await groupRepository.HasPermission(user, group, PermissionEnum.Delete);
 
-        if(!canRemove)
+        if (!canRemove && comment.AuthorId != user.Id)
             return StatusCode(405);
 
         await commentRepository.Delete(comment);
 
+        return Ok();
+    }
+
+    [HttpPut]
+    public async Task<ActionResult> UpdatePost(
+        [FromBody] CreatePostDTO postData,
+        [FromServices] IPostRepository postRepository,
+        [FromServices] IUserService userService
+    )
+    {
+        Post post = await postRepository.Find(postData.Id);
+
+        if (post is null)
+            return NotFound();
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = postData.Jwt });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if (user is null)
+            return BadRequest("Invalid user");
+
+        if (post.Title != postData.Title)
+            post.Title = postData.Title;
+
+        if (post.Content != postData.Content)
+            post.Content = postData.Content;
+
+        await postRepository.Update(post);
 
         return Ok();
     }
 
+    [HttpDelete]
+    public async Task<ActionResult> Delete(
+        [FromBody] CreatePostDTO postData,
+        [FromServices] IPostRepository postRepository,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserService userService
+    )
+    {
+        Post post = await postRepository.Find(postData.Id);
 
+        if (post is null)
+            return NotFound();
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = postData.Jwt });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if(post.Group is null)
+            post.Group = await groupRepository.Find(postData.GroupID);
+
+
+        bool canDelete = await groupRepository.HasPermission(user, post.Group, PermissionEnum.Delete);
+
+        if(!canDelete && post.AuthorId != user.Id)
+            return BadRequest();
+
+        await postRepository.Delete(post);
+
+        return Ok();
+    }
 }

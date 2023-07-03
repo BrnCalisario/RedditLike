@@ -32,7 +32,11 @@ public class CommentRepository : IRepository<Comment>
 
     public async Task<Comment> Find(int id)
     {
-        var comment = await ctx.Comments.Include(c => c.Post).FirstAsync(c => c.Id == id);
+        var comment = await 
+            ctx.Comments
+                .Include(c => c.Post)
+                .Include(c => c.AuthorId)
+                .FirstAsync(c => c.Id == id);
         return comment;
     }
 
