@@ -166,14 +166,14 @@ public class GroupController : Controller
     }
 
 
-    [HttpPost("add-member")]
+    [HttpPost("enter")]
     public async Task<ActionResult> AddMember(
-        [FromBody] GroupDTO groupData,
+        [FromBody] MemberDTO memberData,
         [FromServices] IGroupRepository groupRepository,
         [FromServices] IUserService userService
     )
     {
-        Group group = await groupRepository.Find(groupData.Id);
+        Group group = await groupRepository.Find(memberData.GroupId);
 
         if (group is null)
             return BadRequest();
@@ -181,7 +181,7 @@ public class GroupController : Controller
         User user;
         try
         {
-            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
+            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
         }
         catch (Exception e)
         {
@@ -196,14 +196,14 @@ public class GroupController : Controller
         return Ok();
     }
 
-    [HttpDelete("remove-member")]
-    public async Task<ActionResult> RemoveMember(
-        [FromBody] GroupDTO groupData,
+    [HttpDelete("exit-group")]
+    public async Task<ActionResult> ExitGroup(
+        [FromBody] MemberDTO memberData,
         [FromServices] IGroupRepository groupRepository,
         [FromServices] IUserService userService
     )
     {
-        Group group = await groupRepository.Find(groupData.Id);
+        Group group = await groupRepository.Find(memberData.GroupId);
 
         if (group is null)
             return BadRequest();
@@ -211,7 +211,7 @@ public class GroupController : Controller
         User user;
         try
         {
-            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
+            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
         }
         catch (Exception e)
         {
@@ -221,9 +221,53 @@ public class GroupController : Controller
         if (user is null)
             return NotFound();
 
+        if (group.OwnerId == user.Id)
+            return BadRequest("Owner can't quit");
+
         await groupRepository.RemoveMember(group, user);
 
         return Ok();
+    }
+
+    [HttpDelete("remove-member")]
+    public async Task<ActionResult> RemoveMember(
+        [FromBody] MemberDTO memberData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserService userService,
+        [FromServices] IUserRepository userRepository
+    )
+    {
+        Group group = await groupRepository.Find(memberData.GroupId);
+
+        if (group is null)
+            return BadRequest();
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+        if (user is null)
+            return NotFound();
+
+
+        bool canBan = await groupRepository.HasPermission(user, group, PermissionEnum.Ban);
+
+        if(!canBan)
+            return BadRequest("Don't have permission");
+
+        var target = await userRepository.Find(memberData.UserId);
+
+        if(target is null)
+            return NotFound("User not found");
+        
+        await groupRepository.RemoveMember(group, target);
+
+        return Ok();    
     }
 
 
