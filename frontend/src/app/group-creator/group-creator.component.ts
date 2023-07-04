@@ -29,7 +29,8 @@ export class GroupCreatorComponent implements OnInit {
         isMember: false,
         imageId: 0,
         userQuantity: 0,
-        jwt: ''
+        jwt: '',
+        id: 0
     };
 
     ngOnInit(): void {

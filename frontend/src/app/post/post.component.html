@@ -3,7 +3,7 @@
     <div class="post-content">
         <div class="group-box">
             <div>
-                <p>r/{{ post.group }}</p>
+                <p>r/{{ post.groupName }}</p>
                 <div class="title">
                     {{ post.title }}
                 </div>
@@ -12,7 +12,7 @@
 
         <div class="content-box">
             <div class="author">
-                {{ post.author }}
+                {{ post.authorName }}
                 <div class="date">
                     {{ post.postDate.toLocaleString() }}
                 </div>

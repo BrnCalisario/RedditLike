@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Jwt } from 'src/DTO/Jwt';
 import { CommentDTO, PostDTO, VoteDTO } from 'src/DTO/PostDTO/PostDTO';
+import { Group, GroupQuery } from 'src/models/Group';
 
 @Injectable({
     providedIn: 'root',
@@ -34,6 +36,18 @@ export class PostService {
 
 	removeComment(commentPost : CommentDTO) {
 		return this.http.post("http://localhost:5038/delete-comment", commentPost)
+	}
+	
+	getMainFeed(jwt : Jwt) {
+		return this.http.post<PostDTO[]>("http://localhost:5038/post/main-feed", jwt)
+	}
+
+	getGroupFeedById(jwt : string, groupId : number) {
+		return this.http.post<PostDTO[]>("http://localhost:5038/post/group-feed/id", { jwt: jwt, id: groupId})
+	}
+
+	getGroupFeedByName(jwt: string, groupName : string) {
+		return this.http.post<PostDTO[]>("http://localhost:5038/post/group-feed/group-name", { jwt: jwt, name: groupName})
 	}
 
 }

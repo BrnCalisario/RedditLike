@@ -1,11 +1,21 @@
 <div class="group">
-    <div>
-        <!-- <div class="title" style="color: var(--main-green)">
-            {{ group.name }}
+    <div class="header">
+        <div class="title-wrap">
+            <div>
+                <img src={{imgUrl()}}>
+            </div>
+            <div>
+                <div class="title" style="color: var(--main-green)">
+                    {{ group.name }}
+                </div>
+                <div class="subtitle" style="color: var(--light-green)">
+                    {{ group.description }}
+                </div>
+            </div>
         </div>
-        <div class="subtitle" style="color: var(--light-green)">
-            {{ group.description }}
-        </div> -->
+        <div class="card">
+            <app-user-card />
+        </div>
     </div>
     <br />
     <div class="separator">

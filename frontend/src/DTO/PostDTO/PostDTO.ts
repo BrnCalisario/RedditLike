@@ -6,6 +6,10 @@ interface PostDTO
     content: string,
     groupId: number,
     indexedImg: number,
+    authorName: string,
+    groupName: string,
+    likeCount: number,
+    postDate: Date,
 }
 
 interface VoteDTO

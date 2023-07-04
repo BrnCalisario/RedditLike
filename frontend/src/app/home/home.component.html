@@ -4,14 +4,10 @@
     <div class="separator">
         <div class="feed">
             <div class="title" style="color: var(--main-green)">Home</div>
-            <app-feed [postList]="user.posts" />
+            <app-feed />
         </div>
         <div class="group-list">
-            <app-user-card
-                class="user-card"
-                [userName]="user.username"
-                [profilePictureID]="user.profilePicture"
-            />
+            <app-user-card class="user-card" />
             <app-group-list [groupList]="user.groups" />
         </div>
     </div>
