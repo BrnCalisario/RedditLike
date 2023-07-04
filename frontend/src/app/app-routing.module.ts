@@ -38,7 +38,7 @@ const routes: Routes = [
         children: [
             { path: 'feed', component: FeedComponent },
             { path: 'post/:id', component: PostPageComponent },
-            { path: 'post-creator', component: CreatePostComponent}
+            { path: 'post-creator', component: CreatePostComponent },
         ],
     },
     {

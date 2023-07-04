@@ -1,5 +1,5 @@
 interface Group {
-    id: number,
+    id: number;
     name: string;
     description: string;
     ownerId: number;
@@ -9,10 +9,9 @@ interface Group {
     jwt: string;
 }
 
-
 interface GroupQuery {
     jwt: string;
     name: string;
 }
 
-export { Group, GroupQuery }
+export { Group, GroupQuery };

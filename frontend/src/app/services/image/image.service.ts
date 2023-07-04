@@ -17,31 +17,28 @@ export class ImageService {
     }
 
     updateUserAvatar(form: FormData) {
-        let jwt = sessionStorage.getItem('jwtSession') ?? '' 
-        
-        form.append('jwt', jwt)
-        return this.http.post(
-            'http://localhost:5038/img/add-avatar/',
-            form,
-            { observe: 'response' }
-        );
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
+
+        form.append('jwt', jwt);
+        return this.http.post('http://localhost:5038/img/add-avatar/', form, {
+            observe: 'response',
+        });
     }
 
     updateGroupImage(form: FormData, groupId: number) {
-        let jwt = sessionStorage.getItem('jwtSession') ?? ''
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
 
-        form.append('groupId', groupId.toString())
-        form.append('jwt', jwt)
-        
+        form.append('groupId', groupId.toString());
+        form.append('jwt', jwt);
+
         return this.http.post('http://localhost:5038/img/add-image', form);
     }
 
-    updatePostIndex(form: FormData, postId : number)
-    {
-        let jwt = sessionStorage.getItem('jwtSession') ?? ''
+    updatePostIndex(form: FormData, postId: number) {
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
 
-        form.append('postId', postId.toString())
-        form.append('jwt', jwt)
+        form.append('postId', postId.toString());
+        form.append('jwt', jwt);
 
         return this.http.post('http://localhost:5038/img/post-index', form);
     }

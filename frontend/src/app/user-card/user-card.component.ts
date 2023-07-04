@@ -8,28 +8,25 @@ import { User } from 'src/models/User';
     styleUrls: ['./user-card.component.css'],
 })
 export class UserCardComponent implements OnInit {
-
     constructor(private userService: UserService) {}
 
     userName: string = '';
-    profilePictureID?: number | null  = 0
+    profilePictureID?: number | null = 0;
 
     ngOnInit(): void {
-        let jwt = sessionStorage.getItem("jwtSession") ?? ""
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
 
-        this.userService.getUser({ Value: jwt} )
-            .subscribe({
-                next: (res: User) => {
-                    this.userName = res.username
-                    this.profilePictureID = res.profilePicture
-                }
-            })
+        this.userService.getUser({ Value: jwt }).subscribe({
+            next: (res: User) => {
+                this.userName = res.username;
+                this.profilePictureID = res.profilePicture;
+            },
+        });
     }
 
     profilePic = () => {
         if (this.profilePictureID == 0 || this.profilePictureID === null)
             return '../assets/image/avatar-placeholder.png';
-
         else return 'http://localhost:5038/img/' + this.profilePictureID;
     };
 

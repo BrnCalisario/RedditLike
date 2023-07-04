@@ -13,7 +13,6 @@ export class UploaderComponent implements OnInit {
     @Input() public title: string = '';
     @Input() public imgUrl: string = '';
 
-
     constructor() {}
 
     ngOnInit(): void {}

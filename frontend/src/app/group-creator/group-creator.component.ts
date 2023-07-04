@@ -30,7 +30,7 @@ export class GroupCreatorComponent implements OnInit {
         imageId: 0,
         userQuantity: 0,
         jwt: '',
-        id: 0
+        id: 0,
     };
 
     ngOnInit(): void {
@@ -47,33 +47,30 @@ export class GroupCreatorComponent implements OnInit {
     }
 
     createGroup(): void {
+        this.groupForm.jwt = sessionStorage.getItem('jwtSession') ?? '';
 
-        this.groupForm.jwt = sessionStorage.getItem("jwtSession") ?? ""
-  
-        this.groupService.postGroup(this.groupForm)
-            .subscribe({
-                next: (res: number) => {
-                    
-                    let groupId = res
-                    console.log(groupId)
+        this.groupService.postGroup(this.groupForm).subscribe({
+            next: (res: number) => {
+                let groupId = res;
+                console.log(groupId);
 
-                    if(this.imgData) 
-                    {
-                        this.imageService.updateGroupImage(this.imgData, groupId)
-                            .subscribe({
-                                error: (error : HttpErrorResponse) => {
-                                    console.log("erro na imagem")
-                                    console.log(error)
-                                }
-                            })
-                    }
-
-                    this.router.navigate(["/"])
-                },
-                error: (error: HttpErrorResponse) => {
-                    console.log("erro no grupo")
-                    console.log(error)
+                if (this.imgData) {
+                    this.imageService
+                        .updateGroupImage(this.imgData, groupId)
+                        .subscribe({
+                            error: (error: HttpErrorResponse) => {
+                                console.log('erro na imagem');
+                                console.log(error);
+                            },
+                        });
                 }
-            })
+
+                this.router.navigate(['/']);
+            },
+            error: (error: HttpErrorResponse) => {
+                console.log('erro no grupo');
+                console.log(error);
+            },
+        });
     }
 }

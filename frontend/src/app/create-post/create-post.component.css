@@ -4,16 +4,15 @@ textarea {
 }
 
 .post-form {
-    width: 60%;
-    
+    width: 70%;
+
     margin-bottom: 50px;
     overflow-y: auto;
     max-height: 100%;
     margin-right: 20px;
-    padding-right: 40px;
+    padding-inline: 20px;
     padding-bottom: 40px;
 }
-
 
 .form {
     display: flex;
@@ -33,4 +32,26 @@ textarea {
     border: 3px solid var(--main-green);
     border-radius: 15px;
     padding: 5px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--white-green);
+    border-radius: 50px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--logo-red);
+    border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--main-green);
 }

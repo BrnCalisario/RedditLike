@@ -13,7 +13,7 @@ export class AlternativeUploaderComponent {
     @Input() public title: string = '';
     @Input() public imgUrl: string = '';
 
-    shouldRender : boolean = false;
+    shouldRender: boolean = false;
 
     constructor() {}
 
@@ -27,19 +27,17 @@ export class AlternativeUploaderComponent {
         this.value = new FormData();
         this.value.append('file', fileToUpload, fileToUpload.name);
         this.imgUrl = URL.createObjectURL(fileToUpload);
-		
+
         this.onUploadFinished.emit(this.value);
 
         this.shouldRender = true;
     };
 
-    clearInput()
-    {
+    clearInput() {
         this.shouldRender = false;
         this.value = new FormData();
-        this.imgUrl = ''
+        this.imgUrl = '';
     }
-
 
     getImgSrc() {
         if (this.imgUrl !== '') return this.imgUrl;

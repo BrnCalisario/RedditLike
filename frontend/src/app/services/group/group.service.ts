@@ -11,9 +11,11 @@ export class GroupService {
     constructor(private http: HttpClient) {}
 
     getGroup(groupQuery: GroupQuery) {
-        return this.http.post<Group>('http://localhost:5038/group/by-name', groupQuery);
+        return this.http.post<Group>(
+            'http://localhost:5038/group/by-name',
+            groupQuery
+        );
     }
-
 
     postGroup(group: Group) {
         return this.http.post<number>('http://localhost:5038/group/', group);
@@ -24,23 +26,29 @@ export class GroupService {
     }
 
     deleteGroup(group: Group) {
-        return this.http.post('http://localhost:5038/group/remove', group)
+        return this.http.post('http://localhost:5038/group/remove', group);
     }
 
-    enterGroup(memberData : MemberDTO) {
+    enterGroup(memberData: MemberDTO) {
         return this.http.post('http://localhost:5038/group/enter', memberData);
     }
 
-    quitGroup(memberData : MemberDTO) {
+    quitGroup(memberData: MemberDTO) {
         return this.http.post('http://localhost:5038/group/exit', memberData);
     }
 
-    removeMember(memberData : MemberDTO) {
-        return this.http.post('http://localhost:5038/group/remove-member', memberData);
+    removeMember(memberData: MemberDTO) {
+        return this.http.post(
+            'http://localhost:5038/group/remove-member',
+            memberData
+        );
     }
 
-    promoteMember(memberRoleData : MemberRoleDTO) {
-        return this.http.post('http://localhost:5038/group/remove-member', memberRoleData);
+    promoteMember(memberRoleData: MemberRoleDTO) {
+        return this.http.post(
+            'http://localhost:5038/group/remove-member',
+            memberRoleData
+        );
     }
 
     listGroups(jwt: Jwt) {

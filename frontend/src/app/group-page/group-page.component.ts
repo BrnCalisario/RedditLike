@@ -5,7 +5,12 @@ import {
     OnDestroy,
     AfterContentInit,
 } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import {
+    ActivatedRoute,
+    NavigationEnd,
+    NavigationStart,
+    Router,
+} from '@angular/router';
 import { Group } from 'src/models/Group';
 import { GroupService } from '../services/group/group.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -25,19 +30,19 @@ export class GroupPageComponent implements AfterContentInit {
         private postService: PostService
     ) {
         router.events.subscribe((val) => {
-            if(val instanceof NavigationEnd) {
-                let subRoute = this.router.url.split('/')[3]
+            if (val instanceof NavigationEnd) {
+                let subRoute = this.router.url.split('/')[3];
 
-                this.onFeed = subRoute === "feed"
-                this.onCreator = subRoute === "post-creator"
+                this.onFeed = subRoute === 'feed';
+                this.onCreator = subRoute === 'post-creator';
             }
-        })
+        });
     }
 
     posts: PostDTO[] = [];
 
-    onFeed : boolean = true;
-    onCreator : boolean = true;
+    onFeed: boolean = true;
+    onCreator: boolean = true;
 
     group: Group = {
         id: 0,

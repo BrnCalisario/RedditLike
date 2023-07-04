@@ -13,14 +13,12 @@ export class GroupSearchComponent implements OnInit {
 
     groupList: Group[] = [];
 
+    getImgUrl = (id: number | null): string => {
+        if (id == 0 || id === undefined || id == null)
+            return '../../assets/image/avatar-placeholder.png';
 
-    getImgUrl = (id : number | null ) : string => {
-
-        if(id == 0 || id === undefined || id == null) 
-            return "../../assets/image/avatar-placeholder.png"
-
-        return "http://localhost:5038/img/" + id
-    } 
+        return 'http://localhost:5038/img/' + id;
+    };
 
     ngOnInit(): void {
         let jwt = sessionStorage.getItem('jwtSession') ?? '';

@@ -1,8 +1,19 @@
-<div class="uploader"> 
+<div class="uploader">
     <div class="img-wrap" *ngIf="shouldRender">
-        <img  src="{{ getImgSrc() }}" class="image-preview"/>
-        <button (click)="clearInput()" class="btn btn-outline-dark"><i class="fa-solid fa-xmark"></i></button>
+        <img src="{{ getImgSrc() }}" class="image-preview" />
+        <button (click)="clearInput()" class="btn btn-outline-dark">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
     </div>
-    <button (click)="file.click()" class="btn btn-outline-danger" >Anexar Imagem</button>
-    <input  #file id="file-input" style="display: none;" type="file" accept="image/png, image/jpeg, image/jpg" (change)="uploadFile(file.files)">
+    <button (click)="file.click()" class="btn btn-outline-danger">
+        Anexar Imagem
+    </button>
+    <input
+        #file
+        id="file-input"
+        style="display: none"
+        type="file"
+        accept="image/png, image/jpeg, image/jpg"
+        (change)="uploadFile(file.files)"
+    />
 </div>

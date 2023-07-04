@@ -1,11 +1,22 @@
 <div class="post-form">
-    <div class="title" style="color: var(--light-green);">Novo post</div>
+    <div class="title" style="color: var(--light-green)">Novo post</div>
     <hr />
     <div class="form">
-        <input class="form-control" type="text" id="post-title" placeholder="Título da postagem">
-        <textarea class="form-control" maxlength="150" placeholder="Seu texto legal e interessante..."></textarea>
-        <app-alternative-uploader />
+        <input
+            class="form-control"
+            type="text"
+            id="post-title"
+            placeholder="Título da postagem"
+            [(ngModel)]="postForm.title"
+        />
+        <textarea
+            class="form-control"
+            maxlength="150"
+            placeholder="Seu texto legal e interessante..."
+            [(ngModel)]="postForm.content"
+        ></textarea>
+        <app-alternative-uploader (onUploadFinished)="onUpload($event)" />
 
-        <button class="btn post btn-danger">Postar</button>
+        <button class="btn post btn-danger" (click)="createPost()">Postar</button>
     </div>
 </div>

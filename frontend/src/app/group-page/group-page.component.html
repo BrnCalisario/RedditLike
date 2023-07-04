@@ -2,7 +2,7 @@
     <div class="header">
         <div class="title-wrap">
             <div>
-                <img src={{imgUrl()}}>
+                <img src="{{ imgUrl() }}" />
             </div>
             <div>
                 <div class="title" style="color: var(--main-green)">
@@ -36,7 +36,8 @@
         <div *ngIf="onCreator">
             <button class="btn btn-outline-dark" routerLink="feed">
                 <i class="fa-solid fa-arrow-left"></i>
-                Voltar para o feed</button>
+                Voltar para o feed
+            </button>
         </div>
     </div>
 </div>

@@ -18,6 +18,6 @@ export class PostComponent {
         authorName: '',
         groupName: '',
         likeCount: 0,
-        postDate: new Date()
-    }
+        postDate: new Date(),
+    };
 }

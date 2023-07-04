@@ -8,48 +8,57 @@ import { Group, GroupQuery } from 'src/models/Group';
     providedIn: 'root',
 })
 export class PostService {
-	constructor(private http: HttpClient) {}
-	
+    constructor(private http: HttpClient) {}
+
     createPost(postData: PostDTO) {
-		return this.http.post("http://localhost:5038/post", postData)
-	}
-	
-	updatePost(postData: PostDTO) {
-		return this.http.put("http://localhost:5038/post", postData)
-	}
+        return this.http.post('http://localhost:5038/post', postData);
+    }
 
-	deletePost(postData : PostDTO) {
-		return this.http.post("http://localhost:5038/post/remove", postData)
-	}
+    updatePost(postData: PostDTO) {
+        return this.http.put('http://localhost:5038/post', postData);
+    }
 
-	votePost(voteData : VoteDTO) {
-		return this.http.post("http://localhost:5038/post/vote", voteData)
-	}
+    deletePost(postData: PostDTO) {
+        return this.http.post('http://localhost:5038/post/remove', postData);
+    }
 
-	unvotePost(voteData : VoteDTO) {
-		return this.http.post("http://localhost:5038/post", voteData)
-	}
+    votePost(voteData: VoteDTO) {
+        return this.http.post('http://localhost:5038/post/vote', voteData);
+    }
 
-	commentPost(commentPost: CommentDTO) {
-		return this.http.post("http://localhost:5038/comment", commentPost)
-	}
+    unvotePost(voteData: VoteDTO) {
+        return this.http.post('http://localhost:5038/post', voteData);
+    }
 
-	removeComment(commentPost : CommentDTO) {
-		return this.http.post("http://localhost:5038/delete-comment", commentPost)
-	}
-	
-	getMainFeed(jwt : Jwt) {
-		return this.http.post<PostDTO[]>("http://localhost:5038/post/main-feed", jwt)
-	}
+    commentPost(commentPost: CommentDTO) {
+        return this.http.post('http://localhost:5038/comment', commentPost);
+    }
 
-	getGroupFeedById(jwt : string, groupId : number) {
-		return this.http.post<PostDTO[]>("http://localhost:5038/post/group-feed/id", { jwt: jwt, id: groupId})
-	}
+    removeComment(commentPost: CommentDTO) {
+        return this.http.post(
+            'http://localhost:5038/delete-comment',
+            commentPost
+        );
+    }
 
-	getGroupFeedByName(jwt: string, groupName : string) {
-		return this.http.post<PostDTO[]>("http://localhost:5038/post/group-feed/group-name", { jwt: jwt, name: groupName})
-	}
+    getMainFeed(jwt: Jwt) {
+        return this.http.post<PostDTO[]>(
+            'http://localhost:5038/post/main-feed',
+            jwt
+        );
+    }
 
+    getGroupFeedById(jwt: string, groupId: number) {
+        return this.http.post<PostDTO[]>(
+            'http://localhost:5038/post/group-feed/id',
+            { jwt: jwt, id: groupId }
+        );
+    }
+
+    getGroupFeedByName(jwt: string, groupName: string) {
+        return this.http.post<PostDTO[]>(
+            'http://localhost:5038/post/group-feed/group-name',
+            { jwt: jwt, name: groupName }
+        );
+    }
 }
-
-

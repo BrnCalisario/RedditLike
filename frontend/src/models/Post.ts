@@ -5,6 +5,5 @@ export interface Post {
     postDate: Date;
     author: string;
     group: string;
-    likeCount: number,
-    
+    likeCount: number;
 }
