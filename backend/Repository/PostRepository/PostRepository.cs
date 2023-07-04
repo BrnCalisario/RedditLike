@@ -12,6 +12,7 @@ public interface IPostRepository : IRepository<Post>
     Task UndoVote(int voteId);
     Task AddComment(Comment comment);
     Task RemoveComment(Comment comment);
+    Task<int> GetLikeCount(Post post);
 }
 
 
@@ -87,5 +88,13 @@ public class PostRepository : IPostRepository
     {
         var post = await this.ctx.Posts.FindAsync(id);
         return post;
+    }
+
+    public async Task<int> GetLikeCount(Post post)
+    {
+        var likes = await this.ctx.Upvotes
+            .CountAsync(v => v.PostId == post.Id);
+
+        return likes;
     }
 }

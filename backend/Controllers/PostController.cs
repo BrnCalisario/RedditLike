@@ -56,7 +56,6 @@ public class PostController : Controller
         return Ok();
     }
 
-
     [HttpPost("vote")]
     public async Task<ActionResult> LikePost(
         [FromBody] VoteDTO voteData,
@@ -239,17 +238,119 @@ public class PostController : Controller
             return BadRequest(ex.Message);
         }
 
-        if(post.Group is null)
+        if (post.Group is null)
             post.Group = await groupRepository.Find(postData.GroupID);
 
 
         bool canDelete = await groupRepository.HasPermission(user, post.Group, PermissionEnum.Delete);
 
-        if(!canDelete && post.AuthorId != user.Id)
+        if (!canDelete && post.AuthorId != user.Id)
             return BadRequest();
 
         await postRepository.Delete(post);
 
         return Ok();
+    }
+
+
+    [HttpPost("main-feed")]
+    public async Task<ActionResult<List<FeedPostDTO>>> GetMainFeed(
+        [FromBody] Jwt jwt,
+        [FromServices] IUserService userService,
+        [FromServices] IPostRepository postRepository,
+        [FromServices] IGroupRepository groupRepository
+    )
+    {
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(jwt);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if (user is null)
+            return NotFound();
+
+        List<FeedPostDTO> feedPosts = new List<FeedPostDTO>();
+
+        var userGroups = await groupRepository.GetUserGroups(user);
+
+        if (userGroups.Count() == 0)
+            return Ok(feedPosts);
+
+        foreach (var group in userGroups)
+        {
+            var posts = await postRepository.Filter(p => p.GroupId == group.Id);
+
+            foreach (var post in posts)
+            {
+                FeedPostDTO fp = new FeedPostDTO
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Content = post.Content,
+                    PostDate = post.PostDate,
+                    AuthorName = post.Author.Username,
+                    GroupName = group.Name,
+                    LikeCount = await postRepository.GetLikeCount(post),
+                };
+
+                feedPosts.Add(fp);
+            }
+        }
+
+        return Ok(feedPosts);
+    }
+
+    [HttpPost("group-feed")]
+    public async Task<ActionResult<List<FeedPostDTO>>> GetGroupFeed(
+        [FromBody] CreateGroupDTO groupData,
+        [FromServices] IUserService userService,
+        [FromServices] IPostRepository postRepository,
+        [FromServices] IGroupRepository groupRepository
+    )
+    {
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if (user is null)
+            return NotFound("User not found");
+
+        List<FeedPostDTO> feedPosts = new List<FeedPostDTO>();
+
+        Group group = await groupRepository.Find(groupData.Id);
+
+        if(group is null)
+            return NotFound("Group not found");
+
+        var groupPosts = await postRepository.Filter(p => p.GroupId == group.Id);
+
+        foreach (var post in groupPosts)
+        {
+            FeedPostDTO fp = new FeedPostDTO
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                PostDate = post.PostDate,
+                AuthorName = post.Author.Username,
+                GroupName = group.Name,
+                LikeCount = await postRepository.GetLikeCount(post),
+            };
+
+            feedPosts.Add(fp);
+        }
+
+        return Ok(feedPosts);
     }
 }
