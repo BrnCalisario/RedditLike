@@ -1,22 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-    selector: 'app-uploader',
-    templateUrl: './uploader.component.html',
-    styleUrls: ['./uploader.component.css'],
+    selector: 'app-alternative-uploader',
+    templateUrl: './alternative-uploader.component.html',
+    styleUrls: ['./alternative-uploader.component.css'],
 })
-export class UploaderComponent implements OnInit {
+export class AlternativeUploaderComponent {
     @Output() public onUploadFinished = new EventEmitter<any>();
 
     @Input() public value: FormData | undefined = new FormData();
     @Input() public title: string = '';
     @Input() public imgUrl: string = '';
 
+    shouldRender : boolean = false;
 
     constructor() {}
-
-    ngOnInit(): void {}
 
     uploadFile = (files: any) => {
         if (files.length == 0) {
@@ -28,13 +27,23 @@ export class UploaderComponent implements OnInit {
         this.value = new FormData();
         this.value.append('file', fileToUpload, fileToUpload.name);
         this.imgUrl = URL.createObjectURL(fileToUpload);
-
+		
         this.onUploadFinished.emit(this.value);
+
+        this.shouldRender = true;
     };
+
+    clearInput()
+    {
+        this.shouldRender = false;
+        this.value = new FormData();
+        this.imgUrl = ''
+    }
+
 
     getImgSrc() {
         if (this.imgUrl !== '') return this.imgUrl;
 
-        return '../assets/image/avatar-placeholder.png';
+        return '../assets/image/placeholder.png';
     }
 }

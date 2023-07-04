@@ -1,1 +1,17 @@
-<p>create-post works!</p>
+<div class="post-form">
+    <h1 class="title" style="color: var(--light-green);">Novo post</h1>
+    <div class="form">
+        <input class="form-control" type="text" id="post-title" placeholder="Título da postagem">
+        <textarea class="form-control" maxlength="150" placeholder="Seu texto legal e interessante..."></textarea>
+        
+
+        <app-alternative-uploader />
+<!--        
+        <div class="uploader">
+            <label>Imagem Anexada</label>
+            <app-uploader />
+        </div> -->
+
+        <button class="btn btn-danger">Postar</button>
+    </div>
+</div>

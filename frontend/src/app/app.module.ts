@@ -29,6 +29,7 @@ import { UserConfigComponent } from './user-config/user-config.component';
 import { GroupSearchComponent } from './group-search/group-search.component';
 import { UserCardComponent } from './user-card/user-card.component';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { AlternativeUploaderComponent } from './alternative-uploader/alternative-uploader.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +54,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
         GroupSearchComponent,
         UserCardComponent,
         CreatePostComponent,
+        AlternativeUploaderComponent,
     ],
     imports: [
         BrowserModule,
