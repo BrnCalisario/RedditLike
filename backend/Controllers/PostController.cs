@@ -14,9 +14,60 @@ using Services;
 [Route("post")]
 public class PostController : Controller
 {
+    [HttpPost("single")]
+    public async Task<ActionResult<FeedPostDTO>> GetSingle(
+        [FromBody] CreatePostDTO postData,
+        [FromServices] IUserService userService,
+        [FromServices] IPostRepository postRepository,
+        [FromServices] IGroupRepository groupRepository
+    )
+    {
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = postData.Jwt });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if (user is null)
+            return NotFound("User not found");
+
+        Group group = await groupRepository.Find(postData.GroupID);
+
+        if (group is null)
+            return NotFound("Group not found");
+
+        bool canView = await groupRepository.IsMember(user, group);
+
+        if (!canView)
+            return Forbid("User isn't a member");
+
+        Post post = await postRepository.Find(postData.Id);
+
+        if (post is null)
+            return NotFound("Post not found");
+
+        FeedPostDTO fp = new FeedPostDTO
+        {
+            Id = post.Id,
+            Title = post.Title,
+            Content = post.Content,
+            PostDate = post.PostDate,
+            AuthorName = post.Author.Username,
+            GroupName = group.Name,
+            GroupId = group.Id,
+            LikeCount = post.LikeCount
+        };
+
+        return Ok(fp);
+    }
+
 
     [HttpPost]
-    public async Task<ActionResult> Post(
+    public async Task<ActionResult<int>> Post(
         [FromBody] CreatePostDTO postData,
         [FromServices] IPostRepository postRepository,
         [FromServices] IGroupRepository groupRepository,
@@ -53,7 +104,7 @@ public class PostController : Controller
 
         await postRepository.Add(post);
 
-        return Ok();
+        return Ok(post.Id);
     }
 
     [HttpPost("vote")]
@@ -287,7 +338,7 @@ public class PostController : Controller
 
             foreach (var post in posts)
             {
-                FeedPostDTO fp = new FeedPostDTO
+                FeedPostDTO fp = new FeedPostDTO()
                 {
                     Id = post.Id,
                     Title = post.Title,
@@ -295,7 +346,7 @@ public class PostController : Controller
                     PostDate = post.PostDate,
                     AuthorName = post.Author.Username,
                     GroupName = group.Name,
-                    LikeCount = await postRepository.GetLikeCount(post),
+                    LikeCount = post.LikeCount
                 };
 
                 feedPosts.Add(fp);
@@ -305,7 +356,7 @@ public class PostController : Controller
         return Ok(feedPosts);
     }
 
-    [HttpPost("group-feed")]
+    [HttpPost("group-feed/id")]
     public async Task<ActionResult<List<FeedPostDTO>>> GetGroupFeed(
         [FromBody] CreateGroupDTO groupData,
         [FromServices] IUserService userService,
@@ -330,7 +381,7 @@ public class PostController : Controller
 
         Group group = await groupRepository.Find(groupData.Id);
 
-        if(group is null)
+        if (group is null)
             return NotFound("Group not found");
 
         var groupPosts = await postRepository.Filter(p => p.GroupId == group.Id);
@@ -344,8 +395,61 @@ public class PostController : Controller
                 Content = post.Content,
                 PostDate = post.PostDate,
                 AuthorName = post.Author.Username,
+                GroupId = group.Id,
                 GroupName = group.Name,
                 LikeCount = await postRepository.GetLikeCount(post),
+            };
+
+            feedPosts.Add(fp);
+        }
+
+        return Ok(feedPosts);
+    }
+
+    [HttpPost("group-feed/group-name")]
+    public async Task<ActionResult<List<FeedPostDTO>>> GetGroupFeedByName(
+        [FromBody] CreateGroupDTO groupData,
+        [FromServices] IUserService userService,
+        [FromServices] IPostRepository postRepository,
+        [FromServices] IGroupRepository groupRepository
+    )
+    {
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        if (user is null)
+            return NotFound("User not found");
+
+        List<FeedPostDTO> feedPosts = new List<FeedPostDTO>();
+
+        var query = await groupRepository.Filter(g => g.Name == groupData.Name);
+
+        Group group = query.FirstOrDefault();
+
+        if (group is null)
+            return NotFound("Group not found");
+
+        var groupPosts = await postRepository.Filter(p => p.GroupId == group.Id);
+
+        foreach (var post in groupPosts)
+        {
+            FeedPostDTO fp = new FeedPostDTO
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                PostDate = post.PostDate,
+                AuthorName = post.Author.Username,
+                GroupId = group.Id,
+                GroupName = group.Name,
+                LikeCount = post.LikeCount
             };
 
             feedPosts.Add(fp);

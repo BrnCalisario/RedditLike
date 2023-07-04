@@ -44,7 +44,7 @@ public class PostRepository : IPostRepository
 
     public async Task<List<Post>> Filter(Expression<Func<Post, bool>> exp)
     {
-        var query = ctx.Posts.Where(exp);
+        var query = ctx.Posts.Include(p => p.Author).Where(exp);
         return await query.ToListAsync();
     }
 
@@ -86,7 +86,7 @@ public class PostRepository : IPostRepository
 
     public async Task<Post> Find(int id)
     {
-        var post = await this.ctx.Posts.FindAsync(id);
+        var post = await this.ctx.Posts.Include(p => p.Author).Where(p => p.Id == id).FirstAsync();
         return post;
     }
 

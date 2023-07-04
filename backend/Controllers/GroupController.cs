@@ -43,6 +43,7 @@ public class GroupController : ControllerBase
             return NotFound("Group not found");
 
         GroupDTO result = new GroupDTO {
+            Id = group.Id,
             Name = group.Name,
             Description = group.Description,
             OwnerID = group.OwnerId,

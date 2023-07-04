@@ -186,18 +186,18 @@ public class ImageController : Controller
             group = query.FirstOrDefault();
 
             if (group is null)
-                return NotFound();
+                return NotFound("Grupo não encontrado");
 
 
             user = await userService.ValidateUserToken(new Jwt { Value = jwt });
+
+            if (user is null)
+                return NotFound("Usuário não encontrado");
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
-
-        if (user is null)
-            return NotFound();
 
         var files = Request.Form.Files;
 
@@ -207,7 +207,7 @@ public class ImageController : Controller
         var file = Request.Form.Files[0];
 
         if (file.Length < 1)
-            return BadRequest();
+            return BadRequest("Sem arquivo");
 
         int imageId = await imageService.SaveImg(file);
 
