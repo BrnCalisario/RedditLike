@@ -29,6 +29,7 @@ export class GroupCreatorComponent implements OnInit {
         isMember: false,
         imageId: 0,
         userQuantity: 0,
+        jwt: ''
     };
 
     ngOnInit(): void {
@@ -45,13 +46,9 @@ export class GroupCreatorComponent implements OnInit {
     }
 
     createGroup(): void {
-        // this.groupService.postGroup(this.groupForm)
-        //     .subscribe((res) => {
-                
-        //         this.groupService.updateGroupImage()
-        //         // this.router.navigate(['/home']);
-        //     });
 
+        this.groupForm.jwt = sessionStorage.getItem("jwtSession") ?? ""
+  
         this.groupService.postGroup(this.groupForm)
             .subscribe({
                 next: (res: number) => {

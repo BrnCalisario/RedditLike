@@ -7,5 +7,15 @@ import { Post } from 'src/models/Post';
     styleUrls: ['./feed.component.css'],
 })
 export class FeedComponent {
-    @Input() postList?: Post[];
+    @Input() postList?: Post[] = [
+        {
+            id: 1,
+            title: 'Titulo',
+            content: 'Conteúdo',
+            postDate: new Date(),
+            author: 'BrnCalisario',
+            group: 'Grupo dos gatos',
+            likeCount: 2,
+        },
+    ];
 }

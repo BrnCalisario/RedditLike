@@ -13,7 +13,7 @@ using Services;
 [ApiController]
 [EnableCors("MainPolicy")]
 [Route("group")]
-public class GroupController : Controller
+public class GroupController : ControllerBase
 {
     [HttpPost("by-name")]
     public async Task<ActionResult<GroupDTO>> GetGroup(
@@ -117,6 +117,9 @@ public class GroupController : Controller
 
         if (duplicates.Count() > 0)
             return BadRequest("Group already exists");
+
+        if(groupData.Name.Split(" ").Length > 1) 
+            return BadRequest("Group name must not contain spaces");
 
         Group group = new Group()
         {

@@ -2,13 +2,18 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Jwt } from 'src/DTO/Jwt';
 import { MemberDTO, MemberRoleDTO } from 'src/DTO/MemberDTO/MemberDTO';
-import { Group } from 'src/models/Group';
+import { Group, GroupQuery } from 'src/models/Group';
 
 @Injectable({
     providedIn: 'root',
 })
 export class GroupService {
     constructor(private http: HttpClient) {}
+
+    getGroup(groupQuery: GroupQuery) {
+        return this.http.post<Group>('http://localhost:5038/group/by-name', groupQuery);
+    }
+
 
     postGroup(group: Group) {
         return this.http.post<number>('http://localhost:5038/group/', group);
