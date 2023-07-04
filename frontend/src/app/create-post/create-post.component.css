@@ -5,7 +5,13 @@ textarea {
 
 .post-form {
     width: 60%;
+    
     margin-bottom: 50px;
+    overflow-y: auto;
+    max-height: 100%;
+    margin-right: 20px;
+    padding-right: 40px;
+    padding-bottom: 40px;
 }
 
 
@@ -13,7 +19,14 @@ textarea {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
 
+.title {
+    margin-bottom: 1em;
+}
+
+.post {
+    margin-top: 3em;
 }
 
 .uploader {

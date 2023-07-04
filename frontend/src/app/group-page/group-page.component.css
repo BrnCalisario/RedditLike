@@ -1,6 +1,7 @@
 .group {
     border-left: 5px solid var(--main-green);
     padding-inline: 1em;
+    min-height: 760px;
 }
 
 .separator {
@@ -13,12 +14,12 @@
 
 .content {
     width: 70%;
+    height: 590px;
 }
 
 .post-tab {
     width: 25%;
 }
-
 
 .title-wrap {
     display: flex;

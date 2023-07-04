@@ -28,10 +28,15 @@
     </div>
     <div>
         <div *ngIf="onFeed">
-            <button  class="btn btn-danger" routerLink="post-creator">Criar postagem</button>
+            <button class="btn btn-outline-danger" routerLink="post-creator">
+                Criar postagem
+                <i class="fa-solid fa-plus"></i>
+            </button>
         </div>
         <div *ngIf="onCreator">
-            <button class="btn btn-success" routerLink="feed">Voltar para o feed</button>
+            <button class="btn btn-outline-dark" routerLink="feed">
+                <i class="fa-solid fa-arrow-left"></i>
+                Voltar para o feed</button>
         </div>
     </div>
 </div>
