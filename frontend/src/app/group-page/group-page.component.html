@@ -26,4 +26,12 @@
             <app-post-tab />
         </div>
     </div>
+    <div>
+        <div *ngIf="onFeed">
+            <button  class="btn btn-danger" routerLink="post-creator">Criar postagem</button>
+        </div>
+        <div *ngIf="onCreator">
+            <button class="btn btn-success" routerLink="feed">Voltar para o feed</button>
+        </div>
+    </div>
 </div>

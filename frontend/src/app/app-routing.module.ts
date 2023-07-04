@@ -13,6 +13,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { GroupCreatorComponent } from './group-creator/group-creator.component';
 import { UserConfigComponent } from './user-config/user-config.component';
 import { GroupSearchComponent } from './group-search/group-search.component';
+import { CreatePostComponent } from './create-post/create-post.component';
 
 const routes: Routes = [
     {
@@ -36,7 +37,8 @@ const routes: Routes = [
         component: GroupPageComponent,
         children: [
             { path: 'feed', component: FeedComponent },
-            { path: 'post', component: PostPageComponent },
+            { path: 'post/:id', component: PostPageComponent },
+            { path: 'post-creator', component: CreatePostComponent}
         ],
     },
     {

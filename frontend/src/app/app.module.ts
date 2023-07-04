@@ -28,6 +28,7 @@ import { GroupCreatorComponent } from './group-creator/group-creator.component';
 import { UserConfigComponent } from './user-config/user-config.component';
 import { GroupSearchComponent } from './group-search/group-search.component';
 import { UserCardComponent } from './user-card/user-card.component';
+import { CreatePostComponent } from './create-post/create-post.component';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { UserCardComponent } from './user-card/user-card.component';
         UserConfigComponent,
         GroupSearchComponent,
         UserCardComponent,
+        CreatePostComponent,
     ],
     imports: [
         BrowserModule,
