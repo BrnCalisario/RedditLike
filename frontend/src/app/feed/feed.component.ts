@@ -12,6 +12,8 @@ import { PostDTO } from 'src/DTO/PostDTO/PostDTO';
 export class FeedComponent implements OnInit {
     constructor(private router: Router, private postService: PostService) {}
 
+    isGroup : boolean = false;
+
     ngOnInit(): void {
         let url = this.router.url;
 
@@ -19,6 +21,8 @@ export class FeedComponent implements OnInit {
         let jwt = sessionStorage.getItem('jwtSession') ?? '';
 
         if (splited[1] === 'group') {
+            this.isGroup = true;
+            
             let groupName = splited[2];
 
             this.postService.getGroupFeedByName(jwt, groupName).subscribe({

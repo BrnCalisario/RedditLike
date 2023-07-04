@@ -2,6 +2,18 @@
     width: inherit;
 }
 
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    justify-self: center;
+    margin: 0 auto;
+    max-width: 700px;
+    max-height: 400px;
+}
+
 .likes {
     width: 3%;
 

@@ -1,9 +1,9 @@
-<div *ngIf="post != undefined" class="post">
+<div *ngIf="post != undefined" class="post" routerLink="postLink">
     <app-vote-button class="likes" />
     <div class="post-content">
         <div class="group-box">
             <div>
-                <p>r/{{ post.groupName }}</p>
+                <p *ngIf="displayGroup" >r/{{ post.groupName }}</p>
                 <div class="title">
                     {{ post.title }}
                 </div>
