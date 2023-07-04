@@ -33,7 +33,7 @@ export class ImageService {
         form.append('groupId', groupId.toString())
         form.append('jwt', jwt)
         
-        return this.http.post('http://localhost:5038/image/add-image/', form);
+        return this.http.post('http://localhost:5038/img/add-image', form);
     }
 
     updatePostIndex(form: FormData, postId : number)
@@ -43,6 +43,6 @@ export class ImageService {
         form.append('postId', postId.toString())
         form.append('jwt', jwt)
 
-        return this.http.post('http://localhost:5038/image/post-index', form);
+        return this.http.post('http://localhost:5038/img/post-index', form);
     }
 }

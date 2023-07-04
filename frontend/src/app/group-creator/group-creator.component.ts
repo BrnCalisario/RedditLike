@@ -61,6 +61,7 @@ export class GroupCreatorComponent implements OnInit {
                         this.imageService.updateGroupImage(this.imgData, groupId)
                             .subscribe({
                                 error: (error : HttpErrorResponse) => {
+                                    console.log("erro na imagem")
                                     console.log(error)
                                 }
                             })
@@ -69,6 +70,7 @@ export class GroupCreatorComponent implements OnInit {
                     this.router.navigate(["/"])
                 },
                 error: (error: HttpErrorResponse) => {
+                    console.log("erro no grupo")
                     console.log(error)
                 }
             })
