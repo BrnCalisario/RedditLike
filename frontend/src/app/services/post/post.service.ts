@@ -11,7 +11,7 @@ export class PostService {
     constructor(private http: HttpClient) {}
 
     createPost(postData: PostDTO) {
-        return this.http.post('http://localhost:5038/post', postData);
+        return this.http.post<number>('http://localhost:5038/post', postData);
     }
 
     updatePost(postData: PostDTO) {

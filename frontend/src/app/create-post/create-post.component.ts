@@ -4,6 +4,7 @@ import { PostService } from '../services/post/post.service';
 import { Group } from 'src/models/Group';
 import { GroupService } from '../services/group/group.service';
 import { Router } from '@angular/router';
+import { ImageService } from '../services/image/image.service';
 
 @Component({
     selector: 'app-create-post',
@@ -12,7 +13,11 @@ import { Router } from '@angular/router';
 })
 export class CreatePostComponent {
 
-    constructor(private router : Router,private postService: PostService, private groupService : GroupService)
+    constructor(
+        private router : Router,
+        private postService: PostService, 
+        private groupService : GroupService,
+        private imageService: ImageService)
     {
         let groupName = this.router.url.split("/")[2]
         let jwt = sessionStorage.getItem("jwtSession") ?? ""
@@ -36,7 +41,7 @@ export class CreatePostComponent {
         postDate: new Date()
     }
 
-    imgForm : FormData = new FormData;
+    imgForm? : FormData;
 
     onUpload(event: FormData) {
         this.imgForm = event;
@@ -49,7 +54,16 @@ export class CreatePostComponent {
         this.postService.createPost(this.postForm)
             .subscribe({
                 next: (res) => {
-                    console.log(res)
+                    let postId = res;
+
+                    if(this.imgForm)
+                    {
+                        this.imageService.updatePostIndex(this.imgForm, postId)
+                            .subscribe(res => {
+                                console.log("postou imagem")
+                            })
+                    }
+
                     let groupUrl = "group/" + this.group?.name + "/feed"
                     this.router.navigate([groupUrl])
                 },
