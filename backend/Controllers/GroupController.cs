@@ -15,12 +15,52 @@ using Services;
 [Route("group")]
 public class GroupController : Controller
 {
+    [HttpPost("by-name")]
+    public async Task<ActionResult<GroupDTO>> GetGroup(
+        [FromBody] CreateGroupDTO groupData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserService userService
+    )
+    {
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
+        if (user is null)
+            return NotFound("User not found");
+
+        var query = await groupRepository.Filter(g => g.Name == groupData.Name);
+
+        Group group = query.FirstOrDefault();
+
+        if(group is null)   
+            return NotFound("Group not found");
+
+        GroupDTO result = new GroupDTO {
+            Name = group.Name,
+            Description = group.Description,
+            OwnerID = group.OwnerId,
+            ImageId = group.Image,
+            UserQuantity = await groupRepository.GetUserQuantity(group), 
+            isMember = await groupRepository.IsMember(user, group) 
+        };
+
+        return Ok(result);
+    }
+
+
     [HttpPost("list")]
     public async Task<ActionResult<List<Group>>> ListGroups(
     [FromServices] IGroupRepository groupRepository,
     [FromServices] IUserService userService,
     [FromBody] Jwt jwt
-)
+    )
     {
         User user;
         try
@@ -36,10 +76,7 @@ public class GroupController : Controller
             return NotFound();
 
         var allGroups = await groupRepository.Filter(g => true);
-        var userGroups = await groupRepository.GetUserGroups(user);
 
-
-        // Precisando deixar o Get User Quantity Assincrono
         var result = new List<GroupDTO>();
         foreach (var g in allGroups)
         {
@@ -48,7 +85,7 @@ public class GroupController : Controller
                 Name = g.Name,
                 Description = g.Description,
                 ImageId = g.Image,
-                isMember = userGroups.Any(ug => g.Id == ug.Id),
+                isMember = await groupRepository.IsMember(user, g),
                 UserQuantity = await groupRepository.GetUserQuantity(g),
             });
         }
@@ -297,7 +334,7 @@ public class GroupController : Controller
 
         var role = await roleRepository.Find(memberData.RoleId);
 
-        if(role is null)
+        if (role is null)
             return NotFound("Role not found");
 
         await groupRepository.PromoteMember(group, user, role);

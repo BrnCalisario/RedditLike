@@ -15,7 +15,7 @@ public interface IGroupRepository : IRepository<Group>
     Task RemoveMember(Group group, User user);
     Task<List<Group>> GetUserGroups(User user);
     Task<int> GetUserQuantity(Group group);
-    // Task<List<PermissionEnum>> GetPermissionEnum(User user, Group group);
+    Task<bool> IsMember(User user, Group group);
     Task<bool> HasPermission(User user, Group group, PermissionEnum permission);
     Task PromoteMember(Group group, User user, Role role);
     Task DemoteMember(Group group, User user);
@@ -145,5 +145,11 @@ public class GroupRepository : IGroupRepository
 
         this.ctx.UserGroups.Update(userGroup);
         await this.ctx.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsMember(User user, Group group)
+    {
+        return await this.ctx.UserGroups
+            .AnyAsync(ug => ug.UserId == user.Id && ug.GroupId == group.Id);
     }
 }
