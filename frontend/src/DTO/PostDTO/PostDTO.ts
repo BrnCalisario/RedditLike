@@ -9,6 +9,7 @@ interface PostDTO {
     authorPhoto: number;
     groupName: string;
     likeCount: number;
+    voteValue: number;
     postDate: Date;
 }
 

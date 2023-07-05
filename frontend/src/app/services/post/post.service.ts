@@ -31,7 +31,7 @@ export class PostService {
     }
 
     unvotePost(voteData: VoteDTO) {
-        return this.http.post('http://localhost:5038/post', voteData);
+        return this.http.post('http://localhost:5038/post/undo', voteData);
     }
 
     commentPost(commentPost: CommentDTO) {

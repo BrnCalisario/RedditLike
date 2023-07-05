@@ -28,7 +28,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
         groupName: '',
         likeCount: 0,
         postDate: new Date(),
-        authorPhoto: 0
+        authorPhoto: 0,
+        voteValue: 0
     };
 
     subscription: any;

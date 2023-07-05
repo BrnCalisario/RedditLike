@@ -18,7 +18,7 @@ i {
     padding: 0;
 }
 
-i:hover {
+i:not(.active):hover {
     color: var(--main-green);
 }
 
@@ -27,10 +27,10 @@ p {
     margin: 0;
 }
 
-
+/* 
 .disabled i:hover {
     color: gray;
-}
+} */
 
 .active {
     color: var(--main-green);

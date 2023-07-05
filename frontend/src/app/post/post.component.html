@@ -1,11 +1,11 @@
 <div *ngIf="post != undefined" class="post">
     <app-vote-button 
         class="likes" 
-        [disabled]="false" 
         (OnUpvote)="like()" 
         (OnDownvote)="dislike()" 
-        [upActive]="false"
-        [downActive]="false"
+        [upActive]="upVoted"
+        [downActive]="downVoted"
+        [votes]="post.likeCount"
         />
     <div class="post-content" routerLink="{{ postLink() }}">
         <div class="group-box">

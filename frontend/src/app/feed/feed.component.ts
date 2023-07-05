@@ -28,6 +28,7 @@ export class FeedComponent implements OnInit {
             this.postService.getGroupFeedByName(jwt, groupName).subscribe({
                 next: (res: PostDTO[]) => {
                     this.postList = res;
+                    console.log(res)
                 },
                 error: (error: any) => {
                     console.log(error);
