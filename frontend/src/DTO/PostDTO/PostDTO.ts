@@ -6,6 +6,7 @@ interface PostDTO {
     groupId: number;
     indexedImg: number;
     authorName: string;
+    authorPhoto: number;
     groupName: string;
     likeCount: number;
     postDate: Date;

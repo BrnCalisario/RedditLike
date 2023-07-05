@@ -38,7 +38,8 @@ export class CreatePostComponent {
         authorName: '',
         groupName: '',
         likeCount: 0,
-        postDate: new Date()
+        postDate: new Date(),
+        authorPhoto: 0
     }
 
     imgForm? : FormData;

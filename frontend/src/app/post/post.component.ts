@@ -25,9 +25,18 @@ export class PostComponent {
         groupName: '',
         likeCount: 0,
         postDate: new Date(),
+        authorPhoto: 0
     };
 
     postLink = (): string => {
         return "/group/" + this.post.groupName + "/post/" + this.post.id;
     };
+
+    imgUrl = () : string => {
+
+        if(this.post.authorPhoto == 0 || this.post.authorPhoto == undefined) {
+            return '../assets/image/avatar-placeholder.png';
+        }
+        return "http://localhost:5038/img/" + this.post.authorPhoto
+    }
 }

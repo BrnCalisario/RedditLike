@@ -11,10 +11,13 @@
         </div>
 
         <div class="content-box">
-            <div class="author">
-                {{ post.authorName }}
-                <div class="date">
-                    {{ post.postDate.toLocaleString() }}
+            <div class="user-wrap">
+                <img src="{{ imgUrl() }}" />
+                <div class="author">
+                    {{ post.authorName }}
+                    <div class="date">
+                        {{ post.postDate.toLocaleString() }}
+                    </div>
                 </div>
             </div>
         </div>

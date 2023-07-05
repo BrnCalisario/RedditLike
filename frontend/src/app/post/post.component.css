@@ -68,7 +68,7 @@ p {
 }
 
 .author:hover {
-    color: rgb(98, 161, 98);
+    color: var(--light-green);
 }
 
 .date {
@@ -80,4 +80,17 @@ p {
 
 .content-box {
     margin-right: 1.5em;
+}
+
+.user-wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .75em;
+}
+
+.user-wrap img {
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
 }
