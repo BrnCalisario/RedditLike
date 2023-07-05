@@ -50,8 +50,10 @@ public class GroupController : ControllerBase
             ImageId = group.Image,
             UserQuantity = await groupRepository.GetUserQuantity(group), 
             isMember = await groupRepository.IsMember(user, group),
-            UserRole = await groupRepository.GetRoleName(user, group)
         };
+
+        if(result.isMember)
+            result.UserRole = await groupRepository.GetRoleName(user, group);
 
         return Ok(result);
     }
