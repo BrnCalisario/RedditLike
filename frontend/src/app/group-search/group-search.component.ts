@@ -33,4 +33,8 @@ export class GroupSearchComponent implements OnInit {
             },
         });
     }
+
+    enterGroup() : void {
+        
+    }
 }

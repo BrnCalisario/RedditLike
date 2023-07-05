@@ -28,6 +28,6 @@ export class PostComponent {
     };
 
     postLink = (): string => {
-        return '';
+        return "/group/" + this.post.groupName + "/post/" + this.post.id;
     };
 }

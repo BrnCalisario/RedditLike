@@ -33,6 +33,10 @@ export class PostPageComponent implements OnInit, OnDestroy {
     subscription: any;
 
     groupId: number = 0;
+    
+    getImgUrl = () : string => {
+        return "http://localhost:5038/img/" + this.postData.indexedImg
+    }
 
     ngOnInit(): void {
         let jwt = sessionStorage.getItem('jwtSession') ?? '';
@@ -45,10 +49,11 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
                 this.subscription = this.route.params.subscribe((params) => {
                     let postId: number = params['id'];
-
+                        
                     this.postService
                         .getPost(jwt, postId, this.groupId)
                         .subscribe((res) => {
+                            console.log(res)
                             this.postData = res;
                             console.log(this.postData)
                         });
