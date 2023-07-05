@@ -231,6 +231,11 @@ public class GroupController : ControllerBase
         if (user is null)
             return NotFound();
 
+        bool isMember = await groupRepository.IsMember(user, group);
+
+        if(isMember)
+            return BadRequest("Already a member");
+
         await groupRepository.AddMember(group, user);
 
         return Ok();
