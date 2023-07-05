@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Group } from 'src/models/Group';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GroupService } from '../services/group/group.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-group-search',
@@ -9,7 +10,7 @@ import { GroupService } from '../services/group/group.service';
     styleUrls: ['./group-search.component.css'],
 })
 export class GroupSearchComponent implements OnInit {
-    constructor(private groupService: GroupService) {}
+    constructor(private groupService: GroupService, private router: Router) {}
 
     groupList: Group[] = [];
 
@@ -34,7 +35,18 @@ export class GroupSearchComponent implements OnInit {
         });
     }
 
-    enterGroup() : void {
+    enterGroup(group : Group) : void {
+        let jwt = sessionStorage.getItem("jwtSession") ?? ""
         
+        console.log(group.id)
+
+        this.groupService.enterGroup({ jwt: jwt, groupId: group.id})
+            .subscribe(res => {
+                console.log(res)
+
+                let groupUrl = "/group/" + group.name
+
+                this.router.navigate([groupUrl])
+            })
     }
 }

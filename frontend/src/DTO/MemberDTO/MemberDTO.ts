@@ -1,6 +1,5 @@
 interface MemberDTO {
     jwt: string;
-    userId: number;
     groupId: number;
 }
 
