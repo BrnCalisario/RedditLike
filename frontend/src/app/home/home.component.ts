@@ -29,8 +29,6 @@ export class HomeComponent implements OnInit {
         this.userService.getUser({ Value: jwt }).subscribe({
             next: (res: User) => {
                 this.user = res;
-
-                console.log(this.user);
             },
             error: (error: any) => {
                 this.router.navigate(['/']);

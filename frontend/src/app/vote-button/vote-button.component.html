@@ -1,5 +1,9 @@
-<div class="likes">
-    <i class="upvote fa-solid fa-angle-up" (click)="upvoteClick()"></i>
+<div class="{{ divClass() }}">
+    <div class="{{ buttonClass(upActive) }}">
+        <i class="upvote fa-solid fa-angle-up" (click)="upvoteClick()"></i>
+    </div>
     <p>{{ votes }}</p>
-    <i class="downvote fa-solid fa-angle-down" (click)="downvoteClick()"></i>
+    <div class="{{ buttonClass(downActive) }}">
+        <i class="downvote fa-solid fa-angle-down" (click)="downvoteClick()"></i>
+    </div>
 </div>

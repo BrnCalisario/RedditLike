@@ -39,4 +39,12 @@ export class PostComponent {
         }
         return "http://localhost:5038/img/" + this.post.authorPhoto
     }
+
+    like = () : void => {
+        console.log("deu like")
+    }
+
+    dislike = () : void => {
+        console.log("deu dislike")
+    }
 }

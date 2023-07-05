@@ -28,7 +28,6 @@ export class FeedComponent implements OnInit {
             this.postService.getGroupFeedByName(jwt, groupName).subscribe({
                 next: (res: PostDTO[]) => {
                     this.postList = res;
-                    console.log(this.postList)
                 },
                 error: (error: any) => {
                     console.log(error);
@@ -40,7 +39,6 @@ export class FeedComponent implements OnInit {
             this.postService.getMainFeed({ Value: jwt }).subscribe({
                 next: (res: PostDTO[]) => {
                     this.postList = res;
-                    console.log(this.postList)
                 },
                 error: (error: any) => {
                     console.log(error);

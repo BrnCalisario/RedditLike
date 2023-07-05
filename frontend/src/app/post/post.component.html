@@ -1,6 +1,13 @@
-<div *ngIf="post != undefined" class="post" routerLink="{{ postLink() }}">
-    <app-vote-button class="likes" />
-    <div class="post-content">
+<div *ngIf="post != undefined" class="post">
+    <app-vote-button 
+        class="likes" 
+        [disabled]="false" 
+        (OnUpvote)="like()" 
+        (OnDownvote)="dislike()" 
+        [upActive]="false"
+        [downActive]="false"
+        />
+    <div class="post-content" routerLink="{{ postLink() }}">
         <div class="group-box">
             <div>
                 <p *ngIf="displayGroup" >r/{{ post.groupName }}</p>

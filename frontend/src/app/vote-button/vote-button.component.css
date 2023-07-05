@@ -11,6 +11,7 @@
     font-family: "Nunito", sans-serif;
 } */
 
+
 i {
     font-size: 1.5em;
     margin: 0;
@@ -24,4 +25,17 @@ i:hover {
 p {
     text-align: center;
     margin: 0;
+}
+
+
+.disabled i:hover {
+    color: gray;
+}
+
+.active {
+    color: var(--main-green);
+}
+
+.normal {
+    color: gray;
 }
