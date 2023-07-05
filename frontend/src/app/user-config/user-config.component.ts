@@ -34,4 +34,5 @@ export class UserConfigComponent implements OnInit {
             },
         });
     }
+
 }

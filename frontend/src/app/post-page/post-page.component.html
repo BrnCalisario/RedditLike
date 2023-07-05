@@ -4,31 +4,22 @@
             <div class="user-wrap">
                 <img class="user-avatar" src="{{ getUserAvatar() }}" />
                 <div>
-                    <h5 class="card-title">{{ postData.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{postData.authorName}} -
-                        {{postData.postDate.toLocaleString("pt-BR")}}</h6>
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{post.authorName}} -
+                        {{post.postDate.toLocaleString("pt-BR")}}</h6>
                 </div>
             </div>
             <hr>
             <p>
-                {{ postData.content }}
+                {{ post.content }}
             </p>
-            <img class="indexed" *ngIf="postData.indexedImg != 0" src="{{ getIndexedImg() }}" />
+            <img class="indexed" *ngIf="post.indexedImg != 0" src="{{ getIndexedImg() }}" />
             <div class="buttons">
                 <div class="likes">
-                    <i class="upvote fa-solid fa-angle-up"></i>
-                    <p>{{postData.likeCount}} </p>
-                    <i class="downvote fa-solid fa-angle-down"></i>
+                    <app-vote-button class="likes" (OnUpvote)="like()" (OnDownvote)="dislike()" [upActive]="upVoted"
+                        [downActive]="downVoted" [votes]="post.likeCount" />                        
                 </div>
-                <div></div>
-                <i class="fa-regular fa-comment"></i>
             </div>
-            <!-- <button class="card-link">
-                <i class="fa-regular fa-thumbs-up"></i>
-            </button>
-            <button class="card-link">
-                <i class="fa-regular fa-comment"></i>
-            </button> -->
         </div>
     </div>
 

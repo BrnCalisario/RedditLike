@@ -17,7 +17,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
         private router: Router
     ) {}
 
-    postData: PostDTO = {
+    post: PostDTO = {
         id: 0,
         jwt: '',
         title: '',
@@ -29,24 +29,26 @@ export class PostPageComponent implements OnInit, OnDestroy {
         likeCount: 0,
         postDate: new Date(),
         authorPhoto: 0,
-        voteValue: 0
+        voteValue: 0,
     };
 
     subscription: any;
 
     groupId: number = 0;
-    
-    getIndexedImg = () : string => {
-        return "http://localhost:5038/img/" + this.postData.indexedImg
-    }
 
-    getUserAvatar = () : string => {
-        let photoId = this.postData.authorPhoto
-        if(photoId)
-            return "http://localhost:5038/img/" + photoId
+    getIndexedImg = (): string => {
+        return 'http://localhost:5038/img/' + this.post.indexedImg;
+    };
+
+    getUserAvatar = (): string => {
+        let photoId = this.post.authorPhoto;
+        if (photoId) return 'http://localhost:5038/img/' + photoId;
 
         return '../assets/image/avatar-placeholder.png';
-    }
+    };
+
+    upVoted: boolean = false;
+    downVoted: boolean = false;
 
     ngOnInit(): void {
         let jwt = sessionStorage.getItem('jwtSession') ?? '';
@@ -59,13 +61,15 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
                 this.subscription = this.route.params.subscribe((params) => {
                     let postId: number = params['id'];
-                        
+
                     this.postService
                         .getPost(jwt, postId, this.groupId)
                         .subscribe((res) => {
-                            console.log(res)
-                            this.postData = res;
-                            console.log(this.postData)
+                            this.post = res;
+                            console.log(this.post);
+
+                            this.upVoted = this.post.voteValue == 1;
+                            this.downVoted = this.post.voteValue == 2;
                         });
                 });
             });
@@ -74,4 +78,49 @@ export class PostPageComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
+
+    like = (): void => {
+        console.log(this.post);
+
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
+        let postId = this.post.id;
+
+        if (this.post.voteValue == 1) {
+            console.log('Agui');
+            this.postService
+                .unvotePost({ jwt, postId, value: false })
+                .subscribe((res) => {
+                    window.location.reload();
+                });
+        } else {
+            this.postService
+                .votePost({ jwt, postId, value: true })
+                .subscribe((res) => {
+                    window.location.reload();
+                });
+        }
+
+        console.log('Finalizou');
+    };
+
+    dislike = (): void => {
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
+        let postId = this.post.id;
+
+        if (this.post.voteValue == 2) {
+            this.postService
+                .unvotePost({ jwt, postId, value: false })
+                .subscribe((res) => {
+                    window.location.reload();
+                });
+        } else {
+            this.postService
+                .votePost({ jwt, postId, value: false })
+                .subscribe((res) => {
+                    window.location.reload();
+                });
+        }
+
+        console.log('Finalizou');
+    };
 }

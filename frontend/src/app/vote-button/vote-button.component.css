@@ -12,19 +12,24 @@
 } */
 
 
+/* i, p {
+    color: gray;
+} */
+
 i {
     font-size: 1.5em;
     margin: 0;
     padding: 0;
 }
 
-i:not(.active):hover {
+i:hover {
     color: var(--main-green);
 }
 
 p {
     text-align: center;
     margin: 0;
+    font-family: 'League Spartan', sans-serif;
 }
 
 /* 

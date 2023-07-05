@@ -22,6 +22,7 @@ export class PostComponent implements AfterContentInit {
     ngAfterContentInit(): void {
         this.upVoted = this.post.voteValue == 1;
         this.downVoted = this.post.voteValue == 2;
+        console.log(this.post)
     }
 
     @Input() displayGroup: boolean = true;
