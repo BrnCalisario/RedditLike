@@ -119,6 +119,16 @@ public class PostController : Controller
             return BadRequest(ex.Message);
         }
 
+        Post target = await postRepository.Find(voteData.PostId);
+
+        if(target is null)
+            return NotFound("Post não encontrado");
+
+        bool hasVoted = await postRepository.HasVoted(user, target);
+
+        if(hasVoted)
+            await postRepository.UndoVote(user, target);
+
         Upvote vote = new Upvote()
         {
             UserId = user.Id,
@@ -148,7 +158,12 @@ public class PostController : Controller
             return BadRequest(ex.Message);
         }
 
-        await postRepository.UndoVote(voteData.PostId);
+        Post post = await postRepository.Find(voteData.PostId);
+
+        if(post is null)
+            return NotFound("Post not found");
+
+        await postRepository.UndoVote(user, post);
 
         return Ok();
     }

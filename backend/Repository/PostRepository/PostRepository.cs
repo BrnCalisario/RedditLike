@@ -9,7 +9,7 @@ using Model;
 public interface IPostRepository : IRepository<Post>
 {
     Task Vote(Upvote vote);
-    Task UndoVote(int voteId);
+    Task UndoVote(User user, Post post);
     Task AddComment(Comment comment);
     Task RemoveComment(Comment comment);
     Task<int> GetLikeCount(Post post);
@@ -67,9 +67,13 @@ public class PostRepository : IPostRepository
         await this.ctx.SaveChangesAsync();
     }
 
-    public async Task UndoVote(int voteID)
+    public async Task UndoVote(User user, Post post)
     {
-        Upvote vote = this.ctx.Upvotes.First(v => v.Id == voteID);
+        Upvote vote = this.ctx.Upvotes.FirstOrDefault(v => v.PostId == post.Id && v.UserId == user.Id);
+
+        if(vote is null)
+            return;
+
         this.ctx.Upvotes.Remove(vote);
         await this.ctx.SaveChangesAsync();
     }
@@ -111,7 +115,7 @@ public class PostRepository : IPostRepository
         bool? value = await this.ctx.Upvotes
             .Where(up => up.PostId == post.Id && up.UserId == user.Id)
             .Select(up => up.Value)
-            .FirstAsync();
+            .FirstOrDefaultAsync();
 
         if (value is null)
             return PostVote.None;
