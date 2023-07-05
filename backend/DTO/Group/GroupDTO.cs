@@ -9,9 +9,8 @@ public class GroupDTO
     public int? ImageId { get; set; } 
     public bool isMember { get; set; }
     public int? UserQuantity { get; set; }
-   
+    public string UserRole { get; set; }
     public string Jwt { get; set; } 
-
     public List<PostDTO> Posts { get; set; }
     
 }

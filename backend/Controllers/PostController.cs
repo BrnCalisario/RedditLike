@@ -356,7 +356,7 @@ public class PostController : Controller
             }
         }
 
-        return Ok(feedPosts);
+        return Ok(feedPosts.OrderByDescending(p => p.PostDate));
     }
 
     [HttpPost("group-feed/id")]
@@ -407,7 +407,7 @@ public class PostController : Controller
             feedPosts.Add(fp);
         }
 
-        return Ok(feedPosts);
+        return Ok(feedPosts.OrderByDescending(f => f.PostDate));
     }
 
     [HttpPost("group-feed/group-name")]
@@ -460,6 +460,6 @@ public class PostController : Controller
             feedPosts.Add(fp);
         }
 
-        return Ok(feedPosts);
+        return Ok(feedPosts.OrderByDescending(f => f.PostDate));
     }
 }
