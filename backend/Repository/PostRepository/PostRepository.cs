@@ -8,11 +8,13 @@ using Model;
 
 public interface IPostRepository : IRepository<Post>
 {
-    Task Vote(Upvote vote);   
+    Task Vote(Upvote vote);
     Task UndoVote(int voteId);
     Task AddComment(Comment comment);
     Task RemoveComment(Comment comment);
     Task<int> GetLikeCount(Post post);
+    Task<bool> HasVoted(User user, Post post);
+    Task<PostVote> GetPostVote(User user, Post post);
 }
 
 
@@ -21,7 +23,7 @@ public class PostRepository : IPostRepository
     private RedditContext ctx;
 
     public PostRepository(RedditContext ctx)
-        => this.ctx = ctx; 
+        => this.ctx = ctx;
 
     public async Task Add(Post obj)
     {
@@ -39,7 +41,7 @@ public class PostRepository : IPostRepository
 
         this.ctx.Posts.Remove(obj);
         await this.ctx.SaveChangesAsync();
-        
+
     }
 
     public async Task<List<Post>> Filter(Expression<Func<Post, bool>> exp)
@@ -67,7 +69,7 @@ public class PostRepository : IPostRepository
 
     public async Task UndoVote(int voteID)
     {
-        Upvote vote = this.ctx.Upvotes.First(v => v.Id ==voteID);
+        Upvote vote = this.ctx.Upvotes.First(v => v.Id == voteID);
         this.ctx.Upvotes.Remove(vote);
         await this.ctx.SaveChangesAsync();
     }
@@ -97,4 +99,33 @@ public class PostRepository : IPostRepository
 
         return likes;
     }
+
+    public async Task<bool> HasVoted(User user, Post post)
+    {
+        bool hasVoted = await this.ctx.Upvotes.AnyAsync(up => up.PostId == post.Id && up.UserId == user.Id);
+        return hasVoted;
+    }
+
+    public async Task<PostVote> GetPostVote(User user, Post post)
+    {
+        bool? value = await this.ctx.Upvotes
+            .Where(up => up.PostId == post.Id && up.UserId == user.Id)
+            .Select(up => up.Value)
+            .FirstAsync();
+
+        if (value is null)
+            return PostVote.None;
+
+        if (value ?? false)
+            return PostVote.UpVote;
+        else
+            return PostVote.DownVote;
+    }
+}
+
+public enum PostVote
+{
+    None,
+    UpVote,
+    DownVote
 }

@@ -50,18 +50,11 @@ public class PostController : Controller
         if (post is null)
             return NotFound("Post not found");
 
-        FeedPostDTO fp = new FeedPostDTO
+        FeedPostDTO fp = new FeedPostDTO(post)
         {
-            Id = post.Id,
-            Title = post.Title,
-            Content = post.Content,
-            PostDate = post.PostDate,
-            AuthorName = post.Author.Username,
-            AuthorPhoto = post.Author.ProfilePicture ?? 0,
             GroupName = group.Name,
             GroupId = group.Id,
-            LikeCount = post.LikeCount,
-            IndexedImg = post.IndexedImage ?? 0
+            VoteValue = (int)await postRepository.GetPostVote(user, post)
         };
 
         return Ok(fp);
@@ -340,16 +333,11 @@ public class PostController : Controller
 
             foreach (var post in posts)
             {
-                FeedPostDTO fp = new FeedPostDTO()
+                FeedPostDTO fp = new FeedPostDTO(post)
                 {
-                    Id = post.Id,
-                    Title = post.Title,
-                    Content = post.Content,
-                    PostDate = post.PostDate,
-                    AuthorName = post.Author.Username,
-                    AuthorPhoto = post.Author.ProfilePicture ?? 0,
                     GroupName = group.Name,
-                    LikeCount = post.LikeCount
+                    GroupId = group.Id,
+                    VoteValue = (int)await postRepository.GetPostVote(user, post)
                 };
 
                 feedPosts.Add(fp);
@@ -391,17 +379,11 @@ public class PostController : Controller
 
         foreach (var post in groupPosts)
         {
-            FeedPostDTO fp = new FeedPostDTO
+            FeedPostDTO fp = new FeedPostDTO(post)
             {
-                Id = post.Id,
-                Title = post.Title,
-                Content = post.Content,
-                PostDate = post.PostDate,
-                AuthorName = post.Author.Username,
-                AuthorPhoto = post.Author.ProfilePicture ?? 0,
                 GroupId = group.Id,
                 GroupName = group.Name,
-                LikeCount = await postRepository.GetLikeCount(post),
+                VoteValue = (int)await postRepository.GetPostVote(user, post)
             };
 
             feedPosts.Add(fp);
@@ -444,17 +426,11 @@ public class PostController : Controller
 
         foreach (var post in groupPosts)
         {
-            FeedPostDTO fp = new FeedPostDTO
+            FeedPostDTO fp = new FeedPostDTO(post)
             {
-                Id = post.Id,
-                Title = post.Title,
-                Content = post.Content,
-                PostDate = post.PostDate,
-                AuthorName = post.Author.Username,
-                AuthorPhoto = post.Author.ProfilePicture ?? 0,
                 GroupId = group.Id,
                 GroupName = group.Name,
-                LikeCount = post.LikeCount
+                VoteValue = (int)await postRepository.GetPostVote(user, post)
             };
 
             feedPosts.Add(fp);
