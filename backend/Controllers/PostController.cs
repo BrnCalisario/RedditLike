@@ -59,7 +59,8 @@ public class PostController : Controller
             AuthorName = post.Author.Username,
             GroupName = group.Name,
             GroupId = group.Id,
-            LikeCount = post.LikeCount
+            LikeCount = post.LikeCount,
+            IndexedImg = post.IndexedImage ?? 0
         };
 
         return Ok(fp);
