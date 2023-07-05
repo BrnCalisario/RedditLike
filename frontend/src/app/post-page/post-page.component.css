@@ -1,17 +1,44 @@
-.card {
-    width: inherit;
+.post-page {
+    overflow-y: auto;
+    max-height: 580px;
+    border: 1px solid var(--white-green);
+    border-inline: 0;
+    border-radius: 10px;
 }
 
-.card-body {
+.post-card{
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 15px;
+}
+
+.post-body {
     display: flex;
     flex-direction: column;
 }
 
-img {
+.indexed {
     justify-self: center;
     margin: 0 auto;
-    max-width: 400px;
-    max-height: 400px;
+    max-width: 1000px;
+    max-height: 350px;
+}
+
+.user-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.user-wrap img {
+    width: 75px;
+    height: 75px;
 }
 
 .likes {
@@ -39,4 +66,18 @@ img {
 .fa-comment {
     color: gray;
     font-size: 2em;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--main-green);
+    border-radius: 10px;
 }

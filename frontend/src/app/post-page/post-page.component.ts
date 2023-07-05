@@ -35,8 +35,16 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
     groupId: number = 0;
     
-    getImgUrl = () : string => {
+    getIndexedImg = () : string => {
         return "http://localhost:5038/img/" + this.postData.indexedImg
+    }
+
+    getUserAvatar = () : string => {
+        let photoId = this.postData.authorPhoto
+        if(photoId)
+            return "http://localhost:5038/img/" + photoId
+
+        return '../assets/image/avatar-placeholder.png';
     }
 
     ngOnInit(): void {

@@ -3,6 +3,7 @@
     height: 110px;
     border-radius: 50%;
 }
+
 .user-profile {
     display: flex;
     align-items: center;
@@ -52,4 +53,10 @@
     color: var(--main-green);
     font-family: "League Spartan", sans-serif;
     font-weight: 700;
+}
+
+.role {
+    color: var(--light-green);
+    font-family: "League Spartan", sans-serif;
+    font-size: 1.2rem;
 }

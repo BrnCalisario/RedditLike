@@ -44,7 +44,7 @@ export class GroupSearchComponent implements OnInit {
             .subscribe(res => {
                 console.log(res)
 
-                let groupUrl = "/group/" + group.name
+                let groupUrl = "/group/" + group.name + "/feed"
 
                 this.router.navigate([groupUrl])
             })
