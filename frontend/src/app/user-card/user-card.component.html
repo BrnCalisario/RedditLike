@@ -1,7 +1,7 @@
 <div class="user-profile">
     <div class="name-wrap">
         <p class="username">{{ userName }}</p>
-        <p class="role">Membro</p>
+        <p *ngIf="isGroup" class="role">{{ roleName }}</p>
         <div class="button-wrap">
             <a>
                 <i

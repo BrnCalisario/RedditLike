@@ -10,6 +10,9 @@ import { User } from 'src/models/User';
 export class UserCardComponent implements OnInit {
     constructor(private userService: UserService) {}
 
+    @Input() isGroup : boolean = false
+    @Input() roleName : string = ''
+
     userName: string = '';
     profilePictureID?: number | null = 0;
 

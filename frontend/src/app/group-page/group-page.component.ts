@@ -53,6 +53,7 @@ export class GroupPageComponent implements AfterContentInit {
         imageId: null,
         userQuantity: 0,
         jwt: '',
+        userRole: ''
     };
 
     imgUrl = (): string => {

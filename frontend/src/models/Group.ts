@@ -6,6 +6,7 @@ interface Group {
     isMember: boolean;
     imageId: number | null;
     userQuantity: number;
+    userRole: string;
     jwt: string;
 }
 
