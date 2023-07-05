@@ -83,6 +83,7 @@ public class GroupController : ControllerBase
         {
             result.Add(new GroupDTO
             {
+                Id = g.Id,
                 Name = g.Name,
                 Description = g.Description,
                 ImageId = g.Image,

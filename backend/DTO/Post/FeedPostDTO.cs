@@ -5,6 +5,7 @@ public class FeedPostDTO
     public string Content { get; set; }
     public DateTime PostDate { get; set; }
     public string AuthorName { get; set; }
+    public int AuthorPhoto { get; set;}
     public string GroupName { get; set; }
     public int GroupId { get; set; }
     public int LikeCount { get; set;}

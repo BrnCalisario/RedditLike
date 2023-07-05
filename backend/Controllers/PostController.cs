@@ -57,6 +57,7 @@ public class PostController : Controller
             Content = post.Content,
             PostDate = post.PostDate,
             AuthorName = post.Author.Username,
+            AuthorPhoto = post.Author.ProfilePicture ?? 0,
             GroupName = group.Name,
             GroupId = group.Id,
             LikeCount = post.LikeCount,
@@ -346,6 +347,7 @@ public class PostController : Controller
                     Content = post.Content,
                     PostDate = post.PostDate,
                     AuthorName = post.Author.Username,
+                    AuthorPhoto = post.Author.ProfilePicture ?? 0,
                     GroupName = group.Name,
                     LikeCount = post.LikeCount
                 };
@@ -396,6 +398,7 @@ public class PostController : Controller
                 Content = post.Content,
                 PostDate = post.PostDate,
                 AuthorName = post.Author.Username,
+                AuthorPhoto = post.Author.ProfilePicture ?? 0,
                 GroupId = group.Id,
                 GroupName = group.Name,
                 LikeCount = await postRepository.GetLikeCount(post),
@@ -448,6 +451,7 @@ public class PostController : Controller
                 Content = post.Content,
                 PostDate = post.PostDate,
                 AuthorName = post.Author.Username,
+                AuthorPhoto = post.Author.ProfilePicture ?? 0,
                 GroupId = group.Id,
                 GroupName = group.Name,
                 LikeCount = post.LikeCount
