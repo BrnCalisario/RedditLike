@@ -99,7 +99,8 @@ public class PostRepository : IPostRepository
     public async Task<int> GetLikeCount(Post post)
     {
         var likes = await this.ctx.Upvotes
-            .CountAsync(v => v.PostId == post.Id);
+            .Where(up => up.PostId == post.Id)
+            .SumAsync(up => (up.Value ?? false) ? 1 : -1);
 
         return likes;
     }

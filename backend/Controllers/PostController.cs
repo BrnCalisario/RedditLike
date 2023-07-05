@@ -54,7 +54,8 @@ public class PostController : Controller
         {
             GroupName = group.Name,
             GroupId = group.Id,
-            VoteValue = (int)await postRepository.GetPostVote(user, post)
+            VoteValue = (int)await postRepository.GetPostVote(user, post),
+            LikeCount = await postRepository.GetLikeCount(post)
         };
 
         return Ok(fp);
@@ -352,7 +353,8 @@ public class PostController : Controller
                 {
                     GroupName = group.Name,
                     GroupId = group.Id,
-                    VoteValue = (int)await postRepository.GetPostVote(user, post)
+                    VoteValue = (int)await postRepository.GetPostVote(user, post),
+                    LikeCount = await postRepository.GetLikeCount(post)
                 };
 
                 feedPosts.Add(fp);
@@ -398,7 +400,8 @@ public class PostController : Controller
             {
                 GroupId = group.Id,
                 GroupName = group.Name,
-                VoteValue = (int)await postRepository.GetPostVote(user, post)
+                VoteValue = (int)await postRepository.GetPostVote(user, post),
+                LikeCount = await postRepository.GetLikeCount(post)
             };
 
             feedPosts.Add(fp);
@@ -445,7 +448,8 @@ public class PostController : Controller
             {
                 GroupId = group.Id,
                 GroupName = group.Name,
-                VoteValue = (int)await postRepository.GetPostVote(user, post)
+                VoteValue = (int)await postRepository.GetPostVote(user, post),
+                LikeCount = await postRepository.GetLikeCount(post)
             };
 
             feedPosts.Add(fp);

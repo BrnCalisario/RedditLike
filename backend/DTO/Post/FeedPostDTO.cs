@@ -10,7 +10,7 @@ public class FeedPostDTO
         this.PostDate = post.PostDate;
         this.AuthorName = post.Author.Username;
         this.AuthorPhoto = post.Author.ProfilePicture ?? 0;
-        this.LikeCount = post.LikeCount;
+        // this.LikeCount = post.LikeCount;
         this.IndexedImg = post.IndexedImage ?? 0;
     }
 
