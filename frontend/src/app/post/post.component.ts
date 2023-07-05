@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PostDTO } from 'src/DTO/PostDTO/PostDTO';
 import { PostService } from '../services/post/post.service';
 import { GroupService } from '../services/group/group.service';
+import { DateFormatterService } from '../services/date/date-formatter.service';
 
 @Component({
     selector: 'app-post',
@@ -17,7 +18,10 @@ import { GroupService } from '../services/group/group.service';
     styleUrls: ['./post.component.css'],
 })
 export class PostComponent implements AfterContentInit {
-    constructor(private postService: PostService, private router: Router) {}
+    constructor(
+        private postService: PostService, 
+        private router: Router,
+        private dateFormatter : DateFormatterService) {}
 
     ngAfterContentInit(): void {
         this.upVoted = this.post.voteValue == 1;
@@ -102,4 +106,8 @@ export class PostComponent implements AfterContentInit {
 
         console.log('Finalizou');
     };
+
+    formatedDate = () : string => {
+        return this.dateFormatter.formatDate(this.post.postDate)
+    }
 }

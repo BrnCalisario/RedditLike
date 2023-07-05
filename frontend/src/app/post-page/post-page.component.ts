@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PostDTO } from 'src/DTO/PostDTO/PostDTO';
 import { PostService } from '../services/post/post.service';
 import { GroupService } from '../services/group/group.service';
+import { DateFormatterService } from '../services/date/date-formatter.service';
 
 @Component({
     selector: 'app-post-page',
@@ -14,8 +15,13 @@ export class PostPageComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private postService: PostService,
         private groupService: GroupService,
-        private router: Router
+        private router: Router,
+        private dateFormatter : DateFormatterService
     ) {}
+
+    formatDate = () => {
+        return this.dateFormatter.formatDate(this.post.postDate);
+    }
 
     post: PostDTO = {
         id: 0,
