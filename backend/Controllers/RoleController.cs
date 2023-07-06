@@ -13,23 +13,36 @@ using Services;
 [Route("role")]
 public class RoleController : ControllerBase
 {
+    private IUserService userService;
+    
+    public RoleController(IUserService userService)
+    {
+        this.userService = userService;
+    }
+
+    public async Task<User> ValidateJwt(string jwt)
+    {
+        User user = null;
+        try
+        {
+            user = await this.userService.ValidateUserToken(new Jwt { Value = jwt });
+        }
+        catch (Exception ex)
+        {
+            return user;
+        }
+
+        return user;
+    }
+
     [HttpPost]
     public async Task<ActionResult> AddRole(
         [FromBody] RoleDTO roleData,
         [FromServices] IGroupRepository groupRepository,
-        [FromServices] IRoleRepository roleRepository,
-        [FromServices] IUserService userService
+        [FromServices] IRoleRepository roleRepository
     )
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = roleData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(roleData.Jwt);
 
         if (user is null)
             return NotFound("Usuário não encontrado");
@@ -54,22 +67,13 @@ public class RoleController : ControllerBase
     public async Task<ActionResult> UpdateRole(
         [FromBody] RoleDTO roleData,
         [FromServices] IGroupRepository groupRepository,
-        [FromServices] IRoleRepository roleRepository,
-        [FromServices] IUserService userService
+        [FromServices] IRoleRepository roleRepository
     )
     {
         if (roleData.Id == 0)
             return BadRequest();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = roleData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(roleData.Jwt);
 
         if (user is null)
             return NotFound();
@@ -85,22 +89,13 @@ public class RoleController : ControllerBase
     public async Task<ActionResult> DeleteRole(
         [FromBody] RoleDTO roleData,
         [FromServices] IGroupRepository groupRepository,
-        [FromServices] IRoleRepository roleRepository,
-        [FromServices] IUserService userService
+        [FromServices] IRoleRepository roleRepository
     )
     {
         if (roleData.Id == 0)
             return BadRequest();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = roleData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(roleData.Jwt);
 
         if (user is null)
             return NotFound();
@@ -127,7 +122,6 @@ public class RoleController : ControllerBase
     [FromBody] MemberRoleDTO memberData,
     [FromServices] IGroupRepository groupRepository,
     [FromServices] IUserRepository userRepository,
-    [FromServices] IUserService userService,
     [FromServices] IRepository<Role> roleRepository
 )
     {
@@ -136,15 +130,8 @@ public class RoleController : ControllerBase
         if (group is null)
             return BadRequest();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(memberData.Jwt);
+
         if (user is null)
             return NotFound();
 
@@ -156,6 +143,42 @@ public class RoleController : ControllerBase
         await groupRepository.PromoteMember(group, user, role);
 
         return Ok();
+    }
+
+
+    [HttpPost("group-roles")]
+    public async Task<ActionResult<List<RoleDTO>>> GetGroupRole(
+        [FromBody] GroupDTO groupData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IRepository<Role> roleRepository
+    )
+    {
+        User user = await this.ValidateJwt(groupData.Jwt);
+
+        if(user is null)
+            return NotFound("User");
+
+        var query = await groupRepository.Filter(g => g.Name == groupData.Name);
+
+        Group group = query.FirstOrDefault();
+
+        if(group is null)
+            return NotFound("Group");
+
+        var queryDefaultRoles = await roleRepository.Filter(r => r.GroupId == null || r.GroupId == group.Id);
+
+        List<RoleDTO> result = new List<RoleDTO>();
+
+        foreach(var role in queryDefaultRoles)
+        {
+            result.Add(new RoleDTO {
+                Id = role.Id,
+                Name = role.Name,
+                PermissionsSet = await groupRepository.GetPermissions(role)
+            });
+        }
+
+        return result;
     }
 
 }

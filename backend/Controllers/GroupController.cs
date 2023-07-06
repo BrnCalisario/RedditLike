@@ -319,40 +319,4 @@ public class GroupController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("promote-member")]
-    public async Task<ActionResult> PromoteRole(
-        [FromBody] MemberRoleDTO memberData,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserRepository userRepository,
-        [FromServices] IUserService userService,
-        [FromServices] IRepository<Role> roleRepository
-    )
-    {
-        Group group = await groupRepository.Find(memberData.GroupId);
-
-        if (group is null)
-            return BadRequest();
-
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-        if (user is null)
-            return NotFound();
-
-        var role = await roleRepository.Find(memberData.RoleId);
-
-        if (role is null)
-            return NotFound("Role not found");
-
-        await groupRepository.PromoteMember(group, user, role);
-
-        return Ok();
-    }
-
 }
