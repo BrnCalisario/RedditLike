@@ -229,7 +229,6 @@ public class PostController : Controller
         var comment = await commentRepository.Find(commentData.Id);
 
         Group group = comment.Post.Group;
-        Console.WriteLine(group);
 
         bool canRemove = await groupRepository.HasPermission(user, group, PermissionEnum.Delete);
 

@@ -102,8 +102,6 @@ public class ImageController : Controller
         user.ProfilePicture = imageId;
         await userRepository.Update(user);
 
-        Console.WriteLine(user.ProfilePicture);
-
         return Ok();
     }
 
@@ -178,8 +176,6 @@ public class ImageController : Controller
             int groupId;
             if (!int.TryParse(Request.Form["groupId"].ToString(), out groupId))
                 return BadRequest();
-
-            System.Console.WriteLine(groupId);
 
             var query = await groupRepository.Filter(g => g.Id == groupId);
 

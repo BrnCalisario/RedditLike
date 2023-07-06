@@ -77,7 +77,7 @@ public class RoleController : ControllerBase
         User user = await this.ValidateJwt(roleData.Jwt);
 
         if (user is null)
-            return NotFound();
+            return NotFound("Usuário não encontrado");
 
         Role role = await roleRepository.Find(roleData.Id);
 

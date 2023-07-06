@@ -67,7 +67,7 @@ public class RoleRepository : IRoleRepository
 
         var rolesToRemove = await this.ctx.RolePermissions.Where(rl => rl.RoleId == role.Id).ToListAsync();
         this.ctx.RolePermissions.RemoveRange(rolesToRemove);
-
+        
         foreach (var permission in permissions)
         {
             await this.ctx.RolePermissions.AddAsync(new RolePermission() {
