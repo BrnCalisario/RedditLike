@@ -33,6 +33,7 @@ import { AlternativeUploaderComponent } from './alternative-uploader/alternative
 import { RoleManagerComponent } from './role-manager/role-manager.component';
 import { MemberListComponent } from './member-list/member-list.component';
 import { CreateRoleComponent } from './create-role/create-role.component';
+import { EditRoleComponent } from './edit-role/edit-role.component';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { CreateRoleComponent } from './create-role/create-role.component';
         RoleManagerComponent,
         MemberListComponent,
         CreateRoleComponent,
+        EditRoleComponent,
     ],
     imports: [
         BrowserModule,

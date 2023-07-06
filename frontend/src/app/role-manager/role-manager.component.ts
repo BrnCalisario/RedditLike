@@ -21,6 +21,14 @@ export class RoleManagerComponent implements OnInit{
     subscription : any;
 
     roleList : RoleDTO[] = []
+
+    editRole : RoleDTO = {
+        jwt: '',
+        id: 0,
+        groupId: 0,
+        name: '',
+        permissionsSet: []
+    }
     
     ngOnInit(): void {
         let name = this.router.url.split("/")[2]
@@ -49,4 +57,7 @@ export class RoleManagerComponent implements OnInit{
         return role.permissionsSet.includes(number)
     }
 
+    startEdit(role : RoleDTO)  {
+        this.editRole = role
+    }
 }

@@ -16,4 +16,8 @@ export class RoleService {
     getGroupRoles(groupData : GroupQuery) {
         return this.http.post<RoleDTO[]>("http://localhost:5038/role/group-roles", groupData)
     }
+
+    editRole(roleData : RoleDTO) {
+        return this.http.put("http://localhost:5038/role/", roleData)
+    }
 }
