@@ -41,3 +41,8 @@
 .user-card {
     width: 30%;
 }
+
+.button-wrap {
+    display: flex;
+    gap: 1rem;
+}

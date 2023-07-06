@@ -1,0 +1,32 @@
+h1 {
+    color: var(--light-green);
+}
+
+i {
+    font-size: 1.3em;
+}
+
+.table {
+    text-align: center;
+    overflow-x: auto;
+}
+
+.edit-btn {
+    border: 0;
+}
+
+.header-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5em;
+}
+
+.role-manager {
+    width: 75%;
+}
+
+.perms {
+    font-size: 1.4rem;
+    font-weight: 600;
+    font-family: 'League Spartan', sans-serif;
+}

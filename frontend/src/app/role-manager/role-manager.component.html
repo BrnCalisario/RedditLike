@@ -1,0 +1,142 @@
+<div class="role-manager">
+    <h1 class="title">Cargos</h1>
+    <hr>
+    <div class="header-wrap">
+        <h4>Lista de cargos</h4>
+        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#create-modal">
+            Novo cargo +
+        </button>
+    </div>
+
+    <table class="table table-bordered border border-1">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Deletar Posts</th>
+                <th scope="col">Editar Posts</th>
+                <th scope="col">Promover Membros</th>
+                <th scope="col">Gerenciar Cargos</th>
+                <th scope="col">Banir Membros</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Admin</td>
+                <td><i class="fa-solid fa-check"></i></td>
+                <td><i class="fa-solid fa-check"></i></td>
+                <td><i class="fa-solid fa-check"></i></td>
+                <td><i class="fa-solid fa-check"></i></td>
+                <td><i class="fa-solid fa-check"></i></td>
+                <button class="edit-btn" type="button" data-bs-toggle="modal"
+                data-bs-target="#edit-modal">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            </tr>
+            <tr>
+                <td>Membro</td>
+                <td><i class="fa-solid fa-xmark"></i></td>
+                <td><i class="fa-solid fa-xmark"></i></td>
+                <td><i class="fa-solid fa-xmark"></i></td>
+                <td><i class="fa-solid fa-xmark"></i></td>
+                <td><i class="fa-solid fa-xmark"></i></td>
+                <button class="edit-btn" type="button" data-bs-toggle="modal"
+                    data-bs-target="#edit-modal">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar Cargo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Nome do cargo</h6>
+                <div class="form-check">
+                    <label class="form-check-label" for="deletePost">Deletar posts</label>
+                    <input type="checkbox" class="form-check-input" value="" id="deletePosts">
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="editPosts">Deletar posts</label>
+                    <input type="checkbox" class="form-check-input" value="" id="editPosts">
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="promote">Promover xembros</label>
+                    <input type="checkbox" class="form-check-input" value="" id="promote">
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="manage">Deletar posts</label>
+                    <input type="checkbox" class="form-check-input" value="" id="manage">
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="ban">Banir membros</label>
+                    <input type="checkbox" class="form-check-input" value="" id="ban">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-success">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="create-modal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Criar Cargo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="perms" for="roleName">Nome do Cargo</label>
+                <input id="roleName" type="text" class="form-control" placeholder="Ex: Moderador" required>
+                
+                <label class="perms">Permissões</label>
+                <div class="form-check">
+                    <label class="form-check-label" for="deletePost">Deletar posts</label>
+                    <input type="checkbox" class="form-check-input" value="" id="deletePosts">
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="editPosts">Deletar posts</label>
+                    <input type="checkbox" class="form-check-input" value="" id="editPosts">
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="promote">Promover xembros</label>
+                    <input type="checkbox" class="form-check-input" value="" id="promote">
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="manage">Deletar posts</label>
+                    <input type="checkbox" class="form-check-input" value="" id="manage">
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="ban">Banir membros</label>
+                    <input type="checkbox" class="form-check-input" value="" id="ban">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-outline-success">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>

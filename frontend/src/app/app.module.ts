@@ -30,6 +30,8 @@ import { GroupSearchComponent } from './group-search/group-search.component';
 import { UserCardComponent } from './user-card/user-card.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { AlternativeUploaderComponent } from './alternative-uploader/alternative-uploader.component';
+import { RoleManagerComponent } from './role-manager/role-manager.component';
+import { MemberListComponent } from './member-list/member-list.component';
 
 @NgModule({
     declarations: [
@@ -55,6 +57,8 @@ import { AlternativeUploaderComponent } from './alternative-uploader/alternative
         UserCardComponent,
         CreatePostComponent,
         AlternativeUploaderComponent,
+        RoleManagerComponent,
+        MemberListComponent,
     ],
     imports: [
         BrowserModule,

@@ -15,7 +15,7 @@ export class DateFormatterService {
     if(data.toDateString() == new Date().toDateString()) {
       result = "Hoje, às " + data.toTimeString().substring(0, 5)
     } else {
-      result = data.toDateString()
+      result = data.toLocaleDateString()
     }
 
     return result

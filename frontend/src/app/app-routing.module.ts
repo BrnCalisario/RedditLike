@@ -14,6 +14,8 @@ import { GroupCreatorComponent } from './group-creator/group-creator.component';
 import { UserConfigComponent } from './user-config/user-config.component';
 import { GroupSearchComponent } from './group-search/group-search.component';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { RoleManagerComponent } from './role-manager/role-manager.component';
+import { MemberListComponent } from './member-list/member-list.component';
 
 const routes: Routes = [
     {
@@ -39,6 +41,8 @@ const routes: Routes = [
             { path: 'feed', component: FeedComponent },
             { path: 'post/:id', component: PostPageComponent },
             { path: 'post-creator', component: CreatePostComponent },
+            { path: 'role-manager', component: RoleManagerComponent },
+            { path: 'member-list', component: MemberListComponent }
         ],
     },
     {

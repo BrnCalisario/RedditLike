@@ -26,7 +26,7 @@
             <app-post-tab />
         </div> -->
     </div>
-    <div>
+    <div class="button-wrap">
         <div *ngIf="onFeed">
             <button class="btn btn-outline-danger" routerLink="post-creator">
                 Criar postagem
@@ -37,6 +37,18 @@
             <button class="btn btn-outline-dark" routerLink="feed">
                 <i class="fa-solid fa-arrow-left"></i>
                 Voltar para o feed
+            </button>
+        </div>
+        <div *ngIf="onFeed">
+            <button class="btn btn-outline-warning" routerLink="role-manager">
+                Cargos 
+                <i class="fa-solid fa-hammer"></i>
+            </button>
+        </div>
+        <div *ngIf="onFeed">
+            <button class="btn btn-outline-primary" routerLink="member-list">
+                Membros 
+                <i class="fa-solid fa-users"></i>
             </button>
         </div>
     </div>
