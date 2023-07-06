@@ -86,7 +86,7 @@ public class RoleController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete]
+    [HttpPost("remove")]
     public async Task<ActionResult> DeleteRole(
         [FromBody] RoleDTO roleData,
         [FromServices] IGroupRepository groupRepository,
