@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MemberItem } from 'src/DTO/MemberDTO/MemberDTO';
 
 @Component({
     selector: 'app-member-list',
@@ -7,4 +8,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MemberListComponent implements OnInit {
     ngOnInit(): void {}
+
+    memberList : MemberItem[] = [{ name: "Jorge", role: "Moderador" }]
 }

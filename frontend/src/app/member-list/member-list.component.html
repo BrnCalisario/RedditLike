@@ -2,64 +2,43 @@
     <h1 class="title">Lista de membros</h1>
     <hr />
     <div>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <div class="user-name">Nome</div>
-                <div class="user-role">Cargo</div>
-            </li>
-            <li class="list-group-item">
-                <div class="user-name">Joao</div>
-                <div class="user-role">
-                    Admin
-                    <button
-                        class="btn btn-outline-dark"
-                        class="btn btn-outline-dark"
-                        type="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                    >
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div class="user-name">Marcola</div>
-                <div class="user-role">
-                    Membro
-                    <button
-                        class="btn btn-outline-dark"
-                        type="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                    >
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                </div>
-            </li>
-        </ul>
+        <table class="table table-bordered w-50">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cargo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let member of memberList">
+                    <td>{{ member.name }}</td>
+                    <td>{{ member.role }}</td>
+                    <td>
+                        <button class="btn btn-outline-danger">
+                            <i class="fa-solid fa-user-slash"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 <!-- Modal -->
-<div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">
                     Promover membro
                 </h5>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="mb-2"><b>Cargo atual: </b>Membro</div>
@@ -70,11 +49,7 @@
                 </select>
             </div>
             <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    data-bs-dismiss="modal"
-                >
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     Cancelar
                 </button>
                 <button type="button" class="btn btn-outline-success">

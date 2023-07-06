@@ -10,4 +10,9 @@ interface MemberRoleDTO {
     groupId: number;
 }
 
-export { MemberDTO, MemberRoleDTO };
+interface MemberItem {
+    name: string;
+    role: string;
+}
+
+export { MemberDTO, MemberRoleDTO, MemberItem };

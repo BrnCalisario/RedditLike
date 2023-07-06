@@ -2,16 +2,12 @@ h1 {
     color: var(--light-green);
 }
 
-li {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
+
+
+table {
+    text-align: center;
 }
 
-.list-group {
-    width: 50%;
-}
-
-.list-group:first-child {
-    border-radius: 25px 25px 0 0;
+button {
+    margin: 0;
 }
