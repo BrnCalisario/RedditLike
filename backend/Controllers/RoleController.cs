@@ -20,7 +20,7 @@ public class RoleController : ControllerBase
         this.userService = userService;
     }
 
-    public async Task<User> ValidateJwt(string jwt)
+    private async Task<User> ValidateJwt(string jwt)
     {
         User user = null;
         try
@@ -51,6 +51,7 @@ public class RoleController : ControllerBase
 
         if (group is null)
             return NotFound("Grupo não encontrado");
+
 
         Role role = new Role
         {
@@ -122,7 +123,7 @@ public class RoleController : ControllerBase
     [FromBody] MemberRoleDTO memberData,
     [FromServices] IGroupRepository groupRepository,
     [FromServices] IUserRepository userRepository,
-    [FromServices] IRepository<Role> roleRepository
+    [FromServices] IRoleRepository roleRepository
 )
     {
         Group group = await groupRepository.Find(memberData.GroupId);
@@ -150,7 +151,7 @@ public class RoleController : ControllerBase
     public async Task<ActionResult<List<RoleDTO>>> GetGroupRole(
         [FromBody] GroupDTO groupData,
         [FromServices] IGroupRepository groupRepository,
-        [FromServices] IRepository<Role> roleRepository
+        [FromServices] IRoleRepository roleRepository
     )
     {
         User user = await this.ValidateJwt(groupData.Jwt);

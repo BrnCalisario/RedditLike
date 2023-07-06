@@ -172,7 +172,7 @@ public class GroupRepository : IGroupRepository
     {
         var query = await this.ctx.RolePermissions
             .Where(rp => rp.RoleId == role.Id)
-            .Select(rp => rp.RoleId)
+            .Select(rp => rp.PermissionId)
             .ToListAsync();
 
         return query;

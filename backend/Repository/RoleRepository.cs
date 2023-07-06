@@ -35,7 +35,8 @@ public class RoleRepository : IRoleRepository
 
     public async Task InsertRole(Role role, List<int> permissions)
     {
-        await this.ctx.Roles.AddAsync(role);
+        this.ctx.Roles.Add(role);
+        await this.ctx.SaveChangesAsync();
 
         foreach (var permission in permissions)
         {
