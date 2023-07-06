@@ -319,4 +319,35 @@ public class GroupController : ControllerBase
         return Ok();
     }
 
+
+    [HttpPost("group-members")]
+    public async Task<ActionResult<List<MemberItemDTO>>> GetGroupMembers(
+        [FromBody] MemberDTO memberData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserService userService,
+        [FromServices] IUserRepository userRepository
+    )
+    {
+        Group group = await groupRepository.Find(memberData.GroupId);
+
+        if (group is null)
+            return BadRequest();
+
+        User user;
+        try
+        {
+            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+        if (user is null)
+            return NotFound();
+
+        var userList = await groupRepository.GetGroupMembers(group);
+
+        return Ok(userList);
+    }
+
 }
