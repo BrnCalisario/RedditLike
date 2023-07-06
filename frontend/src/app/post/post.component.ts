@@ -19,14 +19,15 @@ import { DateFormatterService } from '../services/date/date-formatter.service';
 })
 export class PostComponent implements AfterContentInit {
     constructor(
-        private postService: PostService, 
+        private postService: PostService,
         private router: Router,
-        private dateFormatter : DateFormatterService) {}
+        private dateFormatter: DateFormatterService
+    ) {}
 
     ngAfterContentInit(): void {
         this.upVoted = this.post.voteValue == 1;
         this.downVoted = this.post.voteValue == 2;
-        console.log(this.post)
+        console.log(this.post);
     }
 
     @Input() displayGroup: boolean = true;
@@ -107,7 +108,7 @@ export class PostComponent implements AfterContentInit {
         console.log('Finalizou');
     };
 
-    formatedDate = () : string => {
-        return this.dateFormatter.formatDate(this.post.postDate)
-    }
+    formatedDate = (): string => {
+        return this.dateFormatter.formatDate(this.post.postDate);
+    };
 }

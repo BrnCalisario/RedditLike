@@ -32,7 +32,7 @@ export class GroupPageComponent implements AfterContentInit {
         router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
                 let subRoute = this.router.url.split('/')[3];
-                
+
                 this.onFeed = subRoute === 'feed';
                 this.onCreator = subRoute === 'post-creator';
             }
@@ -53,7 +53,7 @@ export class GroupPageComponent implements AfterContentInit {
         imageId: null,
         userQuantity: 0,
         jwt: '',
-        userRole: ''
+        userRole: '',
     };
 
     imgUrl = (): string => {

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MemberListComponent } from './member-list.component';
+import { CreateRoleComponent } from './create-role.component';
 
-describe('MemberListComponent', () => {
-    let component: MemberListComponent;
-    let fixture: ComponentFixture<MemberListComponent>;
+describe('CreateRoleComponent', () => {
+    let component: CreateRoleComponent;
+    let fixture: ComponentFixture<CreateRoleComponent>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [MemberListComponent],
+            declarations: [CreateRoleComponent],
         });
-        fixture = TestBed.createComponent(MemberListComponent);
+        fixture = TestBed.createComponent(CreateRoleComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -32,6 +32,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { AlternativeUploaderComponent } from './alternative-uploader/alternative-uploader.component';
 import { RoleManagerComponent } from './role-manager/role-manager.component';
 import { MemberListComponent } from './member-list/member-list.component';
+import { CreateRoleComponent } from './create-role/create-role.component';
 
 @NgModule({
     declarations: [
@@ -59,6 +60,7 @@ import { MemberListComponent } from './member-list/member-list.component';
         AlternativeUploaderComponent,
         RoleManagerComponent,
         MemberListComponent,
+        CreateRoleComponent,
     ],
     imports: [
         BrowserModule,

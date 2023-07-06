@@ -1,0 +1,51 @@
+<!-- Modal -->
+<div class="modal fade" id="create-modal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Criar Cargo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="perms" for="roleName">Nome do Cargo</label>
+                <input [(ngModel)]="roleName" id="roleName" type="text" class="form-control" placeholder="Ex: Moderador" required />
+
+                <label class="perms">Permissões</label>
+                <div class="form-check">
+                    <label class="form-check-label" for="deletePost">Deletar posts</label>
+                    <input (change)="onInputChange($event, deletePost)" [(ngModel)]="deletePost" type="checkbox" class="form-check-input" value="2"
+                        id="deletePosts" />
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="editPosts">Editar posts</label>
+                    <input (change)="onInputChange($event, editPost)" [(ngModel)]="editPost" type="checkbox" class="form-check-input" value="3" id="editPosts" />
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="promote">Promover membros</label>
+                    <input (change)="onInputChange($event, promoteMember)" [(ngModel)]="promoteMember" type="checkbox" class="form-check-input" value="4"
+                        id="promote" />
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="manage">Gerenciar cargos</label>
+                    <input (change)="onInputChange($event, manageRoles)" [(ngModel)]="manageRoles" type="checkbox" class="form-check-input" value="5" id="manage" />
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label" for="ban">Banir membros</label>
+                    <input (change)="onInputChange($event, banMember)" [(ngModel)]="banMember" type="checkbox" class="form-check-input" value="6" id="ban" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" (click)="createRole()" class="btn btn-outline-success" data-bs-dismiss="modal">
+                    Criar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

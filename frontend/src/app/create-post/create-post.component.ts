@@ -12,23 +12,25 @@ import { ImageService } from '../services/image/image.service';
     styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent {
-
     constructor(
-        private router : Router,
-        private postService: PostService, 
-        private groupService : GroupService,
-        private imageService: ImageService)
-    {
-        let groupName = this.router.url.split("/")[2]
-        let jwt = sessionStorage.getItem("jwtSession") ?? ""
+        private router: Router,
+        private postService: PostService,
+        private groupService: GroupService,
+        private imageService: ImageService
+    ) {
+        let groupName = this.router.url.split('/')[2];
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
 
-        this.groupService.getGroup({ jwt: jwt, name: groupName})
-            .subscribe(res => { this.group = res})
+        this.groupService
+            .getGroup({ jwt: jwt, name: groupName })
+            .subscribe((res) => {
+                this.group = res;
+            });
     }
 
     group?: Group;
 
-    postForm : PostDTO = {
+    postForm: PostDTO = {
         id: 0,
         jwt: '',
         title: '',
@@ -40,39 +42,37 @@ export class CreatePostComponent {
         likeCount: 0,
         postDate: new Date(),
         authorPhoto: 0,
-        voteValue: 0
-    }
+        voteValue: 0,
+    };
 
-    imgForm? : FormData;
+    imgForm?: FormData;
 
     onUpload(event: FormData) {
         this.imgForm = event;
     }
 
     createPost() {
-        this.postForm.jwt = sessionStorage.getItem('jwtSession') ?? ""
-        this.postForm.groupId = this.group?.id ?? 0
+        this.postForm.jwt = sessionStorage.getItem('jwtSession') ?? '';
+        this.postForm.groupId = this.group?.id ?? 0;
 
-        this.postService.createPost(this.postForm)
-            .subscribe({
-                next: (res) => {
-                    let postId = res;
+        this.postService.createPost(this.postForm).subscribe({
+            next: (res) => {
+                let postId = res;
 
-                    if(this.imgForm)
-                    {
-                        this.imageService.updatePostIndex(this.imgForm, postId)
-                            .subscribe(res => {
-                                console.log("postou imagem")
-                            })
-                    }
-
-                    let groupUrl = "group/" + this.group?.name + "/feed"
-                    this.router.navigate([groupUrl])
-                },
-                error: (error: any) => {
-                    console.log(error)
+                if (this.imgForm) {
+                    this.imageService
+                        .updatePostIndex(this.imgForm, postId)
+                        .subscribe((res) => {
+                            console.log('postou imagem');
+                        });
                 }
-            })
-    }
 
+                let groupUrl = 'group/' + this.group?.name + '/feed';
+                this.router.navigate([groupUrl]);
+            },
+            error: (error: any) => {
+                console.log(error);
+            },
+        });
+    }
 }

@@ -10,8 +10,12 @@ import { Group, GroupQuery } from 'src/models/Group';
 export class PostService {
     constructor(private http: HttpClient) {}
 
-    getPost(jwt: string, postId : number, groupId: number) {
-        return this.http.post<PostDTO>('http://localhost:5038/post/single', { jwt, id: postId, groupId  });
+    getPost(jwt: string, postId: number, groupId: number) {
+        return this.http.post<PostDTO>('http://localhost:5038/post/single', {
+            jwt,
+            id: postId,
+            groupId,
+        });
     }
 
     createPost(postData: PostDTO) {

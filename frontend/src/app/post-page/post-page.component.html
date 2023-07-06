@@ -5,22 +5,32 @@
                 <img class="user-avatar" src="{{ getUserAvatar() }}" />
                 <div>
                     <h5 class="card-title">{{ post.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{post.authorName}} -
-                        {{ formatDate() }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ post.authorName }} - {{ formatDate() }}
+                    </h6>
                 </div>
             </div>
-            <hr>
+            <hr />
             <p>
                 {{ post.content }}
             </p>
-            <img class="indexed" *ngIf="post.indexedImg != 0" src="{{ getIndexedImg() }}" />
+            <img
+                class="indexed"
+                *ngIf="post.indexedImg != 0"
+                src="{{ getIndexedImg() }}"
+            />
             <div class="buttons">
                 <div class="likes">
-                    <app-vote-button class="likes" (OnUpvote)="like()" (OnDownvote)="dislike()" [upActive]="upVoted"
-                        [downActive]="downVoted" [votes]="post.likeCount" />                        
+                    <app-vote-button
+                        class="likes"
+                        (OnUpvote)="like()"
+                        (OnDownvote)="dislike()"
+                        [upActive]="upVoted"
+                        [downActive]="downVoted"
+                        [votes]="post.likeCount"
+                    />
                 </div>
             </div>
         </div>
     </div>
-
 </div>

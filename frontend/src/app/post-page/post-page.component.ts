@@ -16,12 +16,12 @@ export class PostPageComponent implements OnInit, OnDestroy {
         private postService: PostService,
         private groupService: GroupService,
         private router: Router,
-        private dateFormatter : DateFormatterService
+        private dateFormatter: DateFormatterService
     ) {}
 
     formatDate = () => {
         return this.dateFormatter.formatDate(this.post.postDate);
-    }
+    };
 
     post: PostDTO = {
         id: 0,

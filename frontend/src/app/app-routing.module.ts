@@ -42,7 +42,7 @@ const routes: Routes = [
             { path: 'post/:id', component: PostPageComponent },
             { path: 'post-creator', component: CreatePostComponent },
             { path: 'role-manager', component: RoleManagerComponent },
-            { path: 'member-list', component: MemberListComponent }
+            { path: 'member-list', component: MemberListComponent },
         ],
     },
     {

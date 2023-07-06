@@ -35,18 +35,19 @@ export class GroupSearchComponent implements OnInit {
         });
     }
 
-    enterGroup(group : Group) : void {
-        let jwt = sessionStorage.getItem("jwtSession") ?? ""
-        
-        console.log(group.id)
+    enterGroup(group: Group): void {
+        let jwt = sessionStorage.getItem('jwtSession') ?? '';
 
-        this.groupService.enterGroup({ jwt: jwt, groupId: group.id})
-            .subscribe(res => {
-                console.log(res)
+        console.log(group.id);
 
-                let groupUrl = "/group/" + group.name + "/feed"
+        this.groupService
+            .enterGroup({ jwt: jwt, groupId: group.id })
+            .subscribe((res) => {
+                console.log(res);
 
-                this.router.navigate([groupUrl])
-            })
+                let groupUrl = '/group/' + group.name + '/feed';
+
+                this.router.navigate([groupUrl]);
+            });
     }
 }
