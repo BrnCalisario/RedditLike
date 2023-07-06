@@ -20,4 +20,8 @@ export class RoleService {
     editRole(roleData : RoleDTO) {
         return this.http.put("http://localhost:5038/role/", roleData)
     }
+
+    removeRole(roleData : RoleDTO) { 
+        return this.http.post("http://localhost:5038/role/remove", roleData)
+    }
 }

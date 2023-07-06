@@ -60,4 +60,15 @@ export class RoleManagerComponent implements OnInit{
     startEdit(role : RoleDTO)  {
         this.editRole = role
     }
+
+    deleteRole(role : RoleDTO) {
+        if(!confirm("Tem certeza que deseja apagar este cargo ?"))
+            return
+            
+        let jwt = sessionStorage.getItem("jwtSession") ?? ""
+        role.jwt = jwt
+
+        this.roleService.removeRole(role)
+            .subscribe(res => window.location.reload())
+    }
 }

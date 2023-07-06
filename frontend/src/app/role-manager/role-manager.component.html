@@ -17,7 +17,6 @@
                 <th scope="col">Promover Membros</th>
                 <th scope="col">Gerenciar Cargos</th>
                 <th scope="col">Banir Membros</th>
-                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -43,9 +42,17 @@
                     <i *ngIf="hasPermission(role, 6)" class="fa-solid fa-check"></i>
                     <i *ngIf="!hasPermission(role, 6)" class="fa-solid fa-xmark"></i>
                 </td>
-                <button *ngIf="role.name !== 'Admin' && role.name !== 'Membro'" (click)="startEdit(role)" class="edit-btn" type="button" data-bs-toggle="modal" data-bs-target="#edit-modal">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </button>
+                <td *ngIf="role.name !== 'Admin' && role.name !== 'Membro'">
+                    <button (click)="startEdit(role)" class="edit-btn" type="button" data-bs-toggle="modal" data-bs-target="#edit-modal">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                </td>
+                <td *ngIf="role.name !== 'Admin' && role.name !== 'Membro'">
+                    <button (click)="deleteRole(role)" class="edit-btn">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </td>
+
             </tr>
         </tbody>
     </table>
