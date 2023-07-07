@@ -322,16 +322,16 @@ public class GroupController : ControllerBase
 
     [HttpPost("group-members")]
     public async Task<ActionResult<List<MemberItemDTO>>> GetGroupMembers(
-        [FromBody] MemberDTO memberData,
+        [FromBody] CreateGroupDTO memberData,
         [FromServices] IGroupRepository groupRepository,
         [FromServices] IUserService userService,
         [FromServices] IUserRepository userRepository
     )
     {
-        Group group = await groupRepository.Find(memberData.GroupId);
+        Group group = await groupRepository.Find(memberData.Id);
 
         if (group is null)
-            return BadRequest();
+            return NotFound("Group");
 
         User user;
         try

@@ -206,8 +206,18 @@ SELECT * FROM [Post]
 SELECT * FROM [Upvote]
 SELECT * FROM [Comment]
 
+SELECT * FROM [Role]
+SELECT * FROM [Permission]
+
 SELECT r.ID, r.Name, p.Name FROM [RolePermission] rp
 JOIN [Permission] p ON rp.PermissionID = p.ID
 JOIN [Role] r ON rp.RoleID = r.ID
 
 SELECT * FROM Permission
+
+SELECT * FROM RolePermission
+
+
+--DELETE FROM [RolePermission] WHERE RoleId > 2
+--GO
+--DELETE FROM [Role] WHERE GroupID IS NOT NULL

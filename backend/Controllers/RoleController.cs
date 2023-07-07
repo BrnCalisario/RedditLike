@@ -141,7 +141,12 @@ public class RoleController : ControllerBase
         if (role is null)
             return NotFound("Role not found");
 
-        await groupRepository.PromoteMember(group, user, role);
+        var targetUser = await userRepository.Find(memberData.MemberId);
+
+        if(targetUser is null)
+            return NotFound("User not found");
+
+        await groupRepository.PromoteMember(group, targetUser, role);
 
         return Ok();
     }

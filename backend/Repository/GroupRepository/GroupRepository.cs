@@ -184,6 +184,7 @@ public class GroupRepository : IGroupRepository
         var query = this.ctx.UserGroups.Include(ug => ug.User).Include(ug => ug.Role)
             .Where(ug => ug.GroupId == group.Id)
             .Select(ug => new MemberItemDTO {
+                Id = ug.UserId,
                 Name = ug.User.Username,
                 Role = ug.Role.Name
             });
