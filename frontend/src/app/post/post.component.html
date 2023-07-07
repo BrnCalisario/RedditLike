@@ -29,4 +29,9 @@
             </div>
         </div>
     </div>
+    <div *ngIf="canDelete && !displayGroup" class="delete">
+        <button (click)="deletePost()" class="btn btn-outline-danger btn-sm">
+            <i class="fa-solid fa-trash"></i>
+        </button>
+    </div>
 </div>

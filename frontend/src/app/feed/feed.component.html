@@ -3,7 +3,7 @@
     <hr />
     <div class="feed-box">
         <a *ngFor="let post of postList">
-            <app-post [displayGroup]="!isGroup" class="post" [post]="post" />
+            <app-post [displayGroup]="!isGroup" class="post" [post]="post" [canDelete]="post.isAuthor || post.canDelete" />
         </a>
         <div *ngIf="postList?.length == 0">
             <p>Sem posts para mostrar!</p>

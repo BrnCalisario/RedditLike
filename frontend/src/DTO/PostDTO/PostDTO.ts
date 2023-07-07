@@ -11,6 +11,8 @@ interface PostDTO {
     likeCount: number;
     voteValue: number;
     postDate: Date;
+    isAuthor: boolean;
+    canDelete: boolean;
 }
 
 interface VoteDTO {

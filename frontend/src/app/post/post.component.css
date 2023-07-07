@@ -80,12 +80,14 @@ p {
 
 .content-box {
     margin-right: 1.5em;
+    display: flex;
 }
 
 .user-wrap {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    justify-self: flex-end;
     gap: 0.75em;
 }
 
@@ -93,4 +95,13 @@ p {
     border-radius: 50%;
     width: 75px;
     height: 75px;
+}
+
+
+.delete button {
+    font-size: 10px;
+}
+
+.delete i:hover {
+    color: white;
 }

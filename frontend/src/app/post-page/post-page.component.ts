@@ -36,6 +36,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
         postDate: new Date(),
         authorPhoto: 0,
         voteValue: 0,
+        isAuthor: false,
+        canDelete: false
     };
 
     subscription: any;

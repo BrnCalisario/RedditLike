@@ -46,6 +46,8 @@ export class FeedComponent implements OnInit {
                 },
             });
         }
+
+    
     }
 
     postList: PostDTO[] = [];

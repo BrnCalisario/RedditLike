@@ -43,6 +43,8 @@ export class CreatePostComponent {
         postDate: new Date(),
         authorPhoto: 0,
         voteValue: 0,
+        isAuthor: false,
+        canDelete: false
     };
 
     imgForm?: FormData;

@@ -30,6 +30,8 @@ export class PostComponent implements AfterContentInit {
         console.log(this.post);
     }
 
+    @Input() canDelete : boolean = false
+
     @Input() displayGroup: boolean = true;
 
     @Input() post: PostDTO = {
@@ -45,6 +47,8 @@ export class PostComponent implements AfterContentInit {
         postDate: new Date(),
         authorPhoto: 0,
         voteValue: 0,
+        isAuthor: false,
+        canDelete: false
     };
 
     upVoted: boolean = false;
@@ -111,4 +115,17 @@ export class PostComponent implements AfterContentInit {
     formatedDate = (): string => {
         return this.dateFormatter.formatDate(this.post.postDate);
     };
+
+    deletePost() {
+        if(!confirm("Tem certeza que deseja deletar este post ?"))
+            return
+
+        this.post.jwt = sessionStorage.getItem("jwtSession") ?? ""
+
+        this.postService.deletePost(this.post)
+            .subscribe(res => {
+                console.log("Deu certo, oia o null: "+ res)
+                location.reload()
+            })
+    }
 }
