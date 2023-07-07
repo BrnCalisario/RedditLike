@@ -20,7 +20,7 @@
                         </button>
                     </td> 
                     <td *ngIf="member.role !== 'Admin' && hasPermission(6)">
-                        <button class="btn btn-outline-danger">
+                        <button (click)="removeMember(member)" class="btn btn-outline-danger">
                             <i class="fa-solid fa-user-slash"></i>
                         </button>
                     </td>

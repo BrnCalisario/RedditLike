@@ -48,7 +48,7 @@ export class EditMemberComponent implements OnInit {
 
     confirmEdit() {
         this.roleService.promoteMember({ 
-            memberId: this.editMember.id,
+            userId: this.editMember.id,
             jwt: this.jwt,
             roleId : this.selectedValue.id,
             groupId: this.groupId ?? 0

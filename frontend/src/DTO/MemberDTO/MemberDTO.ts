@@ -5,7 +5,7 @@ interface MemberDTO {
 
 interface MemberRoleDTO {
     jwt: string;
-    memberId: number;
+    userId: number;
     roleId: number;
     groupId: number;
 }

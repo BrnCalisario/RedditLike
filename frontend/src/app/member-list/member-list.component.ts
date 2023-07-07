@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MemberItem } from 'src/DTO/MemberDTO/MemberDTO';
+import { MemberItem, MemberRoleDTO } from 'src/DTO/MemberDTO/MemberDTO';
 import { GroupService } from '../services/group/group.service';
 import { Router } from '@angular/router';
 import { RoleService } from '../services/role/role.service';
@@ -33,6 +33,7 @@ export class MemberListComponent implements OnInit {
                     .listMembers({ jwt: this.jwt, id: this.groupId })
                     .subscribe((res) => {
                         this.memberList = res;
+                        console.log(this.memberList)
                     });
 
                 this.roleService.listPermissions({ jwt: this.jwt, id: this.groupId })
@@ -57,5 +58,24 @@ export class MemberListComponent implements OnInit {
 
     hasPermission(permission : number) {
         return this.userPermissions.includes(permission)
+    }
+
+    removeMember(member: MemberItem) {
+        if(!confirm("Tem certeza que deseja remover este usuário ?"))
+            return
+        console.log(member.id)
+
+        let result : MemberRoleDTO = {
+            jwt: this.jwt,
+            userId: member.id,
+            roleId: 0,
+            groupId: this.groupId
+        }
+
+        this.groupService.removeMember(result)
+            .subscribe(res => {
+                console.log("Apagou")
+                window.location.reload()
+            })
     }
 }

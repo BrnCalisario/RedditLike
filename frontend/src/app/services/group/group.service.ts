@@ -37,7 +37,7 @@ export class GroupService {
         return this.http.post('http://localhost:5038/group/exit', memberData);
     }
 
-    removeMember(memberData: MemberDTO) {
+    removeMember(memberData: MemberRoleDTO) {
         return this.http.post(
             'http://localhost:5038/group/remove-member',
             memberData
