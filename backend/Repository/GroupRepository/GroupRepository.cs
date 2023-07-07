@@ -13,6 +13,7 @@ public interface IGroupRepository : IRepository<Group>
 {
     Task AddMember(Group group, User user);
     Task RemoveMember(Group group, User user);
+    Task<Group> FindByName(string name);
     Task<List<Group>> GetUserGroups(User user);
     Task<int> GetUserQuantity(Group group);
     Task<bool> IsMember(User user, Group group);
@@ -203,5 +204,11 @@ public class GroupRepository : IGroupRepository
         var result = query.Select(rp => (PermissionEnum)rp.PermissionId).ToList();
 
         return result;
+    }
+
+    public async Task<Group> FindByName(string name)
+    {
+        Group group = await this.ctx.Groups.FirstAsync(g => g.Name == name);
+        return group;
     }
 }

@@ -209,14 +209,16 @@ SELECT * FROM [Comment]
 SELECT * FROM [Role]
 SELECT * FROM [Permission]
 
-SELECT r.ID, r.Name, p.Name FROM [RolePermission] rp
+SELECT r.Name, p.Name FROM [RolePermission] rp
 JOIN [Permission] p ON rp.PermissionID = p.ID
 JOIN [Role] r ON rp.RoleID = r.ID
+WHERE r.Name = 'Maluco'
 
 SELECT * FROM Permission
 
 SELECT * FROM RolePermission
 
+DELETE FROM [User] WHERE ProfilePicture is null
 
 --DELETE FROM [RolePermission] WHERE RoleId > 2
 --GO
