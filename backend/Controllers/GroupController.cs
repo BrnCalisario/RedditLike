@@ -13,24 +13,28 @@ using Services;
 [ApiController]
 [EnableCors("MainPolicy")]
 [Route("group")]
-public class GroupController : ControllerBase
+public class GroupController : RedditController
 {
-    [HttpPost("by-name")]
-    public async Task<ActionResult<GroupDTO>> GetGroup(
-        [FromBody] CreateGroupDTO groupData,
+    private IPostRepository postRepository;
+    private IGroupRepository groupRepository;
+    private IUserRepository userRepository;
+
+    public GroupController(
+        [FromServices] IUserService userService,
+        [FromServices] IPostRepository postRepository,
         [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService
-    )
+        [FromServices] IUserRepository userRepository
+    ) : base(userService)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        this.postRepository = postRepository;
+        this.groupRepository = groupRepository;
+        this.userRepository = userRepository;
+    }
+
+    [HttpPost("by-name")]
+    public async Task<ActionResult<GroupDTO>> GetGroup([FromBody] CreateGroupDTO groupData)
+    {
+        User user = await this.ValidateJwt(groupData.Jwt);
 
         if (user is null)
             return NotFound("User not found");
@@ -61,21 +65,9 @@ public class GroupController : ControllerBase
 
 
     [HttpPost("list")]
-    public async Task<ActionResult<List<Group>>> ListGroups(
-    [FromServices] IGroupRepository groupRepository,
-    [FromServices] IUserService userService,
-    [FromBody] Jwt jwt
-    )
+    public async Task<ActionResult<List<Group>>> ListGroups([FromBody] Jwt jwt)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(jwt);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(jwt.Value);
 
         if (user is null)
             return NotFound();
@@ -100,26 +92,14 @@ public class GroupController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<int>> Post(
-        [FromServices] IGroupRepository groupRepo,
-        [FromServices] IUserService userService,
-        [FromBody] CreateGroupDTO groupData
-    )
+    public async Task<ActionResult<int>> Post([FromBody] CreateGroupDTO groupData)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(groupData.Jwt);
 
         if (user is null)
             return NotFound();
 
-        var duplicates = await groupRepo.Filter(g => g.Name == groupData.Name.ToLower());
+        var duplicates = await groupRepository.Filter(g => g.Name == groupData.Name.ToLower());
 
         if (duplicates.Count() > 0)
             return BadRequest("Group already exists");
@@ -135,35 +115,23 @@ public class GroupController : ControllerBase
             CreationDate = DateTime.Now,
         };
 
-        await groupRepo.Add(group);
+        await this.groupRepository.Add(group);
 
-        var query = await groupRepo.Filter(g => g.Name == group.Name);
+        var query = await this.groupRepository.Filter(g => g.Name == group.Name);
         int groupId = query.First().Id;
 
         return Ok(groupId);
     }
 
     [HttpPut]
-    public async Task<ActionResult> Update(
-        [FromBody] GroupDTO groupData,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> Update( [FromBody] GroupDTO groupData )
     {
         Group group = await groupRepository.Find(groupData.Id);
 
         if (group is null)
             return NotFound("Grupo não encontrado");
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(groupData.Jwt);
 
         if (user is null)
             return NotFound();
@@ -177,26 +145,14 @@ public class GroupController : ControllerBase
     }
 
     [HttpDelete("remove")]
-    public async Task<ActionResult> Delete(
-        [FromBody] GroupDTO groupData,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> Delete([FromBody] GroupDTO groupData)
     {
         Group group = await groupRepository.Find(groupData.Id);
 
         if (group is null)
             return NotFound();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(groupData.Jwt);
 
         if (user is null)
             return NotFound();
@@ -212,26 +168,14 @@ public class GroupController : ControllerBase
     }
 
     [HttpPost("enter")]
-    public async Task<ActionResult> AddMember(
-        [FromBody] MemberDTO memberData,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> AddMember([FromBody] MemberDTO memberData)
     {
         Group group = await groupRepository.Find(memberData.GroupId);
 
         if (group is null)
             return BadRequest();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(memberData.Jwt);
 
         if (user is null)
             return NotFound();
@@ -247,26 +191,14 @@ public class GroupController : ControllerBase
     }
 
     [HttpPost("exit")]
-    public async Task<ActionResult> ExitGroup(
-        [FromBody] MemberDTO memberData,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> ExitGroup([FromBody] MemberDTO memberData)
     {
         Group group = await groupRepository.Find(memberData.GroupId);
 
         if (group is null)
             return BadRequest();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(memberData.Jwt);
 
         if (user is null)
             return NotFound();
@@ -280,30 +212,17 @@ public class GroupController : ControllerBase
     }
 
     [HttpPost("remove-member")]
-    public async Task<ActionResult> RemoveMember(
-        [FromBody] MemberDTO memberData,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService,
-        [FromServices] IUserRepository userRepository
-    )
+    public async Task<ActionResult> RemoveMember([FromBody] MemberDTO memberData)
     {
         Group group = await groupRepository.Find(memberData.GroupId);
 
         if (group is null)
             return BadRequest();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(memberData.Jwt);
+
         if (user is null)
             return NotFound();
-
 
         bool canBan = await groupRepository.HasPermission(user, group, PermissionEnum.Ban);
 
@@ -322,27 +241,15 @@ public class GroupController : ControllerBase
 
 
     [HttpPost("group-members")]
-    public async Task<ActionResult<List<MemberItemDTO>>> GetGroupMembers(
-        [FromBody] CreateGroupDTO memberData,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService,
-        [FromServices] IUserRepository userRepository
-    )
+    public async Task<ActionResult<List<MemberItemDTO>>> GetGroupMembers([FromBody] CreateGroupDTO memberData )
     {
         Group group = await groupRepository.Find(memberData.Id);
 
         if (group is null)
             return NotFound("Group");
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = memberData.Jwt });
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(memberData.Jwt);
+
         if (user is null)
             return NotFound();
 

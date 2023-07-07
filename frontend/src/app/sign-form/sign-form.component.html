@@ -9,6 +9,7 @@
     />
     <div class="form-floating" id="nickname-input">
         <input
+            required
             [(ngModel)]="userReg.username"
             [ngModelOptions]="{ standalone: true }"
             class="form-control"
@@ -20,6 +21,7 @@
     </div>
     <div class="form-floating">
         <input
+            required
             [(ngModel)]="userReg.email"
             [ngModelOptions]="{ standalone: true }"
             class="form-control"
@@ -31,6 +33,7 @@
     </div>
     <div class="form-floating">
         <input
+            required
             [(ngModel)]="userReg.password"
             [ngModelOptions]="{ standalone: true }"
             type="password"
@@ -42,6 +45,7 @@
     </div>
     <div class="form-floating">
         <input
+            required="true"
             [(ngModel)]="userReg.birthdate"
             [ngModelOptions]="{ standalone: true }"
             type="date"
