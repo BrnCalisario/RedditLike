@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MemberItem } from 'src/DTO/MemberDTO/MemberDTO';
+import { GroupService } from '../services/group/group.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-member-list',
@@ -7,7 +9,36 @@ import { MemberItem } from 'src/DTO/MemberDTO/MemberDTO';
     styleUrls: ['./member-list.component.css'],
 })
 export class MemberListComponent implements OnInit {
-    ngOnInit(): void {}
+    constructor(private groupService: GroupService, private router: Router) {}
 
-    memberList : MemberItem[] = [{ name: "Jorge", role: "Moderador" }]
+    groupId: number = 0;
+    jwt = sessionStorage.getItem('jwtSession') ?? '';
+
+    ngOnInit(): void {
+        let groupName = this.router.url.split('/')[2];
+
+        this.groupService
+            .getGroup({ jwt: this.jwt, name: groupName })
+            .subscribe((res) => {
+                this.groupId = res.id;
+
+                this.groupService
+                    .listMembers({ jwt: this.jwt, id: this.groupId })
+                    .subscribe((res) => {
+                        this.memberList = res;
+                    });
+            });
+    }
+
+    memberList: MemberItem[] = []
+
+    editMember : MemberItem = {
+        name: '',
+        role: '',
+        id: 0
+    }
+
+    startEdit(member : MemberItem) {
+        this.editMember = member
+    }
 }

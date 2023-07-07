@@ -34,6 +34,7 @@ import { RoleManagerComponent } from './role-manager/role-manager.component';
 import { MemberListComponent } from './member-list/member-list.component';
 import { CreateRoleComponent } from './create-role/create-role.component';
 import { EditRoleComponent } from './edit-role/edit-role.component';
+import { EditMemberComponent } from './edit-member/edit-member.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { EditRoleComponent } from './edit-role/edit-role.component';
         MemberListComponent,
         CreateRoleComponent,
         EditRoleComponent,
+        EditMemberComponent,
     ],
     imports: [
         BrowserModule,

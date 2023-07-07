@@ -12,7 +12,8 @@ interface Group {
 
 interface GroupQuery {
     jwt: string;
-    name: string;
+    name?: string;
+    id?: number
 }
 
 export { Group, GroupQuery };

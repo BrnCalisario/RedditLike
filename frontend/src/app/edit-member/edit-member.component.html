@@ -1,0 +1,30 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Promover {{ editMember.name }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-2"><b>Cargo atual: </b>{{ editMember.role }}</div>
+                <label for="select">Novo cargo</label>
+                <select [(ngModel)]="selectedValue" class="form-control" id="select">
+                    <option [ngValue]="roleOpt" *ngFor="let roleOpt of roleOptions" [disabled]="roleOpt.name === editMember.role">
+                        {{ roleOpt.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button (click)="confirmEdit()" type="button" class="btn btn-outline-success">
+                    Promover
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

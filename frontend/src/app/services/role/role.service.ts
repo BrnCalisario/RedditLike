@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MemberRoleDTO } from 'src/DTO/MemberDTO/MemberDTO';
 import { RoleDTO } from 'src/DTO/RoleDTO/RoleDTO';
 import { GroupQuery } from 'src/models/Group';
 
@@ -23,5 +24,12 @@ export class RoleService {
 
     removeRole(roleData : RoleDTO) { 
         return this.http.post("http://localhost:5038/role/remove", roleData)
+    }
+
+    promoteMember(memberRoleData: MemberRoleDTO) {
+        return this.http.post(
+            'http://localhost:5038/role/promote-member',
+            memberRoleData
+        );
     }
 }

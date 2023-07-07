@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Jwt } from 'src/DTO/Jwt';
-import { MemberDTO, MemberRoleDTO } from 'src/DTO/MemberDTO/MemberDTO';
+import { MemberDTO, MemberItem, MemberRoleDTO } from 'src/DTO/MemberDTO/MemberDTO';
 import { Group, GroupQuery } from 'src/models/Group';
 
 @Injectable({
@@ -44,18 +44,11 @@ export class GroupService {
         );
     }
 
-    promoteMember(memberRoleData: MemberRoleDTO) {
-        return this.http.post(
-            'http://localhost:5038/group/remove-member',
-            memberRoleData
-        );
-    }
-
     listGroups(jwt: Jwt) {
         return this.http.post<Group[]>('http://localhost:5038/group/list', jwt);
     }
 
-    listMembers(memberData : MemberDTO) {
-        return this.http.post('http://localhost:5038/group/group-members', memberData)
+    listMembers(groupQuery : GroupQuery) {
+        return this.http.post<MemberItem[]>('http://localhost:5038/group/group-members', groupQuery)
     }
 }

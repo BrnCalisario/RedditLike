@@ -11,6 +11,7 @@ interface MemberRoleDTO {
 }
 
 interface MemberItem {
+    id: number;
     name: string;
     role: string;
 }
