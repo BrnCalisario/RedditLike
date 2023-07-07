@@ -93,8 +93,16 @@ export class GroupPageComponent implements AfterContentInit {
         return this.group.userPermissions.includes(permission)
     }
 
-    // @Input() group: Group = {
-    //     name: 'Gatinhos',
-    //     description: 'Grupo sobre gatinhos',
-    // };
+
+    quitGroup()
+    {
+        if(!confirm("Tem certeza que deseja sair do grupo ?"))
+            return
+
+        let jwt = sessionStorage.getItem("jwtSession") ?? ""
+        this.groupService.quitGroup({jwt, groupId: this.group.id})
+            .subscribe(res => {
+                this.router.navigate(["/home"])
+            })
+    }
 }

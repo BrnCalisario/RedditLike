@@ -13,6 +13,8 @@
                 </div>
             </div>
         </div>
+
+
         <div class="user-card">
             <app-user-card [isGroup]="true" [roleName]="group.userRole" />
         </div>
@@ -22,9 +24,6 @@
         <div class="content">
             <router-outlet />
         </div>
-        <!-- <div class="post-tab">
-            <app-post-tab />
-        </div> -->
     </div>
     <div class="button-wrap">
         <div *ngIf="onFeed && hasPermission(1)">
@@ -49,6 +48,12 @@
             <button class="btn btn-outline-primary" routerLink="member-list">
                 Membros
                 <i class="fa-solid fa-users"></i>
+            </button>
+        </div>
+        <div *ngIf="group.userRole !== 'Admin' ">
+            <button (click)="quitGroup()" class="btn btn-outline-danger">
+                Sair do grupo
+                <i class="fa-solid fa-person-through-window"></i>
             </button>
         </div>
     </div>

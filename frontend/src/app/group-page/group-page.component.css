@@ -38,6 +38,10 @@
     display: flex;
 }
 
+.header-group {
+    display: flex;
+}
+
 .user-card {
     width: 30%;
 }
