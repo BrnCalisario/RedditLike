@@ -12,25 +12,30 @@ using Services;
 [ApiController]
 [EnableCors("MainPolicy")]
 [Route("post")]
-public class PostController : Controller
+public class PostController : RedditController
 {
-    [HttpPost("single")]
-    public async Task<ActionResult<FeedPostDTO>> GetSingle(
-        [FromBody] CreatePostDTO postData,
+
+    private IPostRepository postRepository;
+    private IGroupRepository groupRepository;
+    private IUserRepository userRepository;
+
+    public PostController(
         [FromServices] IUserService userService,
         [FromServices] IPostRepository postRepository,
-        [FromServices] IGroupRepository groupRepository
-    )
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IUserRepository userRepository
+    ) : base(userService)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = postData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        this.postRepository = postRepository;
+        this.groupRepository = groupRepository;
+        this.userRepository = userRepository;
+    }
+
+
+    [HttpPost("single")]
+    public async Task<ActionResult<FeedPostDTO>> GetSingle([FromBody] CreatePostDTO postData)
+    {
+        User user = await this.ValidateJwt(postData.Jwt);
 
         if (user is null)
             return NotFound("User not found");
@@ -65,22 +70,9 @@ public class PostController : Controller
 
 
     [HttpPost]
-    public async Task<ActionResult<int>> Post(
-        [FromBody] CreatePostDTO postData,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult<int>> Post([FromBody] CreatePostDTO postData)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = postData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(postData.Jwt);
 
         if (user is null)
             return NotFound();
@@ -106,21 +98,9 @@ public class PostController : Controller
     }
 
     [HttpPost("vote")]
-    public async Task<ActionResult> LikePost(
-        [FromBody] VoteDTO voteData,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> LikePost([FromBody] VoteDTO voteData)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = voteData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(voteData.Jwt);
 
         Post target = await postRepository.Find(voteData.PostId);
 
@@ -145,21 +125,9 @@ public class PostController : Controller
     }
 
     [HttpPost("undo")]
-    public async Task<ActionResult> UnlikePost(
-        [FromBody] VoteDTO voteData,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> UnlikePost([FromBody] VoteDTO voteData)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = voteData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(voteData.Jwt);
 
         Post post = await postRepository.Find(voteData.PostId);
 
@@ -173,24 +141,12 @@ public class PostController : Controller
 
 
     [HttpPost("comment")]
-    public async Task<ActionResult> Comment(
-        [FromBody] CommentDTO commentData,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> Comment([FromBody] CommentDTO commentData)
     {
         if (commentData.Content.Length < 1)
             return BadRequest("Conteúdo necessário");
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = commentData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(commentData.Jwt);
 
         Comment c = new Comment()
         {
@@ -208,25 +164,13 @@ public class PostController : Controller
     [HttpDelete("delete-comment")]
     public async Task<ActionResult> DeleteComment(
         [FromBody] CommentDTO commentData,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IRepository<Comment> commentRepository,
-        [FromServices] IUserService userService
+        [FromServices] IRepository<Comment> commentRepository
     )
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = commentData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(commentData.Jwt);
 
         if (user is null)
             return BadRequest("Invalid user");
-
 
         var comment = await commentRepository.Find(commentData.Id);
 
@@ -243,26 +187,14 @@ public class PostController : Controller
     }
 
     [HttpPut]
-    public async Task<ActionResult> UpdatePost(
-        [FromBody] CreatePostDTO postData,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> UpdatePost([FromBody] CreatePostDTO postData)
     {
         Post post = await postRepository.Find(postData.Id);
 
         if (post is null)
             return NotFound();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = postData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(postData.Jwt);
 
         if (user is null)
             return BadRequest("Invalid user");
@@ -279,31 +211,17 @@ public class PostController : Controller
     }
 
     [HttpPost("remove")]
-    public async Task<ActionResult> Delete(
-        [FromBody] CreatePostDTO postData,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IGroupRepository groupRepository,
-        [FromServices] IUserService userService
-    )
+    public async Task<ActionResult> Delete([FromBody] CreatePostDTO postData)
     {
         Post post = await postRepository.Find(postData.Id);
 
         if (post is null)
             return NotFound();
 
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = postData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(postData.Jwt);
 
         if (post.Group is null)
             post.Group = await groupRepository.Find(postData.GroupID);
-
 
         bool canDelete = await groupRepository.HasPermission(user, post.Group, PermissionEnum.Delete);
 
@@ -317,22 +235,9 @@ public class PostController : Controller
 
 
     [HttpPost("main-feed")]
-    public async Task<ActionResult<List<FeedPostDTO>>> GetMainFeed(
-        [FromBody] Jwt jwt,
-        [FromServices] IUserService userService,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IGroupRepository groupRepository
-    )
+    public async Task<ActionResult<List<FeedPostDTO>>> GetMainFeed([FromBody] Jwt jwt)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(jwt);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(jwt.Value);
 
         if (user is null)
             return NotFound();
@@ -369,21 +274,10 @@ public class PostController : Controller
 
     [HttpPost("group-feed/id")]
     public async Task<ActionResult<List<FeedPostDTO>>> GetGroupFeed(
-        [FromBody] CreateGroupDTO groupData,
-        [FromServices] IUserService userService,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IGroupRepository groupRepository
-    )
+        [FromBody] CreateGroupDTO groupData
+        )
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(groupData.Jwt);
 
         if (user is null)
             return NotFound("User not found");
@@ -417,21 +311,10 @@ public class PostController : Controller
 
     [HttpPost("group-feed/group-name")]
     public async Task<ActionResult<List<FeedPostDTO>>> GetGroupFeedByName(
-        [FromBody] CreateGroupDTO groupData,
-        [FromServices] IUserService userService,
-        [FromServices] IPostRepository postRepository,
-        [FromServices] IGroupRepository groupRepository
+        [FromBody] CreateGroupDTO groupData
     )
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(new Jwt { Value = groupData.Jwt });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        User user = await this.ValidateJwt(groupData.Jwt);
 
         if (user is null)
             return NotFound("User not found");
