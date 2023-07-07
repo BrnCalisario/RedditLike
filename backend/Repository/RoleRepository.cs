@@ -52,6 +52,18 @@ public class RoleRepository : IRoleRepository
 
     public async Task DeleteRole(Role role)
     {
+
+        var userQuery = this.ctx.UserGroups.Include(ug => ug.User)
+            .Where(ug => ug.RoleId == role.Id);
+
+        foreach (var ug in userQuery)
+        {
+            ug.RoleId = 1;
+            this.ctx.UserGroups.Update(ug);
+        }
+        
+        await this.ctx.SaveChangesAsync();
+
         var rolesToRemove = await this.ctx.RolePermissions.Where(rl => rl.RoleId == role.Id).ToListAsync();
         this.ctx.RolePermissions.RemoveRange(rolesToRemove);
 
@@ -67,10 +79,11 @@ public class RoleRepository : IRoleRepository
 
         var rolesToRemove = await this.ctx.RolePermissions.Where(rl => rl.RoleId == role.Id).ToListAsync();
         this.ctx.RolePermissions.RemoveRange(rolesToRemove);
-        
+
         foreach (var permission in permissions)
         {
-            await this.ctx.RolePermissions.AddAsync(new RolePermission() {
+            await this.ctx.RolePermissions.AddAsync(new RolePermission()
+            {
                 RoleId = role.Id,
                 PermissionId = permission
             });

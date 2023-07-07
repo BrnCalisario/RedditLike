@@ -18,7 +18,8 @@ public interface IGroupRepository : IRepository<Group>
     Task<bool> IsMember(User user, Group group);
     Task<bool> HasPermission(User user, Group group, PermissionEnum permission);
     Task<List<MemberItemDTO>> GetGroupMembers(Group group);
-    Task<List<int>> GetPermissions(Role role);
+    Task<List<int>> GetRolePermissions(Role role);
+    Task<List<PermissionEnum>> GetUserPermissions(User user, Group group);
     Task<string> GetRoleName(User user, Group group);
     Task PromoteMember(Group group, User user, Role role);
     Task DemoteMember(Group group, User user);
@@ -169,7 +170,7 @@ public class GroupRepository : IGroupRepository
         return roleName;
     }
 
-    public async Task<List<int>> GetPermissions(Role role)
+    public async Task<List<int>> GetRolePermissions(Role role)
     {
         var query = await this.ctx.RolePermissions
             .Where(rp => rp.RoleId == role.Id)
@@ -190,5 +191,17 @@ public class GroupRepository : IGroupRepository
             });
             
         return await query.ToListAsync();
+    }
+
+    public async Task<List<PermissionEnum>> GetUserPermissions(User user, Group group)
+    {
+        var query = await this.ctx.UserGroups.Include(ug => ug.Role)
+            .Where(ug => ug.GroupId == group.Id && ug.UserId == user.Id)
+            .Select(ug => ug.Role.RolePermissions)
+            .FirstAsync();
+            
+        var result = query.Select(rp => (PermissionEnum)rp.PermissionId).ToList();
+
+        return result;
     }
 }

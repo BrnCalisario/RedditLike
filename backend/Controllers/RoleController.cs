@@ -14,7 +14,7 @@ using Services;
 public class RoleController : ControllerBase
 {
     private IUserService userService;
-    
+
     public RoleController(IUserService userService)
     {
         this.userService = userService;
@@ -143,7 +143,7 @@ public class RoleController : ControllerBase
 
         var targetUser = await userRepository.Find(memberData.MemberId);
 
-        if(targetUser is null)
+        if (targetUser is null)
             return NotFound("User not found");
 
         await groupRepository.PromoteMember(group, targetUser, role);
@@ -161,30 +161,53 @@ public class RoleController : ControllerBase
     {
         User user = await this.ValidateJwt(groupData.Jwt);
 
-        if(user is null)
+        if (user is null)
             return NotFound("User");
 
         var query = await groupRepository.Filter(g => g.Name == groupData.Name);
 
         Group group = query.FirstOrDefault();
 
-        if(group is null)
+        if (group is null)
             return NotFound("Group");
 
         var queryDefaultRoles = await roleRepository.Filter(r => r.GroupId == null || r.GroupId == group.Id);
 
         List<RoleDTO> result = new List<RoleDTO>();
 
-        foreach(var role in queryDefaultRoles)
+        foreach (var role in queryDefaultRoles)
         {
-            result.Add(new RoleDTO {
+            result.Add(new RoleDTO
+            {
                 Id = role.Id,
                 Name = role.Name,
-                PermissionsSet = await groupRepository.GetPermissions(role)
+                PermissionsSet = await groupRepository.GetRolePermissions(role)
             });
         }
 
         return result;
     }
 
+
+    [HttpPost("permission-list")]
+    public async Task<ActionResult<List<int>>> GetGroupPermissions(
+        [FromBody] GroupDTO groupData,
+        [FromServices] IGroupRepository groupRepository,
+        [FromServices] IRoleRepository roleRepository
+     )
+    {
+        User user = await this.ValidateJwt(groupData.Jwt);
+
+        if (user is null)
+            return NotFound("User");
+
+        Group group = await groupRepository.Find(groupData.Id);
+
+        if (group is null)
+            return NotFound("Group");
+
+        var permissions = await groupRepository.GetUserPermissions(user, group);
+
+        return Ok(permissions);
+    }
 }
