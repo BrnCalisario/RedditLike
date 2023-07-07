@@ -12,31 +12,30 @@ using Services;
 [ApiController]
 [EnableCors("MainPolicy")]
 [Route("user")]
-public class UserController : ControllerBase
+public class UserController : RedditController
 {
+    private IUserRepository userRepository;
+    private IGroupRepository groupRepository;
+
+    public UserController(
+        [FromServices] IUserService userService,
+        [FromServices] IUserRepository userRepository,
+        [FromServices] IGroupRepository groupRepository
+    ) : base(userService)
+    {
+        this.userRepository = userRepository;
+        this.groupRepository = groupRepository;
+    }
 
     [HttpPost("single")]
-    public async Task<ActionResult<UserData>> Get(
-        [FromServices] IUserService userService,
-        [FromServices] IGroupRepository groupRepository,
-        [FromBody] Jwt jwt
-    )
+    public async Task<ActionResult<UserData>> Get([FromBody] Jwt jwt)
     {
-        User user;
-        try
-        {
-            user = await userService.ValidateUserToken(jwt);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        User user = await this.ValidateJwt(jwt.Value);
 
         if (user is null)
             return BadRequest("Invalid User ID");
 
-
-        var query = await groupRepository.GetUserGroups(user);
+        var query = await this.groupRepository.GetUserGroups(user);
 
         var groupsDTO = query.Select(g => new GroupDTO
         {
@@ -60,21 +59,18 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<User>>> GetAll(
-        [FromServices] IUserRepository userRepository
-    )
+    public async Task<ActionResult<List<User>>> GetAll()
     {
-        var query = await userRepository.Filter(u => true);
+        var query = await this.userRepository.Filter(u => true);
         return query;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<int>> Register(
-        [FromServices] IUserRepository userRep,
+    public async Task<ActionResult<int>> Register( 
         [FromServices] IPasswordHasher psh,
         [FromBody] UserRegister userData)
     {
-        var query = await userRep.Filter(u => u.Username == userData.Username || u.Email == userData.Email);
+        var query = await this.userRepository.Filter(u => u.Username == userData.Username || u.Email == userData.Email);
 
         if (query.Count() > 0)
             return BadRequest();
@@ -94,14 +90,14 @@ public class UserController : ControllerBase
             BirthDate = userData.Birthdate,
         };
 
-        await userRep.Add(u);
+        await this.userRepository.Add(u);
 
         return Ok(u.Id);
 
     }
 
     [HttpPost("validate")]
-    public async Task<ActionResult<UserToken>> ValidateJwt(
+    public ActionResult<UserToken> ValidateJwt(
         [FromServices] IJwtService jwtService,
         [FromBody] Jwt jwt
     )
@@ -116,7 +112,7 @@ public class UserController : ControllerBase
             var result = jwtService.Validate<UserToken>(jwt.Value);
             return Ok(result);
         }
-        catch (Exception e)
+        catch
         {
             return Ok(new UserToken { Authenticated = false });
         }
@@ -126,13 +122,12 @@ public class UserController : ControllerBase
     public async Task<ActionResult<LoginResult>> Login(
         [FromBody] UserLogin loginData,
         [FromServices] IPasswordHasher psh,
-        [FromServices] IUserRepository userRep,
         [FromServices] IJwtService jwtService
     )
     {
         var result = new LoginResult();
 
-        var userList = await userRep.Filter(u => u.Email == loginData.Email);
+        var userList = await this.userRepository.Filter(u => u.Email == loginData.Email);
 
         result.UserExists = userList.Count() > 0;
         if (!result.UserExists)
@@ -157,33 +152,6 @@ public class UserController : ControllerBase
 
 
     // TODO
-
-    // [HttpPut("update")]
-    // public async Task<ActionResult> Update(
-    //     [FromBody] UserRegister userData,
-    //     [FromServices] IUserRepository userRepository,
-    //     [FromServices] IUserService userService
-    // )
-    // {
-    //     User user;
-    //     try
-    //     {
-    //         user = await userService.ValidateUserToken(new Jwt { Value = userData.Jwt });
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         return BadRequest(ex.Message);
-    //     }
-
-    //     if(userData.Username.Length > 0)
-    //         user.Username = userData.Username;
-        
-    //     if(user is null)
-    //         return NotFound();
-
-    //     await userRepository.Update(user);
-
-    //     return Ok();
-    // }
+    // Update User Info
 
 }

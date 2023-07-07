@@ -11,7 +11,7 @@ using Services;
 [ApiController]
 [EnableCors("MainPolicy")]
 [Route("role")]
-public class RoleController : ControllerBase
+public class RoleController : RedditController
 {
     private IUserService userService;
     private IRoleRepository roleRepository;
@@ -23,27 +23,11 @@ public class RoleController : ControllerBase
         [FromServices] IRoleRepository roleRepository,
         [FromServices] IGroupRepository groupRepository,
         [FromServices] IUserRepository userRepository
-    )
+    ) : base(userService)
     {
-        this.userService = userService;
         this.roleRepository = roleRepository;
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
-    }
-
-    private async Task<User> ValidateJwt(string jwt)
-    {
-        User user = new User();
-        try
-        {
-            user = await this.userService.ValidateUserToken(new Jwt { Value = jwt });
-        }
-        catch
-        {
-            return user;
-        }
-
-        return user;
     }
 
     [HttpPost]
