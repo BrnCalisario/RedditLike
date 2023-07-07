@@ -30,3 +30,7 @@ i {
     font-weight: 600;
     font-family: "League Spartan", sans-serif;
 }
+
+button {
+    background-color: white;
+}

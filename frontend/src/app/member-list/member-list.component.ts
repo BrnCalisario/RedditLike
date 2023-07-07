@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MemberItem } from 'src/DTO/MemberDTO/MemberDTO';
 import { GroupService } from '../services/group/group.service';
 import { Router } from '@angular/router';
+import { RoleService } from '../services/role/role.service';
 
 @Component({
     selector: 'app-member-list',
@@ -9,10 +10,16 @@ import { Router } from '@angular/router';
     styleUrls: ['./member-list.component.css'],
 })
 export class MemberListComponent implements OnInit {
-    constructor(private groupService: GroupService, private router: Router) {}
+    constructor(
+        private groupService: GroupService, 
+        private router: Router,
+        private roleService : RoleService
+        ) {}
 
     groupId: number = 0;
     jwt = sessionStorage.getItem('jwtSession') ?? '';
+
+    userPermissions : number[] = []
 
     ngOnInit(): void {
         let groupName = this.router.url.split('/')[2];
@@ -27,6 +34,12 @@ export class MemberListComponent implements OnInit {
                     .subscribe((res) => {
                         this.memberList = res;
                     });
+
+                this.roleService.listPermissions({ jwt: this.jwt, id: this.groupId })
+                    .subscribe((res) => {
+                        this.userPermissions = res
+                        console.log(res)
+                    })
             });
     }
 
@@ -40,5 +53,9 @@ export class MemberListComponent implements OnInit {
 
     startEdit(member : MemberItem) {
         this.editMember = member
+    }
+
+    hasPermission(permission : number) {
+        return this.userPermissions.includes(permission)
     }
 }

@@ -13,13 +13,13 @@
                 <tr *ngFor="let member of memberList">
                     <td>{{ member.name }}</td>
                     <td>{{ member.role }}</td>
-                    <td *ngIf="member.role !== 'Admin'">
+                    <td *ngIf="member.role !== 'Admin' && hasPermission(4)">
                         <button (click)="startEdit(member)" class="btn btn-outline-dark" type="button" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </button>
-                    </td>
-                    <td *ngIf="member.role !== 'Admin'">
+                    </td> 
+                    <td *ngIf="member.role !== 'Admin' && hasPermission(6)">
                         <button class="btn btn-outline-danger">
                             <i class="fa-solid fa-user-slash"></i>
                         </button>

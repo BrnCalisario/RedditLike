@@ -32,6 +32,7 @@ export class GroupCreatorComponent implements OnInit {
         jwt: '',
         id: 0,
         userRole: '',
+        userPermissions: []
     };
 
     ngOnInit(): void {

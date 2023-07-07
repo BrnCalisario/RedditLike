@@ -11,7 +11,7 @@ import {
     NavigationStart,
     Router,
 } from '@angular/router';
-import { Group } from 'src/models/Group';
+import { Group, Permission } from 'src/models/Group';
 import { GroupService } from '../services/group/group.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PostService } from '../services/post/post.service';
@@ -54,6 +54,7 @@ export class GroupPageComponent implements AfterContentInit {
         userQuantity: 0,
         jwt: '',
         userRole: '',
+        userPermissions: []
     };
 
     imgUrl = (): string => {
@@ -85,6 +86,11 @@ export class GroupPageComponent implements AfterContentInit {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+    }
+
+    hasPermission(permission : number)
+    {
+        return this.group.userPermissions.includes(permission)
     }
 
     // @Input() group: Group = {

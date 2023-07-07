@@ -32,4 +32,11 @@ export class RoleService {
             memberRoleData
         );
     }
+
+    listPermissions(groupQuery: GroupQuery) {
+        return this.http.post<number[]>(
+            'http://localhost:5038/role/permission-list',
+            groupQuery
+        )
+    }
 }

@@ -27,7 +27,7 @@
         </div> -->
     </div>
     <div class="button-wrap">
-        <div *ngIf="onFeed">
+        <div *ngIf="onFeed && hasPermission(1)">
             <button class="btn btn-outline-danger" routerLink="post-creator">
                 Criar postagem
                 <i class="fa-solid fa-plus"></i>
@@ -39,7 +39,7 @@
                 Voltar para o feed
             </button>
         </div>
-        <div *ngIf="onFeed">
+        <div *ngIf="onFeed && hasPermission(5)">
             <button class="btn btn-outline-warning" routerLink="role-manager">
                 Cargos
                 <i class="fa-solid fa-hammer"></i>
