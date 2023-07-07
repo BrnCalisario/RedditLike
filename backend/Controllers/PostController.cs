@@ -55,7 +55,9 @@ public class PostController : Controller
             GroupName = group.Name,
             GroupId = group.Id,
             VoteValue = (int)await postRepository.GetPostVote(user, post),
-            LikeCount = await postRepository.GetLikeCount(post)
+            LikeCount = await postRepository.GetLikeCount(post),
+            IsAuthor = post.Author.Username == user.Username,
+            CanDelete = await groupRepository.HasPermission(user, group, PermissionEnum.Delete)
         };
 
         return Ok(fp);
@@ -122,12 +124,12 @@ public class PostController : Controller
 
         Post target = await postRepository.Find(voteData.PostId);
 
-        if(target is null)
+        if (target is null)
             return NotFound("Post não encontrado");
 
         bool hasVoted = await postRepository.HasVoted(user, target);
 
-        if(hasVoted)
+        if (hasVoted)
             await postRepository.UndoVote(user, target);
 
         Upvote vote = new Upvote()
@@ -161,7 +163,7 @@ public class PostController : Controller
 
         Post post = await postRepository.Find(voteData.PostId);
 
-        if(post is null)
+        if (post is null)
             return NotFound("Post not found");
 
         await postRepository.UndoVote(user, post);
@@ -353,7 +355,9 @@ public class PostController : Controller
                     GroupName = group.Name,
                     GroupId = group.Id,
                     VoteValue = (int)await postRepository.GetPostVote(user, post),
-                    LikeCount = await postRepository.GetLikeCount(post)
+                    LikeCount = await postRepository.GetLikeCount(post),
+                    IsAuthor = post.Author.Username == user.Username,
+                    CanDelete = await groupRepository.HasPermission(user, group, PermissionEnum.Delete)
                 };
 
                 feedPosts.Add(fp);
@@ -400,7 +404,9 @@ public class PostController : Controller
                 GroupId = group.Id,
                 GroupName = group.Name,
                 VoteValue = (int)await postRepository.GetPostVote(user, post),
-                LikeCount = await postRepository.GetLikeCount(post)
+                LikeCount = await postRepository.GetLikeCount(post),
+                IsAuthor = post.Author.Username == user.Username,
+                CanDelete = await groupRepository.HasPermission(user, group, PermissionEnum.Delete)
             };
 
             feedPosts.Add(fp);
@@ -448,7 +454,9 @@ public class PostController : Controller
                 GroupId = group.Id,
                 GroupName = group.Name,
                 VoteValue = (int)await postRepository.GetPostVote(user, post),
-                LikeCount = await postRepository.GetLikeCount(post)
+                LikeCount = await postRepository.GetLikeCount(post),
+                IsAuthor = post.Author.Username == user.Username,
+                CanDelete = await groupRepository.HasPermission(user, group, PermissionEnum.Delete)
             };
 
             feedPosts.Add(fp);

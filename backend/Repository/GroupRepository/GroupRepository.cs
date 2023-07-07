@@ -123,10 +123,10 @@ public class GroupRepository : IGroupRepository
 
         var perms = await this.ctx.RolePermissions
             .Where(rp => rp.RoleId == role)
-            .Select(r => (PermissionEnum)r.Permission.Id)
+            .Select(r => r.Permission.Id)
             .ToListAsync();
 
-        var hasPerm = perms.Contains(permission);
+        var hasPerm = perms.Contains((int)permission);
 
         return hasPerm;
     }

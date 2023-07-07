@@ -10,7 +10,6 @@ public class FeedPostDTO
         this.PostDate = post.PostDate;
         this.AuthorName = post.Author.Username;
         this.AuthorPhoto = post.Author.ProfilePicture ?? 0;
-        // this.LikeCount = post.LikeCount;
         this.IndexedImg = post.IndexedImage ?? 0;
     }
 
@@ -25,4 +24,6 @@ public class FeedPostDTO
     public int LikeCount { get; set; }
     public int VoteValue { get; set; }
     public int IndexedImg { get; set; }
+    public bool IsAuthor { get; set; }
+    public bool CanDelete { get; set; }
 }

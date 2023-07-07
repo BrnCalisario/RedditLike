@@ -2,10 +2,10 @@ namespace Reddit.Model;
 
 public enum PermissionEnum
 {
-    Post,
-    Delete,
-    Edit,
-    ManageRole,
-    Ban,
-    DropGroup,
+    Post = 1,
+    Delete = 2,
+    Edit = 3,
+    ManageRole = 4,
+    Ban = 5,
+    DropGroup = 6,
 }

@@ -141,8 +141,6 @@ public class RoleController : ControllerBase
         if (role is null)
             return NotFound("Role not found");
 
-        Console.WriteLine(memberData.UserId);
-
         var targetUser = await userRepository.Find(memberData.UserId);
 
         if (targetUser is null)
