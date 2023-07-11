@@ -48,7 +48,6 @@ export class RoleManagerComponent implements OnInit{
         
         this.roleService.getGroupRoles({ jwt, name })
         .subscribe(res => {
-            console.log(res)
             this.roleList = res
         }) 
     }

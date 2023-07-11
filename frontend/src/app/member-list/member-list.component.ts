@@ -33,13 +33,11 @@ export class MemberListComponent implements OnInit {
                     .listMembers({ jwt: this.jwt, id: this.groupId })
                     .subscribe((res) => {
                         this.memberList = res;
-                        console.log(this.memberList)
                     });
 
                 this.roleService.listPermissions({ jwt: this.jwt, id: this.groupId })
                     .subscribe((res) => {
                         this.userPermissions = res
-                        console.log(res)
                     })
             });
     }
@@ -74,7 +72,6 @@ export class MemberListComponent implements OnInit {
 
         this.groupService.removeMember(result)
             .subscribe(res => {
-                console.log("Apagou")
                 window.location.reload()
             })
     }

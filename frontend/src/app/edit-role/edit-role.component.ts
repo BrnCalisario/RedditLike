@@ -29,7 +29,6 @@ export class EditRoleComponent implements OnChanges {
     banMember: boolean = false;
 
     ngOnChanges() : void {
-        console.log("VAI")
         this.deletePost = this.editRole.permissionsSet.includes(2)
         this.editPost = this.editRole.permissionsSet.includes(3)
         this.promoteMember = this.editRole.permissionsSet.includes(4)
@@ -46,9 +45,6 @@ export class EditRoleComponent implements OnChanges {
         this.editRole.permissionsSet = this.editRole.permissionsSet.filter(
             (v: number) => v != parseInt(value)
             );
-
-
-        console.log(this.editRole.permissionsSet)
     }
 
     editChanges() : void {

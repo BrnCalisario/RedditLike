@@ -27,7 +27,6 @@ export class PostComponent implements AfterContentInit {
     ngAfterContentInit(): void {
         this.upVoted = this.post.voteValue == 1;
         this.downVoted = this.post.voteValue == 2;
-        console.log(this.post);
     }
 
     @Input() canDelete : boolean = false
@@ -66,13 +65,11 @@ export class PostComponent implements AfterContentInit {
     };
 
     like = (): void => {
-        console.log(this.post);
 
         let jwt = sessionStorage.getItem('jwtSession') ?? '';
         let postId = this.post.id;
 
         if (this.post.voteValue == 1) {
-            console.log('Agui');
             this.postService
                 .unvotePost({ jwt, postId, value: false })
                 .subscribe((res) => {
@@ -85,8 +82,6 @@ export class PostComponent implements AfterContentInit {
                     window.location.reload();
                 });
         }
-
-        console.log('Finalizou');
     };
 
     dislike = (): void => {
@@ -108,8 +103,6 @@ export class PostComponent implements AfterContentInit {
                     window.location.reload();
                 });
         }
-
-        console.log('Finalizou');
     };
 
     formatedDate = (): string => {
@@ -124,7 +117,6 @@ export class PostComponent implements AfterContentInit {
 
         this.postService.deletePost(this.post)
             .subscribe(res => {
-                console.log("Deu certo, oia o null: "+ res)
                 location.reload()
             })
     }

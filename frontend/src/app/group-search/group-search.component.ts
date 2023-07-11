@@ -26,7 +26,6 @@ export class GroupSearchComponent implements OnInit {
 
         this.groupService.listGroups({ Value: jwt }).subscribe({
             next: (res: Group[]) => {
-                console.log(res);
                 this.groupList = res;
             },
             error: (error: HttpErrorResponse) => {
@@ -38,12 +37,9 @@ export class GroupSearchComponent implements OnInit {
     enterGroup(group: Group): void {
         let jwt = sessionStorage.getItem('jwtSession') ?? '';
 
-        console.log(group.id);
-
         this.groupService
             .enterGroup({ jwt: jwt, groupId: group.id })
             .subscribe((res) => {
-                console.log(res);
 
                 let groupUrl = '/group/' + group.name + '/feed';
 

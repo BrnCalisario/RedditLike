@@ -74,7 +74,6 @@ export class PostPageComponent implements OnInit, OnDestroy {
                         .getPost(jwt, postId, this.groupId)
                         .subscribe((res) => {
                             this.post = res;
-                            console.log(this.post);
 
                             this.upVoted = this.post.voteValue == 1;
                             this.downVoted = this.post.voteValue == 2;
@@ -88,13 +87,10 @@ export class PostPageComponent implements OnInit, OnDestroy {
     }
 
     like = (): void => {
-        console.log(this.post);
-
         let jwt = sessionStorage.getItem('jwtSession') ?? '';
         let postId = this.post.id;
 
         if (this.post.voteValue == 1) {
-            console.log('Agui');
             this.postService
                 .unvotePost({ jwt, postId, value: false })
                 .subscribe((res) => {
@@ -107,8 +103,6 @@ export class PostPageComponent implements OnInit, OnDestroy {
                     window.location.reload();
                 });
         }
-
-        console.log('Finalizou');
     };
 
     dislike = (): void => {
@@ -128,7 +122,5 @@ export class PostPageComponent implements OnInit, OnDestroy {
                     window.location.reload();
                 });
         }
-
-        console.log('Finalizou');
     };
 }

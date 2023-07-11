@@ -3,15 +3,18 @@ import { Injectable } from '@angular/core';
 import { Jwt } from 'src/DTO/Jwt';
 import { CommentDTO, PostDTO, VoteDTO } from 'src/DTO/PostDTO/PostDTO';
 import { Group, GroupQuery } from 'src/models/Group';
+import { BackendProviderService } from '../backendProvider/backend-provider.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class PostService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private backendProvider : BackendProviderService) {}
 
+    url : string = this.backendProvider.provide()
+    
     getPost(jwt: string, postId: number, groupId: number) {
-        return this.http.post<PostDTO>('http://localhost:5038/post/single', {
+        return this.http.post<PostDTO>(this.url + '/post/single', {
             jwt,
             id: postId,
             groupId,
@@ -19,53 +22,53 @@ export class PostService {
     }
 
     createPost(postData: PostDTO) {
-        return this.http.post<number>('http://localhost:5038/post', postData);
+        return this.http.post<number>(this.url + '/post', postData);
     }
 
     updatePost(postData: PostDTO) {
-        return this.http.put('http://localhost:5038/post', postData);
+        return this.http.put(this.url + '/post', postData);
     }
 
     deletePost(postData: PostDTO) {
-        return this.http.post('http://localhost:5038/post/remove', postData);
+        return this.http.post(this.url + '/post/remove', postData);
     }
 
     votePost(voteData: VoteDTO) {
-        return this.http.post('http://localhost:5038/post/vote', voteData);
+        return this.http.post(this.url + '/post/vote', voteData);
     }
 
     unvotePost(voteData: VoteDTO) {
-        return this.http.post('http://localhost:5038/post/undo', voteData);
+        return this.http.post(this.url + '/post/undo', voteData);
     }
 
     commentPost(commentPost: CommentDTO) {
-        return this.http.post('http://localhost:5038/comment', commentPost);
+        return this.http.post(this.url + '/comment', commentPost);
     }
 
     removeComment(commentPost: CommentDTO) {
         return this.http.post(
-            'http://localhost:5038/delete-comment',
+            this.url + '/delete-comment',
             commentPost
         );
     }
 
     getMainFeed(jwt: Jwt) {
         return this.http.post<PostDTO[]>(
-            'http://localhost:5038/post/main-feed',
+            this.url + '/post/main-feed',
             jwt
         );
     }
 
     getGroupFeedById(jwt: string, groupId: number) {
         return this.http.post<PostDTO[]>(
-            'http://localhost:5038/post/group-feed/id',
+            this.url + '/post/group-feed/id',
             { jwt: jwt, id: groupId }
         );
     }
 
     getGroupFeedByName(jwt: string, groupName: string) {
         return this.http.post<PostDTO[]>(
-            'http://localhost:5038/post/group-feed/group-name',
+            this.url + '/post/group-feed/group-name',
             { jwt: jwt, name: groupName }
         );
     }
