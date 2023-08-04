@@ -24,16 +24,16 @@ A reddit-like social network implementation.
 - [X]  Landing Page
 - [X]  Login
 - [X]  Cadastro
-- [ ]  Home 🚧
-    - [ ]  Pesquisa por grupos
-    - [ ]  Configurações de Usuário - (Trocar foto, nome de usuário)
-    - [ ]  Gerenciador de Grupos - (Criar grupo, listagem de grupos)
-    - [ ]  Feed Principal - (Posts populares )
-- [ ]  Grupo 🚧
-    - [ ]  Feed de Postagens - (Campo para criar postagem, curtir posts do feed) 
-    - [ ]  Post - (Curtir, Comentar)
-    - [ ]  Gerenciamento de Membros - ( Editar membros, criar cargos)
-    - [ ]  Gerenciamento do Grupo (Alterar nome, descrição, foto ou apagar grupo)
+- [X]  Home 🚧
+    - [X]  Pesquisa por grupos
+    - [X]  Configurações de Usuário - (Trocar foto, nome de usuário)
+    - [X]  Gerenciador de Grupos - (Criar grupo, listagem de grupos)
+    - [X]  Feed Principal - (Posts populares )
+- [X]  Grupo 🚧
+    - [X]  Feed de Postagens - (Campo para criar postagem, curtir posts do feed) 
+    - [X]  Post - (Curtir, Comentar)
+    - [X]  Gerenciamento de Membros - ( Editar membros, criar cargos)
+    - [X]  Gerenciamento do Grupo (Alterar nome, descrição, foto ou apagar grupo)
 
 ## Autor
 
